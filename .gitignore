@@ -1,0 +1,69 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# What IS committed, deliberately:
+#   session 01/ … session 19/   notebooks + their figures (the course itself)
+#   docs/                       the generated site — GitHub Pages serves it from
+#                               this folder, so it must stay tracked
+#   build.py, site/             the site generator and its stylesheet
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Jupyter
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+profile_default/
+ipython_config.py
+
+# Datasets — the chest X-ray data is downloaded, never committed
+data/
+datasets/
+chest_xray/
+*.zip
+*.tar
+*.tar.gz
+*.h5
+*.hdf5
+
+# Trained weights and checkpoints
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.pkl
+checkpoints/
+runs/
+lightning_logs/
+wandb/
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS cruft
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# Local scratch
+scratch/
+tmp/
+*.log

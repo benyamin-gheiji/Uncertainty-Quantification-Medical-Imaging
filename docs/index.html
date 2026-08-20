@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Uncertainty Quantification of Machine Learning Models in Medical Imaging</title>
+<meta name="description" content="Uncertainty Quantification of Machine Learning Models in Medical Imaging — a free, hands-on course.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.nb .highlight .hll { background-color: #49483e }
+.nb .highlight { background: #272822; color: #f8f8f2 }
+.nb .highlight .c { color: #75715e } /* Comment */
+.nb .highlight .err { color: #960050; background-color: #1e0010 } /* Error */
+.nb .highlight .esc { color: #f8f8f2 } /* Escape */
+.nb .highlight .g { color: #f8f8f2 } /* Generic */
+.nb .highlight .k { color: #66d9ef } /* Keyword */
+.nb .highlight .l { color: #ae81ff } /* Literal */
+.nb .highlight .n { color: #f8f8f2 } /* Name */
+.nb .highlight .o { color: #f92672 } /* Operator */
+.nb .highlight .x { color: #f8f8f2 } /* Other */
+.nb .highlight .p { color: #f8f8f2 } /* Punctuation */
+.nb .highlight .ch { color: #75715e } /* Comment.Hashbang */
+.nb .highlight .cm { color: #75715e } /* Comment.Multiline */
+.nb .highlight .cp { color: #75715e } /* Comment.Preproc */
+.nb .highlight .cpf { color: #75715e } /* Comment.PreprocFile */
+.nb .highlight .c1 { color: #75715e } /* Comment.Single */
+.nb .highlight .cs { color: #75715e } /* Comment.Special */
+.nb .highlight .gd { color: #f92672 } /* Generic.Deleted */
+.nb .highlight .ge { color: #f8f8f2; font-style: italic } /* Generic.Emph */
+.nb .highlight .gr { color: #f8f8f2 } /* Generic.Error */
+.nb .highlight .gh { color: #f8f8f2 } /* Generic.Heading */
+.nb .highlight .gi { color: #a6e22e } /* Generic.Inserted */
+.nb .highlight .go { color: #66d9ef } /* Generic.Output */
+.nb .highlight .gp { color: #f92672; font-weight: bold } /* Generic.Prompt */
+.nb .highlight .gs { color: #f8f8f2; font-weight: bold } /* Generic.Strong */
+.nb .highlight .gu { color: #75715e } /* Generic.Subheading */
+.nb .highlight .gt { color: #f8f8f2 } /* Generic.Traceback */
+.nb .highlight .kc { color: #66d9ef } /* Keyword.Constant */
+.nb .highlight .kd { color: #66d9ef } /* Keyword.Declaration */
+.nb .highlight .kn { color: #f92672 } /* Keyword.Namespace */
+.nb .highlight .kp { color: #66d9ef } /* Keyword.Pseudo */
+.nb .highlight .kr { color: #66d9ef } /* Keyword.Reserved */
+.nb .highlight .kt { color: #66d9ef } /* Keyword.Type */
+.nb .highlight .ld { color: #e6db74 } /* Literal.Date */
+.nb .highlight .m { color: #ae81ff } /* Literal.Number */
+.nb .highlight .s { color: #e6db74 } /* Literal.String */
+.nb .highlight .na { color: #a6e22e } /* Name.Attribute */
+.nb .highlight .nb { color: #f8f8f2 } /* Name.Builtin */
+.nb .highlight .nc { color: #a6e22e } /* Name.Class */
+.nb .highlight .no { color: #66d9ef } /* Name.Constant */
+.nb .highlight .nd { color: #a6e22e } /* Name.Decorator */
+.nb .highlight .ni { color: #f8f8f2 } /* Name.Entity */
+.nb .highlight .ne { color: #a6e22e } /* Name.Exception */
+.nb .highlight .nf { color: #a6e22e } /* Name.Function */
+.nb .highlight .nl { color: #f8f8f2 } /* Name.Label */
+.nb .highlight .nn { color: #f8f8f2 } /* Name.Namespace */
+.nb .highlight .nx { color: #a6e22e } /* Name.Other */
+.nb .highlight .py { color: #f8f8f2 } /* Name.Property */
+.nb .highlight .nt { color: #f92672 } /* Name.Tag */
+.nb .highlight .nv { color: #f8f8f2 } /* Name.Variable */
+.nb .highlight .ow { color: #f92672 } /* Operator.Word */
+.nb .highlight .pm { color: #f8f8f2 } /* Punctuation.Marker */
+.nb .highlight .w { color: #f8f8f2 } /* Text.Whitespace */
+.nb .highlight .mb { color: #ae81ff } /* Literal.Number.Bin */
+.nb .highlight .mf { color: #ae81ff } /* Literal.Number.Float */
+.nb .highlight .mh { color: #ae81ff } /* Literal.Number.Hex */
+.nb .highlight .mi { color: #ae81ff } /* Literal.Number.Integer */
+.nb .highlight .mo { color: #ae81ff } /* Literal.Number.Oct */
+.nb .highlight .sa { color: #e6db74 } /* Literal.String.Affix */
+.nb .highlight .sb { color: #e6db74 } /* Literal.String.Backtick */
+.nb .highlight .sc { color: #e6db74 } /* Literal.String.Char */
+.nb .highlight .dl { color: #e6db74 } /* Literal.String.Delimiter */
+.nb .highlight .sd { color: #e6db74 } /* Literal.String.Doc */
+.nb .highlight .s2 { color: #e6db74 } /* Literal.String.Double */
+.nb .highlight .se { color: #ae81ff } /* Literal.String.Escape */
+.nb .highlight .sh { color: #e6db74 } /* Literal.String.Heredoc */
+.nb .highlight .si { color: #e6db74 } /* Literal.String.Interpol */
+.nb .highlight .sx { color: #e6db74 } /* Literal.String.Other */
+.nb .highlight .sr { color: #e6db74 } /* Literal.String.Regex */
+.nb .highlight .s1 { color: #e6db74 } /* Literal.String.Single */
+.nb .highlight .ss { color: #e6db74 } /* Literal.String.Symbol */
+.nb .highlight .bp { color: #f8f8f2 } /* Name.Builtin.Pseudo */
+.nb .highlight .fm { color: #a6e22e } /* Name.Function.Magic */
+.nb .highlight .vc { color: #f8f8f2 } /* Name.Variable.Class */
+.nb .highlight .vg { color: #f8f8f2 } /* Name.Variable.Global */
+.nb .highlight .vi { color: #f8f8f2 } /* Name.Variable.Instance */
+.nb .highlight .vm { color: #f8f8f2 } /* Name.Variable.Magic */
+.nb .highlight .il { color: #ae81ff } /* Literal.Number.Integer.Long */
+.nb .highlight { background: transparent !important; }
+.nb .highlight pre { background: transparent; }
+</style>
+
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<button class="sb-toggle" id="navToggle" aria-label="Toggle navigation">☰ Menu</button>
+<div class="sb-scrim" id="scrim"></div>
+<div class="shell">
+<aside class="sidebar" id="sidebar">
+  <div class="sb-brand">
+    <a class="sb-mark" href="index.html">🏥 UQMI</a>
+    <div class="sb-tagline">Uncertainty Quantification<br>in Medical Imaging</div>
+  </div>
+  <nav class="sb-nav">
+    <a class="sb-home active" href="index.html">🏠 &nbsp;Home</a>
+    <div class="sb-part">
+      <a class="sb-part-label" href="part-1.html">🌱 Part 1 — Foundations</a>
+      <a class="sb-item" href="session-1.html"><span class="n">1</span><span>Why Uncertainty Matters in Medicine</span></a>
+      <a class="sb-item" href="session-2.html"><span class="n">2</span><span>Aleatoric vs Epistemic Uncertainty</span></a>
+      <a class="sb-item" href="session-3.html"><span class="n">3</span><span>Uncertainty in Clinical Practice</span></a>
+    </div>
+    <div class="sb-part">
+      <a class="sb-part-label" href="part-2.html">⚙️ Part 2 — Core UQ Methods</a>
+      <a class="sb-item" href="session-4.html"><span class="n">4</span><span>The Bayesian Perspective</span></a>
+      <a class="sb-item" href="session-5.html"><span class="n">5</span><span>Variational Inference</span></a>
+      <a class="sb-item" href="session-6.html"><span class="n">6</span><span>Variational Inference — Implementation</span></a>
+      <a class="sb-item" href="session-7.html"><span class="n">7</span><span>MC Dropout</span></a>
+      <a class="sb-item" href="session-8.html"><span class="n">8</span><span>MC Dropout — Implementation</span></a>
+      <a class="sb-item" href="session-9.html"><span class="n">9</span><span>Deep Ensembles</span></a>
+      <a class="sb-item" href="session-10.html"><span class="n">10</span><span>Deep Ensembles — Implementation</span></a>
+      <a class="sb-item" href="session-11.html"><span class="n">11</span><span>Evidential Deep Learning</span></a>
+      <a class="sb-item" href="session-12.html"><span class="n">12</span><span>Evidential Deep Learning — Implementation</span></a>
+      <a class="sb-item" href="session-13.html"><span class="n">13</span><span>Conformal Prediction</span></a>
+      <a class="sb-item" href="session-14.html"><span class="n">14</span><span>Conformal Prediction — Implementation</span></a>
+      <a class="sb-item" href="session-15.html"><span class="n">15</span><span>Part 2 Summary</span></a>
+    </div>
+    <div class="sb-part">
+      <a class="sb-part-label" href="part-3.html">📐 Part 3 — Evaluation & Reliability</a>
+      <a class="sb-item" href="session-16.html"><span class="n">16</span><span>Calibration</span></a>
+      <a class="sb-item" href="session-17.html"><span class="n">17</span><span>Risk–Coverage Analysis</span></a>
+      <a class="sb-item" href="session-18.html"><span class="n">18</span><span>Out-of-Distribution Detection</span></a>
+    </div>
+    <div class="sb-part">
+      <a class="sb-part-label" href="part-4.html">🧭 Part 4 — Future Directions</a>
+      <a class="sb-item" href="session-19.html"><span class="n">19</span><span>Final Summary &amp; Future Directions</span></a>
+    </div>
+    <div class="sb-part">
+      <span class="sb-part-label">🎉 Course Complete</span>
+      <a class="sb-item" href="credits.html"><span class="n">✦</span><span>Congratulations &amp; Credits</span></a>
+    </div>
+  </nav>
+  <div class="sb-foot">
+    <div class="sb-foot-label">Created by</div>
+    <div class="sb-foot-names">Benyamin Gheiji<br>Danial Elyassirad<br>Mahsa Vatanparast<br>Shahriar Faghani</div>
+  </div>
+</aside>
+<main class="main" id="main">
+
+<div class="wrap">
+  <section class="hero">
+    <div class="hero-eyebrow">🏥 A free, hands-on course in clinical machine learning</div>
+    <h1>Uncertainty Quantification of Machine Learning Models in Medical Imaging</h1>
+    <div class="hero-rule"></div>
+    <p class="hero-sub">Teaching models to know what they don't know — from clinical
+      motivation to working PyTorch code.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="num">19</span><div class="lbl">Sessions</div></div>
+      <div class="hero-stat"><span class="num">4</span><div class="lbl">Parts</div></div>
+      <div class="hero-stat"><span class="num">Free</span><div class="lbl">Open Access</div></div>
+    </div>
+  </section>
+
+  <div class="section-head"><h2>The aim</h2></div>
+  <p class="aim">This course is about a single, practical problem: how do you build a medical imaging model that knows when it might be wrong? Most machine learning teaching stops at accuracy, but a model deployed in a hospital needs to do more than be right most of the time — it needs to signal the cases where a clinician should look more carefully. We start from the clinical reasoning behind that idea, then work through the main techniques for quantifying uncertainty, implementing each one in PyTorch on real chest X-ray data, and finish by evaluating the uncertainty those methods produce — because an uncertainty estimate is only useful once you can show it is trustworthy. By the end you should be able to take an existing model, attach a well-founded uncertainty estimate to its predictions, check honestly whether that estimate can be trusted, and decide which method fits the problem in front of you.</p>
+
+  <div class="section-head"><h2>Prerequisites</h2></div>
+  <div class="prereq-grid"><div class="prereq-card"><span class="pq-num">01</span><h3>Python</h3><p>Comfortable writing and reading Python — functions, classes, NumPy arrays, and working in Jupyter notebooks.</p></div><div class="prereq-card"><span class="pq-num">02</span><h3>Machine learning fundamentals</h3><p>Training and evaluation, over- and underfitting, train/validation/test splits, and metrics beyond raw accuracy.</p></div><div class="prereq-card"><span class="pq-num">03</span><h3>Deep learning &amp; PyTorch</h3><p>How neural networks are trained, plus enough PyTorch to define a model, write a training loop, and run inference.</p></div><div class="prereq-card"><span class="pq-num">04</span><h3>Medical imaging data</h3><p>Some experience handling image datasets and an appreciation of the clinical stakes involved when a model is wrong.</p></div></div>
+
+  <div class="section-head"><h2>What you'll learn</h2></div>
+  <div class="learn-grid"><div class="learn-item"><span class="ico">🩺</span><span>Why accuracy alone is not enough in clinical AI, what uncertainty means for patient safety, and how clinicians already reason probabilistically</span></div><div class="learn-item"><span class="ico">🔬</span><span>The difference between aleatoric (data) and epistemic (model) uncertainty — and why it changes the clinical response</span></div><div class="learn-item"><span class="ico">📐</span><span>Bayesian deep learning — variational inference and MC Dropout — alongside Deep Ensembles, Evidential Deep Learning, and Conformal Prediction with guaranteed coverage</span></div><div class="learn-item"><span class="ico">🛠️</span><span>Hands-on PyTorch implementations on real chest X-ray data throughout</span></div><div class="learn-item"><span class="ico">📊</span><span>Calibration, risk–coverage trade-offs, and out-of-distribution detection</span></div><div class="learn-item"><span class="ico">🧭</span><span>Where the field is heading — open challenges, distribution shift across hospitals, and how to choose a method for a real deployment</span></div></div>
+
+  <div class="section-head"><h2>Course outline</h2></div>
+  <div class="outline">
+<a class="part-row" href="part-1.html">
+  <div class="part-row-top">
+    <span class="part-num">Part 1</span>
+    <span class="part-name">🌱 Foundations</span>
+    <span class="part-leader"></span>
+    <span class="part-range">Sessions 1–3</span>
+  </div>
+  <p class="part-desc">Clinical motivation, the two failure modes of AI (overconfidence and underconfidence), the two kinds of uncertainty, and how clinicians already reason probabilistically.</p>
+  <div class="chips"><span class="chip">Why UQ?</span><span class="chip">Aleatoric vs Epistemic</span><span class="chip">Clinical Practice</span></div>
+</a>
+<a class="part-row" href="part-2.html">
+  <div class="part-row-top">
+    <span class="part-num">Part 2</span>
+    <span class="part-name">⚙️ Core UQ Methods</span>
+    <span class="part-leader"></span>
+    <span class="part-range">Sessions 4–15</span>
+  </div>
+  <p class="part-desc">The methods themselves — Bayesian neural networks, variational inference, MC Dropout, Deep Ensembles, Evidential Deep Learning and Conformal Prediction. Each concept session is followed by a PyTorch implementation on real chest X-ray data.</p>
+  <div class="chips"><span class="chip">Bayesian DL</span><span class="chip">Variational Inference</span><span class="chip">MC Dropout</span><span class="chip">Deep Ensembles</span><span class="chip">Evidential DL</span><span class="chip">Conformal Prediction</span></div>
+</a>
+<a class="part-row" href="part-3.html">
+  <div class="part-row-top">
+    <span class="part-num">Part 3</span>
+    <span class="part-name">📐 Evaluation &amp; Reliability</span>
+    <span class="part-leader"></span>
+    <span class="part-range">Sessions 16–18</span>
+  </div>
+  <p class="part-desc">Having produced uncertainty estimates, we ask whether they can be trusted: calibration, risk–coverage trade-offs, and detecting inputs that fall outside the training distribution.</p>
+  <div class="chips"><span class="chip">Calibration</span><span class="chip">Risk–Coverage</span><span class="chip">OOD Detection</span></div>
+</a>
+<a class="part-row" href="part-4.html">
+  <div class="part-row-top">
+    <span class="part-num">Part 4</span>
+    <span class="part-name">🧭 Future Directions</span>
+    <span class="part-leader"></span>
+    <span class="part-range">Session 19</span>
+  </div>
+  <p class="part-desc">Pulling the pieces together: how to choose a method for a real clinical problem, what is still unsolved, and where the field is going.</p>
+  <div class="chips"><span class="chip">Practical Guide</span><span class="chip">Open Challenges</span><span class="chip">What&#x27;s Next</span></div>
+</a></div>
+
+  <div class="section-head"><h2>Get started</h2></div>
+  <p class="prose" style="margin-top:-4px">Begin at the beginning, or jump to any session
+     from the sidebar — each one stands on its own.</p>
+  <a class="btn" href="part-1.html">Start with Part 1 &nbsp;→</a>
+
+  <div class="foot"><span>UQMI — Uncertainty Quantification of Machine Learning Models in Medical Imaging</span><span>Benyamin Gheiji · Danial Elyassirad · Mahsa Vatanparast · Shahriar Faghani</span></div>
+</div>
+
+</main>
+</div>
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+};
+</script>
+<script id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+<script>
+(function () {
+  var t = document.getElementById('navToggle');
+  var s = document.getElementById('scrim');
+  function close() { document.body.classList.remove('nav-open'); }
+  if (t) t.addEventListener('click', function () {
+    document.body.classList.toggle('nav-open');
+  });
+  if (s) s.addEventListener('click', close);
+})();
+</script>
+
+</body>
+</html>

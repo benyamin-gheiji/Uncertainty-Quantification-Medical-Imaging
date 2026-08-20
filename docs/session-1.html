@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 1: Why Uncertainty Matters in Medicine — UQMI</title>
+<meta name="description" content="Uncertainty Quantification of Machine Learning Models in Medical Imaging — a free, hands-on course.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.nb .highlight .hll { background-color: #49483e }
+.nb .highlight { background: #272822; color: #f8f8f2 }
+.nb .highlight .c { color: #75715e } /* Comment */
+.nb .highlight .err { color: #960050; background-color: #1e0010 } /* Error */
+.nb .highlight .esc { color: #f8f8f2 } /* Escape */
+.nb .highlight .g { color: #f8f8f2 } /* Generic */
+.nb .highlight .k { color: #66d9ef } /* Keyword */
+.nb .highlight .l { color: #ae81ff } /* Literal */
+.nb .highlight .n { color: #f8f8f2 } /* Name */
+.nb .highlight .o { color: #f92672 } /* Operator */
+.nb .highlight .x { color: #f8f8f2 } /* Other */
+.nb .highlight .p { color: #f8f8f2 } /* Punctuation */
+.nb .highlight .ch { color: #75715e } /* Comment.Hashbang */
+.nb .highlight .cm { color: #75715e } /* Comment.Multiline */
+.nb .highlight .cp { color: #75715e } /* Comment.Preproc */
+.nb .highlight .cpf { color: #75715e } /* Comment.PreprocFile */
+.nb .highlight .c1 { color: #75715e } /* Comment.Single */
+.nb .highlight .cs { color: #75715e } /* Comment.Special */
+.nb .highlight .gd { color: #f92672 } /* Generic.Deleted */
+.nb .highlight .ge { color: #f8f8f2; font-style: italic } /* Generic.Emph */
+.nb .highlight .gr { color: #f8f8f2 } /* Generic.Error */
+.nb .highlight .gh { color: #f8f8f2 } /* Generic.Heading */
+.nb .highlight .gi { color: #a6e22e } /* Generic.Inserted */
+.nb .highlight .go { color: #66d9ef } /* Generic.Output */
+.nb .highlight .gp { color: #f92672; font-weight: bold } /* Generic.Prompt */
+.nb .highlight .gs { color: #f8f8f2; font-weight: bold } /* Generic.Strong */
+.nb .highlight .gu { color: #75715e } /* Generic.Subheading */
+.nb .highlight .gt { color: #f8f8f2 } /* Generic.Traceback */
+.nb .highlight .kc { color: #66d9ef } /* Keyword.Constant */
+.nb .highlight .kd { color: #66d9ef } /* Keyword.Declaration */
+.nb .highlight .kn { color: #f92672 } /* Keyword.Namespace */
+.nb .highlight .kp { color: #66d9ef } /* Keyword.Pseudo */
+.nb .highlight .kr { color: #66d9ef } /* Keyword.Reserved */
+.nb .highlight .kt { color: #66d9ef } /* Keyword.Type */
+.nb .highlight .ld { color: #e6db74 } /* Literal.Date */
+.nb .highlight .m { color: #ae81ff } /* Literal.Number */
+.nb .highlight .s { color: #e6db74 } /* Literal.String */
+.nb .highlight .na { color: #a6e22e } /* Name.Attribute */
+.nb .highlight .nb { color: #f8f8f2 } /* Name.Builtin */
+.nb .highlight .nc { color: #a6e22e } /* Name.Class */
+.nb .highlight .no { color: #66d9ef } /* Name.Constant */
+.nb .highlight .nd { color: #a6e22e } /* Name.Decorator */
+.nb .highlight .ni { color: #f8f8f2 } /* Name.Entity */
+.nb .highlight .ne { color: #a6e22e } /* Name.Exception */
+.nb .highlight .nf { color: #a6e22e } /* Name.Function */
+.nb .highlight .nl { color: #f8f8f2 } /* Name.Label */
+.nb .highlight .nn { color: #f8f8f2 } /* Name.Namespace */
+.nb .highlight .nx { color: #a6e22e } /* Name.Other */
+.nb .highlight .py { color: #f8f8f2 } /* Name.Property */
+.nb .highlight .nt { color: #f92672 } /* Name.Tag */
+.nb .highlight .nv { color: #f8f8f2 } /* Name.Variable */
+.nb .highlight .ow { color: #f92672 } /* Operator.Word */
+.nb .highlight .pm { color: #f8f8f2 } /* Punctuation.Marker */
+.nb .highlight .w { color: #f8f8f2 } /* Text.Whitespace */
+.nb .highlight .mb { color: #ae81ff } /* Literal.Number.Bin */
+.nb .highlight .mf { color: #ae81ff } /* Literal.Number.Float */
+.nb .highlight .mh { color: #ae81ff } /* Literal.Number.Hex */
+.nb .highlight .mi { color: #ae81ff } /* Literal.Number.Integer */
+.nb .highlight .mo { color: #ae81ff } /* Literal.Number.Oct */
+.nb .highlight .sa { color: #e6db74 } /* Literal.String.Affix */
+.nb .highlight .sb { color: #e6db74 } /* Literal.String.Backtick */
+.nb .highlight .sc { color: #e6db74 } /* Literal.String.Char */
+.nb .highlight .dl { color: #e6db74 } /* Literal.String.Delimiter */
+.nb .highlight .sd { color: #e6db74 } /* Literal.String.Doc */
+.nb .highlight .s2 { color: #e6db74 } /* Literal.String.Double */
+.nb .highlight .se { color: #ae81ff } /* Literal.String.Escape */
+.nb .highlight .sh { color: #e6db74 } /* Literal.String.Heredoc */
+.nb .highlight .si { color: #e6db74 } /* Literal.String.Interpol */
+.nb .highlight .sx { color: #e6db74 } /* Literal.String.Other */
+.nb .highlight .sr { color: #e6db74 } /* Literal.String.Regex */
+.nb .highlight .s1 { color: #e6db74 } /* Literal.String.Single */
+.nb .highlight .ss { color: #e6db74 } /* Literal.String.Symbol */
+.nb .highlight .bp { color: #f8f8f2 } /* Name.Builtin.Pseudo */
+.nb .highlight .fm { color: #a6e22e } /* Name.Function.Magic */
+.nb .highlight .vc { color: #f8f8f2 } /* Name.Variable.Class */
+.nb .highlight .vg { color: #f8f8f2 } /* Name.Variable.Global */
+.nb .highlight .vi { color: #f8f8f2 } /* Name.Variable.Instance */
+.nb .highlight .vm { color: #f8f8f2 } /* Name.Variable.Magic */
+.nb .highlight .il { color: #ae81ff } /* Literal.Number.Integer.Long */
+.nb .highlight { background: transparent !important; }
+.nb .highlight pre { background: transparent; }
+</style>
+
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<button class="sb-toggle" id="navToggle" aria-label="Toggle navigation">☰ Menu</button>
+<div class="sb-scrim" id="scrim"></div>
+<div class="shell">
+<aside class="sidebar" id="sidebar">
+  <div class="sb-brand">
+    <a class="sb-mark" href="index.html">🏥 UQMI</a>
+    <div class="sb-tagline">Uncertainty Quantification<br>in Medical Imaging</div>
+  </div>
+  <nav class="sb-nav">
+    <a class="sb-home" href="index.html">🏠 &nbsp;Home</a>
+    <div class="sb-part">
+      <a class="sb-part-label" href="part-1.html">🌱 Part 1 — Foundations</a>
+      <a class="sb-item active" href="session-1.html"><span class="n">1</span><span>Why Uncertainty Matters in Medicine</span></a>
+      <a class="sb-item" href="session-2.html"><span class="n">2</span><span>Aleatoric vs Epistemic Uncertainty</span></a>
+      <a class="sb-item" href="session-3.html"><span class="n">3</span><span>Uncertainty in Clinical Practice</span></a>
+    </div>
+    <div class="sb-part">
+      <a class="sb-part-label" href="part-2.html">⚙️ Part 2 — Core UQ Methods</a>
+      <a class="sb-item" href="session-4.html"><span class="n">4</span><span>The Bayesian Perspective</span></a>
+      <a class="sb-item" href="session-5.html"><span class="n">5</span><span>Variational Inference</span></a>
+      <a class="sb-item" href="session-6.html"><span class="n">6</span><span>Variational Inference — Implementation</span></a>
+      <a class="sb-item" href="session-7.html"><span class="n">7</span><span>MC Dropout</span></a>
+      <a class="sb-item" href="session-8.html"><span class="n">8</span><span>MC Dropout — Implementation</span></a>
+      <a class="sb-item" href="session-9.html"><span class="n">9</span><span>Deep Ensembles</span></a>
+      <a class="sb-item" href="session-10.html"><span class="n">10</span><span>Deep Ensembles — Implementation</span></a>
+      <a class="sb-item" href="session-11.html"><span class="n">11</span><span>Evidential Deep Learning</span></a>
+      <a class="sb-item" href="session-12.html"><span class="n">12</span><span>Evidential Deep Learning — Implementation</span></a>
+      <a class="sb-item" href="session-13.html"><span class="n">13</span><span>Conformal Prediction</span></a>
+      <a class="sb-item" href="session-14.html"><span class="n">14</span><span>Conformal Prediction — Implementation</span></a>
+      <a class="sb-item" href="session-15.html"><span class="n">15</span><span>Part 2 Summary</span></a>
+    </div>
+    <div class="sb-part">
+      <a class="sb-part-label" href="part-3.html">📐 Part 3 — Evaluation & Reliability</a>
+      <a class="sb-item" href="session-16.html"><span class="n">16</span><span>Calibration</span></a>
+      <a class="sb-item" href="session-17.html"><span class="n">17</span><span>Risk–Coverage Analysis</span></a>
+      <a class="sb-item" href="session-18.html"><span class="n">18</span><span>Out-of-Distribution Detection</span></a>
+    </div>
+    <div class="sb-part">
+      <a class="sb-part-label" href="part-4.html">🧭 Part 4 — Future Directions</a>
+      <a class="sb-item" href="session-19.html"><span class="n">19</span><span>Final Summary &amp; Future Directions</span></a>
+    </div>
+    <div class="sb-part">
+      <span class="sb-part-label">🎉 Course Complete</span>
+      <a class="sb-item" href="credits.html"><span class="n">✦</span><span>Congratulations &amp; Credits</span></a>
+    </div>
+  </nav>
+  <div class="sb-foot">
+    <div class="sb-foot-label">Created by</div>
+    <div class="sb-foot-names">Benyamin Gheiji<br>Danial Elyassirad<br>Mahsa Vatanparast<br>Shahriar Faghani</div>
+  </div>
+</aside>
+<main class="main" id="main">
+
+<div class="wrap">
+  <div class="crumb"><a href="index.html">🏠 Home</a><span class="sep">›</span><a href="part-1.html">Part 1 — Foundations</a><span class="sep">›</span><span class="here">Session 1</span></div>
+  
+<a class="kaggle" href="https://www.kaggle.com/code/benyamingheiji/session-1-why-uncertainty-matters-in-medicine" target="_blank" rel="noopener">
+  <span class="k-ico">📓</span>
+  <span class="k-txt">
+    <span class="k-title">Open this session on Kaggle</span>
+    <span class="k-sub">Run the notebook interactively — no local setup required</span>
+  </span>
+  <span class="k-arrow">↗</span>
+</a>
+  <article class="nb"><div class="cell border-box-sizing text_cell rendered" id="cell-id=s1_0001"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Session-1-%E2%80%94-Why-Uncertainty-Matters-in-Medicine-%F0%9F%8F%A5">Session 1 — Why Uncertainty Matters in Medicine 🏥<a class="anchor-link" href="#Session-1-%E2%80%94-Why-Uncertainty-Matters-in-Medicine-%F0%9F%8F%A5">¶</a></h1><p><strong>Part 1 — Foundations</strong></p>
+<blockquote>
+<p><em>A model that is always confident is not a model you can trust. A model that knows when it doesn't know — that's a model that can support clinical decision-making.</em></p>
+</blockquote>
+<div align="center" style="margin-top: 50px;">
+<img alt="No description has been provided for this image" src="assets/img/s1/intro.webp" width="700"/>
+</div>
+<hr/>
+<h3 id="What-you'll-learn-in-this-session">What you'll learn in this session<a class="anchor-link" href="#What-you'll-learn-in-this-session">¶</a></h3><ul>
+<li>Why <strong>accuracy alone</strong> is not enough to evaluate a clinical AI model</li>
+<li>The two failure modes: <strong>overconfidence</strong> and <strong>underconfidence</strong> — and why they have different clinical consequences</li>
+<li>What <strong>softmax confidence</strong> actually measures — and what it doesn't</li>
+<li>What a model that can say <em>"I don't know"</em> would look like in practice</li>
+<li>Why <strong>uncertainty is information</strong>, not a weakness</li>
+</ul>
+<p>This is the opening session of the course. It requires no mathematical background — just an interest in how AI systems behave in clinical settings, and a willingness to think carefully about what we actually want from them. The math and algorithms come later. First, we need to be clear about the problem.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=s1_0002"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr/>
+<h2 id="%F0%9F%A4%94-1.-What-does-accuracy-actually-tell-you?">🤔 1. What does accuracy actually tell you?<a class="anchor-link" href="#%F0%9F%A4%94-1.-What-does-accuracy-actually-tell-you?">¶</a></h2><p>Imagine a chest X-ray classifier that achieves 94% accuracy on its test set. That sounds impressive — and in many machine learning contexts, it would be. But let's think more carefully about what that number says and what it doesn't.</p>
+<p>94% accuracy means the model gets 94 out of 100 predictions right. But it says nothing about <em>which</em> 6 it gets wrong, <em>how confident</em> it was when it was wrong, or <em>whether there was any signal</em> that something might be off on those cases. The model that scores 94% and confidently misclassifies 6 pneumonia patients as normal, and the model that also scores 94% but flags those 6 cases with high uncertainty so they go to a radiologist — these are radically different systems. But accuracy treats them identically.</p>
+<p>This is the central problem this course addresses. Accuracy tells you how often a model is right. It does not tell you whether the model knows when it might be wrong. For most software applications, that distinction doesn't matter much. For clinical decision support, it's everything.</p>
+<blockquote>
+<p><strong>A radiologist's instinct</strong><br/>
+A chest X-ray is not just "normal" or "abnormal." A radiologist looks for pattern, context, and uncertainty at the same time. They may say: "This is probably pneumonia, but the distribution is atypical and I would want a follow-up image or more clinical information before I feel fully comfortable." That extra sentence is not fluff. It is part of the decision.</p>
+</blockquote>
+<p>That is the kind of behavior we want from AI systems: not just a label, but a judgment that knows when to hesitate.</p>
+<blockquote>
+<p><strong>🏥 A concrete scenario</strong><br/>
+A hospital deploys a pneumonia screening model in its emergency department. The model reviews chest X-rays and produces a probability score. On the day of deployment, a patient arrives with an unusual presentation — mild viral pneumonia with atypical distribution, from a patient demographic underrepresented in the training data. The model has never seen anything quite like this. What does it do? In most current systems: it produces a confident-looking score anyway, because that's all it knows how to do. The clinician, trusting the model's apparent certainty, proceeds without ordering a follow-up. The diagnosis is missed.</p>
+<p>The failure wasn't in the model's accuracy on typical cases. It was in the model's inability to signal that this case was unusual.</p>
+</blockquote>
+<div align="center" style="margin-top: 50px;">
+<img alt="No description has been provided for this image" src="assets/img/s1/section_1.webp" width="700"/>
+</div>
+<p>Two AI models can achieve identical accuracy while behaving very differently in clinically important cases. Accuracy measures how often a model is correct, but it does not indicate whether the model recognizes unusual or unreliable cases. In healthcare, the ability to signal uncertainty can be as important as accuracy itself.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=s1_0003"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr/>
+<h2 id="%E2%9A%A1-2.-The-two-failure-modes">⚡ 2. The two failure modes<a class="anchor-link" href="#%E2%9A%A1-2.-The-two-failure-modes">¶</a></h2><p>When we talk about uncertainty in clinical AI, there are two distinct failure modes to keep in mind. They are different in character and have different clinical consequences.</p>
+<h3 id="%F0%9F%94%B4-Overconfidence">🔴 Overconfidence<a class="anchor-link" href="#%F0%9F%94%B4-Overconfidence">¶</a></h3><p>An overconfident model says it's 95% sure when it should be 60% sure. It presents its predictions with more certainty than the evidence warrants. This is the more dangerous of the two failure modes in clinical settings, because:</p>
+<ul>
+<li>Clinicians who trust the model's stated confidence calibrate their behaviour to it. If the model says 95%, they may not order further tests, seek a second opinion, or apply the clinical scepticism they'd normally bring to an ambiguous case.</li>
+<li>Overconfident errors are <em>invisible</em> — the model doesn't flag them. A busy ED physician reviewing 40 scans per shift may not have time to scrutinize every confident prediction.</li>
+<li>Over time, overconfidence erodes trust when errors surface — and the trust damage is often disproportionate to the error rate.</li>
+</ul>
+<p>Modern deep networks are systematically overconfident. This is not a coincidence — it is a consequence of how they are trained. Cross-entropy loss encourages the model to push predicted probabilities toward 0 and 1. Large models with plenty of capacity learn to produce very extreme softmax outputs.</p>
+<h3 id="%F0%9F%9F%A1-Underconfidence">🟡 Underconfidence<a class="anchor-link" href="#%F0%9F%9F%A1-Underconfidence">¶</a></h3><p>An underconfident model flags everything as uncertain — it hedges on every case, never committing to a diagnosis. This is less dangerous than overconfidence but still clinically costly:</p>
+<ul>
+<li>If the model refers 70% of cases to a radiologist, it provides minimal value over having no AI system at all.</li>
+<li>Clinicians learn to ignore the uncertainty flags because they're not discriminative — everything gets flagged.</li>
+<li>The model never provides the high-confidence, low-workload throughput that is one of the main arguments for AI in radiology.</li>
+</ul>
+<p>The clinical ideal is a model that is <strong>confidently right</strong> on easy, clear cases and <strong>honestly uncertain</strong> on hard, ambiguous ones. That's a much harder target than simply being accurate.</p>
+<p><img alt="Confidence distributions" src="assets/img/s1/section2.webp"/></p>
+<p>This figure shows why confidence alone is not enough, and why the shape of the confidence distribution matters. In the overconfident case, the model gives high confidence even when it is wrong, so mistakes look trustworthy. In the well-calibrated case, correct predictions cluster at high confidence while wrong ones are pushed lower, which makes uncertainty informative. In the underconfident case, both correct and wrong predictions cluster near the middle, so the model fails to separate easy cases from hard ones. For clinical use, the ideal is not just high confidence, but confidence that actually means something.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=s1_0005"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr/>
+<h2 id="%F0%9F%8E%AD-3.-The-softmax-illusion">🎭 3. The softmax illusion<a class="anchor-link" href="#%F0%9F%8E%AD-3.-The-softmax-illusion">¶</a></h2><p>Most deep learning classifiers end with a softmax layer. The softmax takes the raw output of the network (called logits) and converts them into a set of numbers that sum to 1 — so they look like probabilities. When a chest X-ray classifier outputs $[0.93, 0.07]$ for $[\text{Normal}, \text{Pneumonia}]$, it's easy to read this as: <em>the model is 93% confident this is normal.</em></p>
+<p>But this is misleading in at least two important ways.</p>
+<p><strong>The softmax is not a posterior probability.</strong> It measures how much the model prefers one class over another given the input — but it has no mechanism for saying "I'm not sure about this input at all." Even for a completely novel input — one unlike anything in the training set — the softmax still outputs numbers that sum to 1. It always distributes its confidence across the classes, even when the right answer is "none of the above."</p>
+<p><strong>The softmax doesn't represent model uncertainty.</strong> It represents the model's preference between classes, given its current weights. Two models with completely different weights — one well-trained, one randomly initialized — can produce identical softmax outputs on the same input. The softmax output carries no information about whether the model is well-calibrated, well-trained, or appropriate for this type of input.</p>
+<p>Think of it this way: if you ask someone to choose between two options and give you a percentage split, they can always give you 60/40 or 70/30 — even if they have absolutely no basis for the choice. The softmax is the same. It always gives you a split. It never says "I really don't know."</p>
+<p>This is the fundamental limitation that motivates everything in this course.</p>
+<div align="center"><img alt="No description has been provided for this image" src="assets/img/s1/section3.webp" width="700"/></div>
+<p>This figure makes a more specific point: two models can produce the same softmax output, like [0.85, 0.15], even if one was trained on about 1000 similar cases and the other on only 5. The output alone does not tell us how much evidence the model has seen or whether it is well learned. That is the illusion: softmax gives the same-looking confidence even when the underlying training situation is completely different.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=s1_0007"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr/>
+<h2 id="%F0%9F%A9%BA-4.-What-does-a-radiologist-actually-do?">🩺 4. What does a radiologist actually do?<a class="anchor-link" href="#%F0%9F%A9%BA-4.-What-does-a-radiologist-actually-do?">¶</a></h2><p>Before we think about what we want an AI model to do, it helps to think about what a skilled radiologist does — because good clinical reasoning is the benchmark we're reaching toward.</p>
+<p>A radiologist reading a chest X-ray does not produce a single binary verdict. They produce a <strong>structured probabilistic assessment</strong>. They say things like: <em>"This is most consistent with pneumonia, though I can't rule out pulmonary edema. The distribution is atypical — I'd recommend a follow-up CT."</em> Or: <em>"This is a clear case of right lower lobe consolidation. High confidence pneumonia."</em></p>
+<p>Several things are happening simultaneously:</p>
+<ul>
+<li>They produce a <strong>most likely diagnosis</strong> (the prediction)</li>
+<li>They assess <strong>how confident</strong> they are in that diagnosis (the certainty)</li>
+<li>They identify <strong>what could be wrong</strong> with their assessment (the uncertainty)</li>
+<li>They <strong>recommend a next action</strong> based on that uncertainty (defer, confirm, treat)</li>
+</ul>
+<p>The key point: the radiologist's uncertainty is not separate from their diagnostic output — it <em>is</em> part of the output. A radiology report that said only "Pneumonia: yes" would be considered incomplete and unprofessional. The hedging, the differential, the recommendation — those are features, not weaknesses.</p>
+<p>This is the standard we want AI systems to meet. Not just a prediction, but a prediction with an honest, calibrated sense of how much to trust it.</p>
+<div align="center"><img alt="No description has been provided for this image" src="assets/img/s1/section4.webp" width="700"/></div>
+<p>Rather than producing a binary decision, radiologists integrate diagnostic likelihood, confidence, differential diagnoses, and management recommendations into a single probabilistic assessment.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=fee72bed"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr/>
+<h2 id="%F0%9F%92%A1-5.-Uncertainty-is-information,-not-a-weakness">💡 5. Uncertainty is information, not a weakness<a class="anchor-link" href="#%F0%9F%92%A1-5.-Uncertainty-is-information,-not-a-weakness">¶</a></h2><p>There is a temptation — particularly in commercial AI deployment — to suppress uncertainty estimates. A model that says "I'm not sure" seems less capable than one that always gives a confident answer. In a product demo, certainty is reassuring.</p>
+<p>In clinical practice, this instinct is backwards.</p>
+<p>A model that says "I'm not sure" on the right cases is doing something genuinely useful. It is identifying the cases that need human attention. It is doing <em>triage</em> — sorting the cases where it can be trusted from the cases where it cannot. That is a valuable clinical function.</p>
+<p>Consider the alternative: a model that is always confident. Every case gets a decisive prediction. Clinicians must evaluate every prediction with equal scepticism because there is no signal about which cases are reliable. The model has given up its ability to communicate anything about its own reliability. The cognitive load on the clinician is unchanged.</p>
+<p>Now consider a model that correctly flags its uncertainty on 15% of cases and routes them to a radiologist. The other 85% can be processed with high confidence. Workflow efficiency improves. Errors concentrate in the 15% that gets expert review. The model is functioning as a <strong>first reader with self-awareness</strong> — a much more useful clinical tool than one that pretends to certainty it doesn't have.</p>
+<p>This is the vision that motivates the rest of this course. Uncertainty is not the enemy of clinical AI. It is one of its most important features — when it is measured well, communicated honestly, and used to guide action.</p>
+<hr/>
+<blockquote>
+<p><strong>🏥 Clinical framing</strong><br/>
+In aviation, autopilot systems are designed to alert pilots when they are near the edge of their operating envelope — when conditions are unusual enough that human judgement is needed. This is not a failure of the autopilot; it is a deliberate design feature. Clinical AI should work the same way: autonomous within its competence, and explicit about the boundaries of that competence.</p>
+</blockquote>
+<div align="center" style="margin-top: 50px;">
+<img alt="No description has been provided for this image" src="assets/img/s1/section5.webp" width="700"/>
+</div>
+<p>In clinical AI, the goal is not merely accuracy but knowing when not to trust the model. Confident errors can directly harm patients, whereas uncertain predictions provide an opportunity for human review and additional testing.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=s1_0011"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr/>
+<h2 id="%F0%9F%93%9A-6.-Recommended-reading">📚 6. Recommended reading<a class="anchor-link" href="#%F0%9F%93%9A-6.-Recommended-reading">¶</a></h2><p>The papers below include one of the most widely cited general reviews of deep-learning UQ and several widely used reviews focused specifically on medical image analysis. They are useful maps of the field rather than papers you need to read line by line at this stage.</p>
+<hr/>
+<p><strong><a href="https://arxiv.org/abs/2011.06225">A Review of Uncertainty Quantification in Deep Learning: Techniques, Applications and Challenges</a></strong><br/>
+<em>Abdar et al., 2021</em><br/>
+A highly cited broad review of UQ in deep learning. It covers Bayesian approaches, ensembles, calibration, applications, and open challenges, including medical image classification and segmentation.</p>
+<hr/>
+<p><strong><a href="https://arxiv.org/abs/2210.03736">Trustworthy Clinical AI Solutions: A Unified Review of Uncertainty Quantification in Deep Learning Models for Medical Image Analysis</a></strong><br/>
+<em>Lambert et al., 2022</em><br/>
+A medical-imaging-specific review that connects UQ methods to clinical constraints, validation protocols, image quality variation, and the practical question of whether uncertainty estimates are useful to end users.</p>
+<hr/>
+<p><strong><a href="https://arxiv.org/abs/2302.08119">A Review of Uncertainty Estimation and its Application in Medical Imaging</a></strong><br/>
+<em>Zou et al., 2023</em><br/>
+A focused survey of aleatoric and epistemic uncertainty, estimation methods, medical-imaging applications, and future research directions. This is a strong companion reading for the methods taught later in the tutorial.</p>
+<hr/>
+<p><strong><a href="https://arxiv.org/abs/2310.06873">A Review of Uncertainty Quantification in Medical Image Analysis: Probabilistic and Non-Probabilistic Methods</a></strong><br/>
+<em>Huang et al., 2023</em><br/>
+A broader medical-image-analysis review that includes both probabilistic and non-probabilistic approaches, along with uncertainty evaluation protocols and applications across different imaging tasks.</p>
+<hr/>
+<h2 id="%E2%9C%85-Session-summary">✅ Session summary<a class="anchor-link" href="#%E2%9C%85-Session-summary">¶</a></h2><table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Key takeaway</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>📊 <strong>Accuracy</strong></td>
+<td>Measures how often the model is right — says nothing about when it might be wrong</td>
+</tr>
+<tr>
+<td>🔴 <strong>Overconfidence</strong></td>
+<td>More dangerous — confident errors are invisible, clinicians overtrust the model</td>
+</tr>
+<tr>
+<td>🟡 <strong>Underconfidence</strong></td>
+<td>Less dangerous but less useful — the model flags everything, no discrimination</td>
+</tr>
+<tr>
+<td>🎭 <strong>Softmax illusion</strong></td>
+<td>Softmax always produces a confident-looking distribution — even on novel inputs</td>
+</tr>
+<tr>
+<td>🩺 <strong>Radiologist standard</strong></td>
+<td>Uncertainty is part of the clinical output — not a weakness, a feature</td>
+</tr>
+<tr>
+<td>💡 <strong>Uncertainty is information</strong></td>
+<td>A model that abstains on the right cases provides more clinical value</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<blockquote>
+<p><strong>➡️ Next: Session 2 — Aleatoric vs Epistemic Uncertainty</strong><br/>
+Not all uncertainty is the same. Some of it can be reduced with more data. Some of it cannot — it is irreducible noise in the world. Understanding which type you're dealing with changes the clinical response entirely.</p>
+</blockquote>
+</div>
+</div>
+</div>
+</article>
+  <nav class="pagenav"><a class="pagenav-card" href="part-1.html"><div class="pn-label">← Previous</div><div class="pn-title">Part 1 — Foundations</div></a><a class="pagenav-card pagenav-next" href="session-2.html"><div class="pn-label">Next →</div><div class="pn-title">Session 2: Aleatoric vs Epistemic Uncertainty</div></a></nav>
+  <div class="foot"><span>UQMI — Uncertainty Quantification of Machine Learning Models in Medical Imaging</span><span>Benyamin Gheiji · Danial Elyassirad · Mahsa Vatanparast · Shahriar Faghani</span></div>
+</div>
+
+</main>
+</div>
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+};
+</script>
+<script id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+<script>
+(function () {
+  var t = document.getElementById('navToggle');
+  var s = document.getElementById('scrim');
+  function close() { document.body.classList.remove('nav-open'); }
+  if (t) t.addEventListener('click', function () {
+    document.body.classList.toggle('nav-open');
+  });
+  if (s) s.addEventListener('click', close);
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 2: Aleatoric vs Epistemic Uncertainty — UQMI</title>
+<meta name="description" content="Uncertainty Quantification of Machine Learning Models in Medical Imaging — a free, hands-on course.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.nb .highlight .hll { background-color: #49483e }
+.nb .highlight { background: #272822; color: #f8f8f2 }
+.nb .highlight .c { color: #75715e } /* Comment */
+.nb .highlight .err { color: #960050; background-color: #1e0010 } /* Error */
+.nb .highlight .esc { color: #f8f8f2 } /* Escape */
+.nb .highlight .g { color: #f8f8f2 } /* Generic */
+.nb .highlight .k { color: #66d9ef } /* Keyword */
+.nb .highlight .l { color: #ae81ff } /* Literal */
+.nb .highlight .n { color: #f8f8f2 } /* Name */
+.nb .highlight .o { color: #f92672 } /* Operator */
+.nb .highlight .x { color: #f8f8f2 } /* Other */
+.nb .highlight .p { color: #f8f8f2 } /* Punctuation */
+.nb .highlight .ch { color: #75715e } /* Comment.Hashbang */
+.nb .highlight .cm { color: #75715e } /* Comment.Multiline */
+.nb .highlight .cp { color: #75715e } /* Comment.Preproc */
+.nb .highlight .cpf { color: #75715e } /* Comment.PreprocFile */
+.nb .highlight .c1 { color: #75715e } /* Comment.Single */
+.nb .highlight .cs { color: #75715e } /* Comment.Special */
+.nb .highlight .gd { color: #f92672 } /* Generic.Deleted */
+.nb .highlight .ge { color: #f8f8f2; font-style: italic } /* Generic.Emph */
+.nb .highlight .gr { color: #f8f8f2 } /* Generic.Error */
+.nb .highlight .gh { color: #f8f8f2 } /* Generic.Heading */
+.nb .highlight .gi { color: #a6e22e } /* Generic.Inserted */
+.nb .highlight .go { color: #66d9ef } /* Generic.Output */
+.nb .highlight .gp { color: #f92672; font-weight: bold } /* Generic.Prompt */
+.nb .highlight .gs { color: #f8f8f2; font-weight: bold } /* Generic.Strong */
+.nb .highlight .gu { color: #75715e } /* Generic.Subheading */
+.nb .highlight .gt { color: #f8f8f2 } /* Generic.Traceback */
+.nb .highlight .kc { color: #66d9ef } /* Keyword.Constant */
+.nb .highlight .kd { color: #66d9ef } /* Keyword.Declaration */
+.nb .highlight .kn { color: #f92672 } /* Keyword.Namespace */
+.nb .highlight .kp { color: #66d9ef } /* Keyword.Pseudo */
+.nb .highlight .kr { color: #66d9ef } /* Keyword.Reserved */
+.nb .highlight .kt { color: #66d9ef } /* Keyword.Type */
+.nb .highlight .ld { color: #e6db74 } /* Literal.Date */
+.nb .highlight .m { color: #ae81ff } /* Literal.Number */
+.nb .highlight .s { color: #e6db74 } /* Literal.String */
+.nb .highlight .na { color: #a6e22e } /* Name.Attribute */
+.nb .highlight .nb { color: #f8f8f2 } /* Name.Builtin */
+.nb .highlight .nc { color: #a6e22e } /* Name.Class */
+.nb .highlight .no { color: #66d9ef } /* Name.Constant */
+.nb .highlight .nd { color: #a6e22e } /* Name.Decorator */
+.nb .highlight .ni { color: #f8f8f2 } /* Name.Entity */
+.nb .highlight .ne { color: #a6e22e } /* Name.Exception */
+.nb .highlight .nf { color: #a6e22e } /* Name.Function */
+.nb .highlight .nl { color: #f8f8f2 } /* Name.Label */
+.nb .highlight .nn { color: #f8f8f2 } /* Name.Namespace */
+.nb .highlight .nx { color: #a6e22e } /* Name.Other */
+.nb .highlight .py { color: #f8f8f2 } /* Name.Property */
+.nb .highlight .nt { color: #f92672 } /* Name.Tag */
+.nb .highlight .nv { color: #f8f8f2 } /* Name.Variable */
+.nb .highlight .ow { color: #f92672 } /* Operator.Word */
+.nb .highlight .pm { color: #f8f8f2 } /* Punctuation.Marker */
+.nb .highlight .w { color: #f8f8f2 } /* Text.Whitespace */
+.nb .highlight .mb { color: #ae81ff } /* Literal.Number.Bin */
+.nb .highlight .mf { color: #ae81ff } /* Literal.Number.Float */
+.nb .highlight .mh { color: #ae81ff } /* Literal.Number.Hex */
+.nb .highlight .mi { color: #ae81ff } /* Literal.Number.Integer */
+.nb .highlight .mo { color: #ae81ff } /* Literal.Number.Oct */
+.nb .highlight .sa { color: #e6db74 } /* Literal.String.Affix */
+.nb .highlight .sb { color: #e6db74 } /* Literal.String.Backtick */
+.nb .highlight .sc { color: #e6db74 } /* Literal.String.Char */
+.nb .highlight .dl { color: #e6db74 } /* Literal.String.Delimiter */
+.nb .highlight .sd { color: #e6db74 } /* Literal.String.Doc */
+.nb .highlight .s2 { color: #e6db74 } /* Literal.String.Double */
+.nb .highlight .se { color: #ae81ff } /* Literal.String.Escape */
+.nb .highlight .sh { color: #e6db74 } /* Literal.String.Heredoc */
+.nb .highlight .si { color: #e6db74 } /* Literal.String.Interpol */
+.nb .highlight .sx { color: #e6db74 } /* Literal.String.Other */
+.nb .highlight .sr { color: #e6db74 } /* Literal.String.Regex */
+.nb .highlight .s1 { color: #e6db74 } /* Literal.String.Single */
+.nb .highlight .ss { color: #e6db74 } /* Literal.String.Symbol */
+.nb .highlight .bp { color: #f8f8f2 } /* Name.Builtin.Pseudo */
+.nb .highlight .fm { color: #a6e22e } /* Name.Function.Magic */
+.nb .highlight .vc { color: #f8f8f2 } /* Name.Variable.Class */
+.nb .highlight .vg { color: #f8f8f2 } /* Name.Variable.Global */
+.nb .highlight .vi { color: #f8f8f2 } /* Name.Variable.Instance */
+.nb .highlight .vm { color: #f8f8f2 } /* Name.Variable.Magic */
+.nb .highlight .il { color: #ae81ff } /* Literal.Number.Integer.Long */
+.nb .highlight { background: transparent !important; }
+.nb .highlight pre { background: transparent; }
+</style>
+
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<button class="sb-toggle" id="navToggle" aria-label="Toggle navigation">☰ Menu</button>
+<div class="sb-scrim" id="scrim"></div>
+<div class="shell">
+<aside class="sidebar" id="sidebar">
+  <div class="sb-brand">
+    <a class="sb-mark" href="index.html">🏥 UQMI</a>
+    <div class="sb-tagline">Uncertainty Quantification<br>in Medical Imaging</div>
+  </div>
+  <nav class="sb-nav">
+    <a class="sb-home" href="index.html">🏠 &nbsp;Home</a>
+    <div class="sb-part">
+      <a class="sb-part-label" href="part-1.html">🌱 Part 1 — Foundations</a>
+      <a class="sb-item" href="session-1.html"><span class="n">1</span><span>Why Uncertainty Matters in Medicine</span></a>
+      <a class="sb-item active" href="session-2.html"><span class="n">2</span><span>Aleatoric vs Epistemic Uncertainty</span></a>
+      <a class="sb-item" href="session-3.html"><span class="n">3</span><span>Uncertainty in Clinical Practice</span></a>
+    </div>
+    <div class="sb-part">
+      <a class="sb-part-label" href="part-2.html">⚙️ Part 2 — Core UQ Methods</a>
+      <a class="sb-item" href="session-4.html"><span class="n">4</span><span>The Bayesian Perspective</span></a>
+      <a class="sb-item" href="session-5.html"><span class="n">5</span><span>Variational Inference</span></a>
+      <a class="sb-item" href="session-6.html"><span class="n">6</span><span>Variational Inference — Implementation</span></a>
+      <a class="sb-item" href="session-7.html"><span class="n">7</span><span>MC Dropout</span></a>
+      <a class="sb-item" href="session-8.html"><span class="n">8</span><span>MC Dropout — Implementation</span></a>
+      <a class="sb-item" href="session-9.html"><span class="n">9</span><span>Deep Ensembles</span></a>
+      <a class="sb-item" href="session-10.html"><span class="n">10</span><span>Deep Ensembles — Implementation</span></a>
+      <a class="sb-item" href="session-11.html"><span class="n">11</span><span>Evidential Deep Learning</span></a>
+      <a class="sb-item" href="session-12.html"><span class="n">12</span><span>Evidential Deep Learning — Implementation</span></a>
+      <a class="sb-item" href="session-13.html"><span class="n">13</span><span>Conformal Prediction</span></a>
+      <a class="sb-item" href="session-14.html"><span class="n">14</span><span>Conformal Prediction — Implementation</span></a>
+      <a class="sb-item" href="session-15.html"><span class="n">15</span><span>Part 2 Summary</span></a>
+    </div>
+    <div class="sb-part">
+      <a class="sb-part-label" href="part-3.html">📐 Part 3 — Evaluation & Reliability</a>
+      <a class="sb-item" href="session-16.html"><span class="n">16</span><span>Calibration</span></a>
+      <a class="sb-item" href="session-17.html"><span class="n">17</span><span>Risk–Coverage Analysis</span></a>
+      <a class="sb-item" href="session-18.html"><span class="n">18</span><span>Out-of-Distribution Detection</span></a>
+    </div>
+    <div class="sb-part">
+      <a class="sb-part-label" href="part-4.html">🧭 Part 4 — Future Directions</a>
+      <a class="sb-item" href="session-19.html"><span class="n">19</span><span>Final Summary &amp; Future Directions</span></a>
+    </div>
+    <div class="sb-part">
+      <span class="sb-part-label">🎉 Course Complete</span>
+      <a class="sb-item" href="credits.html"><span class="n">✦</span><span>Congratulations &amp; Credits</span></a>
+    </div>
+  </nav>
+  <div class="sb-foot">
+    <div class="sb-foot-label">Created by</div>
+    <div class="sb-foot-names">Benyamin Gheiji<br>Danial Elyassirad<br>Mahsa Vatanparast<br>Shahriar Faghani</div>
+  </div>
+</aside>
+<main class="main" id="main">
+
+<div class="wrap">
+  <div class="crumb"><a href="index.html">🏠 Home</a><span class="sep">›</span><a href="part-1.html">Part 1 — Foundations</a><span class="sep">›</span><span class="here">Session 2</span></div>
+  
+<a class="kaggle" href="https://www.kaggle.com/code/benyamingheiji/session-2-aleatoric-vs-epistemic-uncertainty?scriptVersionId=343318282" target="_blank" rel="noopener">
+  <span class="k-ico">📓</span>
+  <span class="k-txt">
+    <span class="k-title">Open this session on Kaggle</span>
+    <span class="k-sub">Run the notebook interactively — no local setup required</span>
+  </span>
+  <span class="k-arrow">↗</span>
+</a>
+  <article class="nb"><div class="cell border-box-sizing text_cell rendered" id="cell-id=s2_0001"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Session-2-%E2%80%94-Aleatoric-vs-Epistemic-Uncertainty-%F0%9F%94%AC">Session 2 — Aleatoric vs Epistemic Uncertainty 🔬<a class="anchor-link" href="#Session-2-%E2%80%94-Aleatoric-vs-Epistemic-Uncertainty-%F0%9F%94%AC">¶</a></h1><p><strong>Part 1 — Foundations</strong></p>
+<blockquote>
+<p><em>Not all uncertainty is the same. Some of it can be reduced with more data, better tools, or more training. Some of it cannot — it is irreducible noise baked into the world. Knowing which type you're dealing with completely changes the clinical response.</em></p>
+</blockquote>
+<div align="center" style="margin-top: 50px;">
+<img alt="No description has been provided for this image" src="assets/img/s2/intro.webp" width="700"/>
+</div>
+<hr/>
+<h3 id="%F0%9F%94%97-Bridge-from-Session-1">🔗 Bridge from Session 1<a class="anchor-link" href="#%F0%9F%94%97-Bridge-from-Session-1">¶</a></h3><p>In Session 1 we established that a model knowing when it doesn't know is more clinically valuable than one that's always confident. But "not knowing" is not a monolithic thing. A model might be uncertain because the image is genuinely ambiguous — blurry, poorly positioned, showing an unusual presentation. Or it might be uncertain because it hasn't seen enough cases like this one to have learned a reliable pattern. These are different problems with different solutions. This session gives you the language and the intuition to tell them apart.</p>
+<hr/>
+<h3 id="What-you'll-learn-in-this-session">What you'll learn in this session<a class="anchor-link" href="#What-you'll-learn-in-this-session">¶</a></h3><ul>
+<li>The distinction between <strong>aleatoric</strong> and <strong>epistemic</strong> uncertainty</li>
+<li>Why this distinction is <strong>clinically actionable</strong> — different types call for different responses</li>
+<li>Where each type of uncertainty comes from in a <strong>medical imaging workflow</strong></li>
+<li>The <strong>formal probabilistic framing</strong> — just enough to understand what comes later</li>
+<li>How <strong>out-of-distribution inputs</strong> represent the extreme case of epistemic uncertainty</li>
+</ul>
+<hr/>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=f4eb280b"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="%F0%9F%8E%B2-1.-Aleatoric-uncertainty-%E2%80%94-irreducible-noise">🎲 1. Aleatoric uncertainty — irreducible noise<a class="anchor-link" href="#%F0%9F%8E%B2-1.-Aleatoric-uncertainty-%E2%80%94-irreducible-noise">¶</a></h2><p><strong>Aleatoric uncertainty</strong> comes from the data itself. It is the uncertainty that remains even if you have a perfect model — because the information needed to make a certain prediction simply isn't there.</p>
+<p>The word comes from the Latin <em>alea</em> — a die. Rolling a die is the classical example of aleatoric uncertainty: even with perfect knowledge of physics, the outcome is unpredictable because small perturbations in initial conditions make the trajectory chaotic. You can't reduce the uncertainty by studying dice harder.</p>
+<p>In medical imaging, aleatoric uncertainty appears in several forms:</p>
+<ul>
+<li><strong>Image quality issues:</strong> motion blur, poor positioning, underexposure — the image physically doesn't contain enough information to make a certain diagnosis</li>
+<li><strong>Inherent ambiguity:</strong> some pathologies genuinely look like other pathologies. Early-stage pneumonia can look like pulmonary edema. A small nodule can look like a vessel cross-section. No amount of training data eliminates this visual overlap.</li>
+<li><strong>Inter-annotator disagreement:</strong> when experienced radiologists disagree on the label for an image, that disagreement is a real signal about the image's ambiguity — not just human error. A model trained on such images inherits that ambiguity.</li>
+<li><strong>Label noise:</strong> the training label may simply be wrong — a missed diagnosis or a transcription error — which introduces irreducible noise into the learning signal.</li>
+</ul>
+<p>Critically, <strong>aleatoric uncertainty does not decrease as you collect more training data</strong>. If the image is blurry, showing the model a million more images won't help it read that particular blurry image better. The uncertainty is in the input, not in the model.</p>
+<hr/>
+<blockquote>
+<p><strong>🏥 Clinical response to aleatoric uncertainty</strong><br/>
+When aleatoric uncertainty is high, the right response is to improve the <em>input</em> — request a repeat image with better technique, order a different imaging modality (CT instead of X-ray), or seek expert consensus among multiple radiologists. The problem is in the data, not the model.</p>
+</blockquote>
+<div align="center" style="margin-top: 50px;">
+<img alt="No description has been provided for this image" src="assets/img/s2/section1.webp" width="700"/>
+</div>
+<p>Aleatoric uncertainty arises from ambiguity in the data itself, including image quality limitations, visual overlap between diseases, disagreement among experts, and label noise. Because the missing information is inherent to the observation, collecting additional training data does not eliminate this uncertainty. Instead, reducing aleatoric uncertainty requires improving the input—for example, by repeating the scan, using a different imaging modality, or seeking expert consensus.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=7d6d7649"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr/>
+<h2 id="%F0%9F%A7%A0-2.-Epistemic-uncertainty-%E2%80%94-model-ignorance">🧠 2. Epistemic uncertainty — model ignorance<a class="anchor-link" href="#%F0%9F%A7%A0-2.-Epistemic-uncertainty-%E2%80%94-model-ignorance">¶</a></h2><p><strong>Epistemic uncertainty</strong> comes from the model — from gaps in its knowledge. It is the uncertainty that arises because the model hasn't been trained on enough relevant data to have learned the right patterns.</p>
+<p>The word comes from the Greek <em>episteme</em> — knowledge. Epistemic uncertainty is uncertainty that <em>could</em> be reduced with more knowledge — more training data, better training, or a different model architecture. It reflects the model's ignorance rather than the world's irreducible noise.</p>
+<p>In medical imaging, epistemic uncertainty appears when:</p>
+<ul>
+<li><strong>Rare diseases or rare presentations:</strong> the model has seen very few examples of this condition, so its learned representation is unreliable</li>
+<li><strong>Scanner or protocol differences:</strong> the model was trained on images from one scanner type and is being deployed on images from a different one — the feature patterns it learned may not transfer</li>
+<li><strong>Demographics:</strong> a model trained predominantly on adult chest X-rays may have high epistemic uncertainty on pediatric images, simply because it hasn't seen enough of them</li>
+<li><strong>Out-of-distribution inputs:</strong> anything sufficiently different from the training distribution will trigger epistemic uncertainty — the model is in territory it hasn't mapped</li>
+</ul>
+<p>Critically, <strong>epistemic uncertainty decreases as you collect more relevant training data</strong>. If the model hasn't seen enough cases of viral pneumonia, training it on more viral pneumonia cases reduces its uncertainty on those presentations. The problem is in the model's knowledge, and knowledge can be expanded.</p>
+<hr/>
+<blockquote>
+<p><strong>🏥 Clinical response to epistemic uncertainty</strong><br/>
+When epistemic uncertainty is high, the right response is to route the case to a specialist with relevant expertise, flag it for dataset collection (this is a case the model should learn from), or acknowledge that this type of case is outside the AI's validated operating envelope. The problem is in the model's training, which can be improved over time.</p>
+</blockquote>
+<div align="center" style="margin-top: 50px;">
+<img alt="No description has been provided for this image" src="assets/img/s2/section2.webp" width="700"/>
+</div>
+<p>Epistemic uncertainty reflects gaps in a model's knowledge. Common clinical presentations lie within well-sampled regions of the training distribution and are associated with lower uncertainty, whereas rare diseases, unusual presentations, or out-of-distribution cases may fall outside these regions and produce higher uncertainty. Expanding the training dataset can reduce this form of uncertainty.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=ff2738d8"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr/>
+<h2 id="%E2%9A%96%EF%B8%8F-3.-The-formal-probabilistic-framing">⚖️ 3. The formal probabilistic framing<a class="anchor-link" href="#%E2%9A%96%EF%B8%8F-3.-The-formal-probabilistic-framing">¶</a></h2><p>This section introduces a little notation — just enough to understand how Phase 2 algorithms talk about the two types of uncertainty. Don't worry if the math feels unfamiliar; the intuition is what matters here.</p>
+<p>In a Bayesian framework (which we'll explore properly in Session 4), the full predictive distribution for a new input $x^*$ is:</p>
+<p>$$p(y^* \mid x^*, \mathcal{D}) = \int p(y^* \mid x^*, w) \cdot p(w \mid \mathcal{D}) \, dw$$</p>
+<p>This integral averages predictions over all plausible model weights $w$, weighted by how likely each weight configuration is given the training data $\mathcal{D}$.</p>
+<p>The total uncertainty in this prediction can be decomposed:</p>
+<p>$$\underbrace{\mathbb{H}[y^* \mid x^*, \mathcal{D}]}_{\text{total uncertainty}} = \underbrace{\mathbb{I}[y^*; w \mid x^*, \mathcal{D}]}_{\text{epistemic}} + \underbrace{\mathbb{E}_{p(w|\mathcal{D})}[\mathbb{H}[y^* \mid x^*, w]]}_{\text{aleatoric}}$$</p>
+<p>Reading this in plain language:</p>
+<ul>
+<li><strong>Total uncertainty</strong> ($\mathbb{H}$): the entropy of the full predictive distribution — how spread out is our prediction?</li>
+<li><strong>Epistemic</strong> (mutual information $\mathbb{I}$): how much does the prediction <em>change</em> as we vary the model weights? High when different plausible models disagree — the model hasn't seen enough data to converge.</li>
+<li><strong>Aleatoric</strong> (expected entropy $\mathbb{E}[\mathbb{H}]$): how uncertain is each individual model, on average? High when even a perfect model can't be certain — the signal in the data is inherently noisy.</li>
+</ul>
+<p>You don't need to memorize this formula. What matters is the intuition: <strong>epistemic uncertainty comes from disagreement between plausible models; aleatoric uncertainty is what remains even when models agree</strong>.</p>
+<p>We will revisit these formulas concretely in upcoming notebooks.</p>
+<div style="margin-top: 50px;">
+<img alt="No description has been provided for this image" src="assets/img/s2/section3.webp"/>
+</div>
+<p>Aleatoric uncertainty (left) arises from noise or ambiguity in the observations themselves and remains high even when data are abundant. Epistemic uncertainty (right) arises from gaps in the model's knowledge and is largest in regions where training data are sparse or absent. Additional data can reduce epistemic uncertainty, but not aleatoric uncertainty.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=8d290f57"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="%F0%9F%97%BA%EF%B8%8F-4.-Mapping-the-two-types-of-uncertainty-onto-a-clinical-workflow">🗺️ 4. Mapping the two types of uncertainty onto a clinical workflow<a class="anchor-link" href="#%F0%9F%97%BA%EF%B8%8F-4.-Mapping-the-two-types-of-uncertainty-onto-a-clinical-workflow">¶</a></h2><p>It helps to trace a chest X-ray from acquisition to diagnosis and ask: <em>at each step, where does each type of uncertainty enter?</em></p>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Source of uncertainty</th>
+<th>Type</th>
+<th>Reducible?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Image acquisition</strong></td>
+<td>Motion blur, poor positioning, low dose</td>
+<td>Aleatoric</td>
+<td>✅ Better technique</td>
+</tr>
+<tr>
+<td><strong>Image quality</strong></td>
+<td>Artifacts, overlapping structures</td>
+<td>Aleatoric</td>
+<td>✅ Repeat image</td>
+</tr>
+<tr>
+<td><strong>Pathology appearance</strong></td>
+<td>Disease looks like another disease</td>
+<td>Aleatoric</td>
+<td>❌ Irreducible overlap</td>
+</tr>
+<tr>
+<td><strong>Annotation</strong></td>
+<td>Radiologists disagree on label</td>
+<td>Aleatoric</td>
+<td>Partially — consensus helps</td>
+</tr>
+<tr>
+<td><strong>Rare condition</strong></td>
+<td>Few training examples</td>
+<td>Epistemic</td>
+<td>✅ More training data</td>
+</tr>
+<tr>
+<td><strong>Scanner mismatch</strong></td>
+<td>Different from training scanner</td>
+<td>Epistemic</td>
+<td>✅ Domain adaptation</td>
+</tr>
+<tr>
+<td><strong>New population</strong></td>
+<td>Different age, demographics</td>
+<td>Epistemic</td>
+<td>✅ Diverse training</td>
+</tr>
+<tr>
+<td><strong>OOD input</strong></td>
+<td>Fundamentally outside training distribution</td>
+<td>Epistemic</td>
+<td>✅ Expand training</td>
+</tr>
+</tbody>
+</table>
+<p>The table reveals an important pattern. <strong>Aleatoric uncertainty originates in the evidence itself</strong> — the image may be noisy, ambiguous, or difficult even for an expert. <strong>Epistemic uncertainty originates in the model's knowledge</strong> — the case lies outside what the model has learned from its training data. This distinction is not merely theoretical. It directly determines the appropriate clinical response.</p>
+<h3 id="Scenario-A-%E2%80%94-High-aleatoric-uncertainty">Scenario A — High aleatoric uncertainty<a class="anchor-link" href="#Scenario-A-%E2%80%94-High-aleatoric-uncertainty">¶</a></h3><p>A chest X-ray is technically poor: the patient moved during acquisition, the exposure is suboptimal, and important structures are difficult to interpret. The model reports high uncertainty. Further analysis shows that the epistemic component is low — different plausible models largely agree with one another — but the aleatoric component is high. In other words, the model is not confused because it lacks knowledge. It is uncertain because the image itself does not contain enough reliable information.</p>
+<p><strong>Clinical response:</strong> Improve the evidence. Repeat the X-ray with better positioning and technique, seek expert consensus, or order a CT scan if urgency is high. The AI has done its job by identifying that the input is unreliable.</p>
+<h3 id="Scenario-B-%E2%80%94-High-epistemic-uncertainty">Scenario B — High epistemic uncertainty<a class="anchor-link" href="#Scenario-B-%E2%80%94-High-epistemic-uncertainty">¶</a></h3><p>A different chest X-ray is technically excellent. The image is clear, well exposed, and contains no obvious artifacts. Yet the model still reports high uncertainty. This time the aleatoric component is low, but the epistemic component is high. Different plausible model configurations disagree substantially about the diagnosis. In other words, the image is not the problem. The model is. Perhaps the patient belongs to a demographic underrepresented in the training data. Perhaps the disease presentation is rare. Perhaps the image comes from a scanner or institution the model has never encountered.</p>
+<p><strong>Clinical response:</strong> Acknowledge the limits of the model's knowledge. Route the case to a specialist, avoid relying heavily on the AI prediction, and flag the case for future dataset collection and model improvement.</p>
+<h3 id="The-key-clinical-insight">The key clinical insight<a class="anchor-link" href="#The-key-clinical-insight">¶</a></h3><p>Two cases can produce the same total uncertainty score while requiring completely different actions.</p>
+<ul>
+<li><strong>High aleatoric uncertainty</strong> → improve the evidence.</li>
+<li><strong>High epistemic uncertainty</strong> → improve the knowledge.</li>
+<li><strong>High total uncertainty alone is not enough.</strong> The source of the uncertainty determines the response.</li>
+</ul>
+<p>This is why uncertainty decomposition matters. It transforms uncertainty from a warning signal into a clinically actionable tool.</p>
+<div align="center" style="margin-top: 50px;">
+<img alt="No description has been provided for this image" src="assets/img/s2/section4.webp" width="700"/>
+</div>
+<p>Aleatoric uncertainty arises from limitations in the data itself, including image acquisition issues, image quality artifacts, intrinsic diagnostic ambiguity, and disagreement between annotators. Epistemic uncertainty arises from limitations in the model's knowledge, including rare conditions, scanner shifts, new patient populations, and out-of-distribution inputs. Distinguishing between these uncertainty types is clinically important because they imply different actions: aleatoric uncertainty calls for better evidence, whereas epistemic uncertainty calls for greater expertise or expanded model knowledge.</p>
+<hr/>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=s2_0011"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="%F0%9F%93%9A-7.-Recommended-reading">📚 7. Recommended reading<a class="anchor-link" href="#%F0%9F%93%9A-7.-Recommended-reading">¶</a></h2><p>The papers below are among the most influential and widely cited references for understanding aleatoric and epistemic uncertainty.</p>
+<hr/>
+<p><strong><a href="https://doi.org/10.1016/j.strusafe.2008.06.020">Aleatory or Epistemic? Does It Matter?</a></strong><br/>
+<em>Der Kiureghian &amp; Ditlevsen, 2009 - Structural Safety</em><br/>
+A foundational treatment of the distinction between uncertainty caused by inherent variability and uncertainty caused by incomplete knowledge. Although written for risk and reliability analysis, it provides the conceptual roots of the terminology now widely used in machine learning.</p>
+<p><strong><a href="https://proceedings.neurips.cc/paper/2017/hash/2650d6089a6d640c5e85b2b88265dc2b-Abstract.html">What Uncertainties Do We Need in Bayesian Deep Learning for Computer Vision?</a></strong><br/>
+<em>Kendall &amp; Gal, 2017 - NeurIPS</em><br/>
+The landmark deep-learning paper for this distinction. It explains aleatoric uncertainty as observation noise and epistemic uncertainty as uncertainty about the model, then combines both within a Bayesian deep-learning framework for computer-vision tasks.</p>
+<p><strong><a href="https://proceedings.mlr.press/v80/depeweg18a.html">Decomposition of Uncertainty in Bayesian Deep Learning for Efficient and Risk-sensitive Learning</a></strong><br/>
+<em>Depeweg et al., 2018 - ICML</em><br/>
+A direct study of how predictive uncertainty can be decomposed into aleatoric and epistemic components. It also demonstrates why separating them matters for decisions such as active learning and risk-sensitive control.</p>
+<p><strong><a href="https://link.springer.com/article/10.1007/s10994-021-05946-3">Aleatoric and Epistemic Uncertainty in Machine Learning: An Introduction to Concepts and Methods</a></strong><br/>
+<em>Hüllermeier &amp; Waegeman, 2021 - Machine Learning</em><br/>
+A comprehensive and highly cited conceptual review. It examines the meaning, sources, representation, and limitations of both uncertainty types, making it especially useful after reading the shorter Kendall and Gal paper.</p>
+<hr/>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=feb88636"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="%E2%9C%85-Session-summary">✅ Session summary<a class="anchor-link" href="#%E2%9C%85-Session-summary">¶</a></h2><table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Key takeaway</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🎲 <strong>Aleatoric</strong></td>
+<td>Irreducible — comes from the data. Blurry images, inherent ambiguity, label noise. More data won't help.</td>
+</tr>
+<tr>
+<td>🧠 <strong>Epistemic</strong></td>
+<td>Reducible — comes from the model. Rare conditions, scanner mismatch, OOD inputs. More relevant data helps.</td>
+</tr>
+<tr>
+<td>📐 <strong>Decomposition</strong></td>
+<td>Total = Epistemic (MI) + Aleatoric (expected H)</td>
+</tr>
+<tr>
+<td>🔁 <strong>Actionability</strong></td>
+<td>Same total uncertainty, different component → completely different clinical response</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=e4a2e07f"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr/>
+<blockquote>
+<p><strong>➡️ Next: Session 3 — Uncertainty in Clinical Practice 🩺</strong><br/>
+Session 1 showed why confident wrong answers are dangerous. Session 2 separated uncertainty into aleatoric and epistemic components. Session 3 moves from machine learning back to medicine: how clinicians already reason probabilistically, how differential diagnosis works, and why a useful AI system should communicate uncertainty in a way that supports clinical decision-making.</p>
+</blockquote>
+</div>
+</div>
+</div>
+</article>
+  <nav class="pagenav"><a class="pagenav-card" href="session-1.html"><div class="pn-label">← Previous</div><div class="pn-title">Session 1: Why Uncertainty Matters in Medicine</div></a><a class="pagenav-card pagenav-next" href="session-3.html"><div class="pn-label">Next →</div><div class="pn-title">Session 3: Uncertainty in Clinical Practice</div></a></nav>
+  <div class="foot"><span>UQMI — Uncertainty Quantification of Machine Learning Models in Medical Imaging</span><span>Benyamin Gheiji · Danial Elyassirad · Mahsa Vatanparast · Shahriar Faghani</span></div>
+</div>
+
+</main>
+</div>
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+};
+</script>
+<script id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+<script>
+(function () {
+  var t = document.getElementById('navToggle');
+  var s = document.getElementById('scrim');
+  function close() { document.body.classList.remove('nav-open'); }
+  if (t) t.addEventListener('click', function () {
+    document.body.classList.toggle('nav-open');
+  });
+  if (s) s.addEventListener('click', close);
+})();
+</script>
+
+</body>
+</html>

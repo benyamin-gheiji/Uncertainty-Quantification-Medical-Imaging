@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 19: Final Summary &amp; Future Directions — UQMI</title>
+<meta name="description" content="Uncertainty Quantification of Machine Learning Models in Medical Imaging — a free, hands-on course.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.nb .highlight .hll { background-color: #49483e }
+.nb .highlight { background: #272822; color: #f8f8f2 }
+.nb .highlight .c { color: #75715e } /* Comment */
+.nb .highlight .err { color: #960050; background-color: #1e0010 } /* Error */
+.nb .highlight .esc { color: #f8f8f2 } /* Escape */
+.nb .highlight .g { color: #f8f8f2 } /* Generic */
+.nb .highlight .k { color: #66d9ef } /* Keyword */
+.nb .highlight .l { color: #ae81ff } /* Literal */
+.nb .highlight .n { color: #f8f8f2 } /* Name */
+.nb .highlight .o { color: #f92672 } /* Operator */
+.nb .highlight .x { color: #f8f8f2 } /* Other */
+.nb .highlight .p { color: #f8f8f2 } /* Punctuation */
+.nb .highlight .ch { color: #75715e } /* Comment.Hashbang */
+.nb .highlight .cm { color: #75715e } /* Comment.Multiline */
+.nb .highlight .cp { color: #75715e } /* Comment.Preproc */
+.nb .highlight .cpf { color: #75715e } /* Comment.PreprocFile */
+.nb .highlight .c1 { color: #75715e } /* Comment.Single */
+.nb .highlight .cs { color: #75715e } /* Comment.Special */
+.nb .highlight .gd { color: #f92672 } /* Generic.Deleted */
+.nb .highlight .ge { color: #f8f8f2; font-style: italic } /* Generic.Emph */
+.nb .highlight .gr { color: #f8f8f2 } /* Generic.Error */
+.nb .highlight .gh { color: #f8f8f2 } /* Generic.Heading */
+.nb .highlight .gi { color: #a6e22e } /* Generic.Inserted */
+.nb .highlight .go { color: #66d9ef } /* Generic.Output */
+.nb .highlight .gp { color: #f92672; font-weight: bold } /* Generic.Prompt */
+.nb .highlight .gs { color: #f8f8f2; font-weight: bold } /* Generic.Strong */
+.nb .highlight .gu { color: #75715e } /* Generic.Subheading */
+.nb .highlight .gt { color: #f8f8f2 } /* Generic.Traceback */
+.nb .highlight .kc { color: #66d9ef } /* Keyword.Constant */
+.nb .highlight .kd { color: #66d9ef } /* Keyword.Declaration */
+.nb .highlight .kn { color: #f92672 } /* Keyword.Namespace */
+.nb .highlight .kp { color: #66d9ef } /* Keyword.Pseudo */
+.nb .highlight .kr { color: #66d9ef } /* Keyword.Reserved */
+.nb .highlight .kt { color: #66d9ef } /* Keyword.Type */
+.nb .highlight .ld { color: #e6db74 } /* Literal.Date */
+.nb .highlight .m { color: #ae81ff } /* Literal.Number */
+.nb .highlight .s { color: #e6db74 } /* Literal.String */
+.nb .highlight .na { color: #a6e22e } /* Name.Attribute */
+.nb .highlight .nb { color: #f8f8f2 } /* Name.Builtin */
+.nb .highlight .nc { color: #a6e22e } /* Name.Class */
+.nb .highlight .no { color: #66d9ef } /* Name.Constant */
+.nb .highlight .nd { color: #a6e22e } /* Name.Decorator */
+.nb .highlight .ni { color: #f8f8f2 } /* Name.Entity */
+.nb .highlight .ne { color: #a6e22e } /* Name.Exception */
+.nb .highlight .nf { color: #a6e22e } /* Name.Function */
+.nb .highlight .nl { color: #f8f8f2 } /* Name.Label */
+.nb .highlight .nn { color: #f8f8f2 } /* Name.Namespace */
+.nb .highlight .nx { color: #a6e22e } /* Name.Other */
+.nb .highlight .py { color: #f8f8f2 } /* Name.Property */
+.nb .highlight .nt { color: #f92672 } /* Name.Tag */
+.nb .highlight .nv { color: #f8f8f2 } /* Name.Variable */
+.nb .highlight .ow { color: #f92672 } /* Operator.Word */
+.nb .highlight .pm { color: #f8f8f2 } /* Punctuation.Marker */
+.nb .highlight .w { color: #f8f8f2 } /* Text.Whitespace */
+.nb .highlight .mb { color: #ae81ff } /* Literal.Number.Bin */
+.nb .highlight .mf { color: #ae81ff } /* Literal.Number.Float */
+.nb .highlight .mh { color: #ae81ff } /* Literal.Number.Hex */
+.nb .highlight .mi { color: #ae81ff } /* Literal.Number.Integer */
+.nb .highlight .mo { color: #ae81ff } /* Literal.Number.Oct */
+.nb .highlight .sa { color: #e6db74 } /* Literal.String.Affix */
+.nb .highlight .sb { color: #e6db74 } /* Literal.String.Backtick */
+.nb .highlight .sc { color: #e6db74 } /* Literal.String.Char */
+.nb .highlight .dl { color: #e6db74 } /* Literal.String.Delimiter */
+.nb .highlight .sd { color: #e6db74 } /* Literal.String.Doc */
+.nb .highlight .s2 { color: #e6db74 } /* Literal.String.Double */
+.nb .highlight .se { color: #ae81ff } /* Literal.String.Escape */
+.nb .highlight .sh { color: #e6db74 } /* Literal.String.Heredoc */
+.nb .highlight .si { color: #e6db74 } /* Literal.String.Interpol */
+.nb .highlight .sx { color: #e6db74 } /* Literal.String.Other */
+.nb .highlight .sr { color: #e6db74 } /* Literal.String.Regex */
+.nb .highlight .s1 { color: #e6db74 } /* Literal.String.Single */
+.nb .highlight .ss { color: #e6db74 } /* Literal.String.Symbol */
+.nb .highlight .bp { color: #f8f8f2 } /* Name.Builtin.Pseudo */
+.nb .highlight .fm { color: #a6e22e } /* Name.Function.Magic */
+.nb .highlight .vc { color: #f8f8f2 } /* Name.Variable.Class */
+.nb .highlight .vg { color: #f8f8f2 } /* Name.Variable.Global */
+.nb .highlight .vi { color: #f8f8f2 } /* Name.Variable.Instance */
+.nb .highlight .vm { color: #f8f8f2 } /* Name.Variable.Magic */
+.nb .highlight .il { color: #ae81ff } /* Literal.Number.Integer.Long */
+.nb .highlight { background: transparent !important; }
+.nb .highlight pre { background: transparent; }
+</style>
+
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<button class="sb-toggle" id="navToggle" aria-label="Toggle navigation">☰ Menu</button>
+<div class="sb-scrim" id="scrim"></div>
+<div class="shell">
+<aside class="sidebar" id="sidebar">
+  <div class="sb-brand">
+    <a class="sb-mark" href="index.html">🏥 UQMI</a>
+    <div class="sb-tagline">Uncertainty Quantification<br>in Medical Imaging</div>
+  </div>
+  <nav class="sb-nav">
+    <a class="sb-home" href="index.html">🏠 &nbsp;Home</a>
+    <div class="sb-part">
+      <a class="sb-part-label" href="part-1.html">🌱 Part 1 — Foundations</a>
+      <a class="sb-item" href="session-1.html"><span class="n">1</span><span>Why Uncertainty Matters in Medicine</span></a>
+      <a class="sb-item" href="session-2.html"><span class="n">2</span><span>Aleatoric vs Epistemic Uncertainty</span></a>
+      <a class="sb-item" href="session-3.html"><span class="n">3</span><span>Uncertainty in Clinical Practice</span></a>
+    </div>
+    <div class="sb-part">
+      <a class="sb-part-label" href="part-2.html">⚙️ Part 2 — Core UQ Methods</a>
+      <a class="sb-item" href="session-4.html"><span class="n">4</span><span>The Bayesian Perspective</span></a>
+      <a class="sb-item" href="session-5.html"><span class="n">5</span><span>Variational Inference</span></a>
+      <a class="sb-item" href="session-6.html"><span class="n">6</span><span>Variational Inference — Implementation</span></a>
+      <a class="sb-item" href="session-7.html"><span class="n">7</span><span>MC Dropout</span></a>
+      <a class="sb-item" href="session-8.html"><span class="n">8</span><span>MC Dropout — Implementation</span></a>
+      <a class="sb-item" href="session-9.html"><span class="n">9</span><span>Deep Ensembles</span></a>
+      <a class="sb-item" href="session-10.html"><span class="n">10</span><span>Deep Ensembles — Implementation</span></a>
+      <a class="sb-item" href="session-11.html"><span class="n">11</span><span>Evidential Deep Learning</span></a>
+      <a class="sb-item" href="session-12.html"><span class="n">12</span><span>Evidential Deep Learning — Implementation</span></a>
+      <a class="sb-item" href="session-13.html"><span class="n">13</span><span>Conformal Prediction</span></a>
+      <a class="sb-item" href="session-14.html"><span class="n">14</span><span>Conformal Prediction — Implementation</span></a>
+      <a class="sb-item" href="session-15.html"><span class="n">15</span><span>Part 2 Summary</span></a>
+    </div>
+    <div class="sb-part">
+      <a class="sb-part-label" href="part-3.html">📐 Part 3 — Evaluation & Reliability</a>
+      <a class="sb-item" href="session-16.html"><span class="n">16</span><span>Calibration</span></a>
+      <a class="sb-item" href="session-17.html"><span class="n">17</span><span>Risk–Coverage Analysis</span></a>
+      <a class="sb-item" href="session-18.html"><span class="n">18</span><span>Out-of-Distribution Detection</span></a>
+    </div>
+    <div class="sb-part">
+      <a class="sb-part-label" href="part-4.html">🧭 Part 4 — Future Directions</a>
+      <a class="sb-item active" href="session-19.html"><span class="n">19</span><span>Final Summary &amp; Future Directions</span></a>
+    </div>
+    <div class="sb-part">
+      <span class="sb-part-label">🎉 Course Complete</span>
+      <a class="sb-item" href="credits.html"><span class="n">✦</span><span>Congratulations &amp; Credits</span></a>
+    </div>
+  </nav>
+  <div class="sb-foot">
+    <div class="sb-foot-label">Created by</div>
+    <div class="sb-foot-names">Benyamin Gheiji<br>Danial Elyassirad<br>Mahsa Vatanparast<br>Shahriar Faghani</div>
+  </div>
+</aside>
+<main class="main" id="main">
+
+<div class="wrap">
+  <div class="crumb"><a href="index.html">🏠 Home</a><span class="sep">›</span><a href="part-4.html">Part 4 — Future Directions</a><span class="sep">›</span><span class="here">Session 19</span></div>
+  
+<a class="kaggle" href="https://www.kaggle.com/code/benyamingheiji/session-19-final-summary-future-directions" target="_blank" rel="noopener">
+  <span class="k-ico">📓</span>
+  <span class="k-txt">
+    <span class="k-title">Open this session on Kaggle</span>
+    <span class="k-sub">Run the notebook interactively — no local setup required</span>
+  </span>
+  <span class="k-arrow">↗</span>
+</a>
+  <article class="nb"><div class="cell border-box-sizing text_cell rendered" id="cell-id=97857785"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="%F0%9F%8C%8C-Session-19---Final-View:-Uncertainty,-Trust,-and-the-Future-of-Clinical-AI">🌌 Session 19 - Final View: Uncertainty, Trust, and the Future of Clinical AI<a class="anchor-link" href="#%F0%9F%8C%8C-Session-19---Final-View:-Uncertainty,-Trust,-and-the-Future-of-Clinical-AI">¶</a></h1><p><strong>Final notebook</strong></p>
+<blockquote>
+<p>A useful clinical AI system is not only a system that predicts. It is a system that helps people decide what should happen next.</p>
+</blockquote>
+<div align="center" style="margin-top: 50px;"> <img alt="No description has been provided for this image" src="assets/img/s19/intro.webp" width="700"/> </div>
+<hr/>
+<h3 id="What-this-notebook-is-about">What this notebook is about<a class="anchor-link" href="#What-this-notebook-is-about">¶</a></h3><p>This notebook closes the course by stepping back from individual methods and asking what uncertainty quantification is really for.</p>
+<p>By now, you have seen Bayesian perspectives, variational inference, MC dropout, evidential deep learning, conformal prediction, calibration, risk-coverage analysis, and out-of-distribution detection. Each method gives us a different language for uncertainty. But clinical usefulness does not come from having more uncertainty scores. It comes from knowing what those scores mean, when they fail, and how they should change human action.</p>
+<p>This session is not a formula sheet. It is a thinking notebook.</p>
+<h3 id="What-you-should-leave-with">What you should leave with<a class="anchor-link" href="#What-you-should-leave-with">¶</a></h3><ul>
+<li>A clearer mental model of what different uncertainty methods actually promise</li>
+<li>A sharper sense of the tradeoffs between accuracy, calibration, coverage, abstention, and clinical workflow</li>
+<li>A practical way to think about uncertainty in deployment</li>
+<li>A set of future-facing questions about what the next generation of medical AI systems should become</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=7b5b60b8"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr/>
+<h2 id="%F0%9F%8E%AF-1.-The-central-lesson-of-the-course">🎯 1. The central lesson of the course<a class="anchor-link" href="#%F0%9F%8E%AF-1.-The-central-lesson-of-the-course">¶</a></h2><p>The first lesson was simple, but it remains the most important one:</p>
+<p><strong>Accuracy does not tell us whether a model knows when it might be wrong.</strong></p>
+<p>A classifier can achieve high test accuracy and still be dangerous if its errors are confident, invisible, or concentrated in clinically important subgroups. In medical settings, the question is rarely just, "Did the model predict the right label?" The more important questions are often:</p>
+<ul>
+<li>Did the model express the right amount of confidence?</li>
+<li>Did uncertainty rise on ambiguous, rare, corrupted, or unfamiliar cases?</li>
+<li>Did the uncertainty estimate help the clinician decide what to do next?</li>
+<li>Did the system fail quietly or visibly?</li>
+<li>Did performance hold across hospitals, scanners, patient groups, and time?</li>
+</ul>
+<p>Uncertainty quantification matters because clinical decisions are made under incomplete information. A model that refuses to express uncertainty is pretending that the world is cleaner than it is.</p>
+<h3 id="Reflective-pause">Reflective pause<a class="anchor-link" href="#Reflective-pause">¶</a></h3><p>Think back to the opening pneumonia screening scenario. Suppose two models have the same accuracy. One is poorly calibrated but highly decisive. The other is slightly less accurate but much better at flagging uncertainty.</p>
+<p>Which one would you deploy in an emergency department? What extra evidence would you need before answering?</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=c4551373"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr/>
+<h2 id="%F0%9F%97%BA%EF%B8%8F-2.-The-course-arc-in-one-view">🗺️ 2. The course arc in one view<a class="anchor-link" href="#%F0%9F%97%BA%EF%B8%8F-2.-The-course-arc-in-one-view">¶</a></h2><table>
+<thead>
+<tr>
+<th>Theme</th>
+<th>Core question</th>
+<th>Why it matters clinically</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Why uncertainty matters</td>
+<td>What does accuracy hide?</td>
+<td>Prevents blind trust in confident errors</td>
+</tr>
+<tr>
+<td>Aleatoric vs epistemic uncertainty</td>
+<td>Is the case inherently ambiguous, or is the model underinformed?</td>
+<td>Separates noise in the patient data from gaps in model knowledge</td>
+</tr>
+<tr>
+<td>Bayesian thinking</td>
+<td>What would it mean to represent uncertainty over models?</td>
+<td>Treats predictions as distributions rather than single answers</td>
+</tr>
+<tr>
+<td>Variational inference</td>
+<td>Can we approximate Bayesian learning efficiently?</td>
+<td>Makes Bayesian reasoning more practical, but approximate</td>
+</tr>
+<tr>
+<td>MC dropout</td>
+<td>Can stochastic forward passes reveal uncertainty?</td>
+<td>Gives a simple uncertainty baseline using existing neural networks</td>
+</tr>
+<tr>
+<td>Deep ensembles</td>
+<td>Can multiple independently trained models capture uncertainty?</td>
+<td>Provides a strong, practical baseline for uncertainty</td>
+</tr>
+<tr>
+<td>Evidential deep learning</td>
+<td>Can the model predict evidence for each class?</td>
+<td>Offers fast uncertainty estimates, but requires careful interpretation</td>
+</tr>
+<tr>
+<td>Conformal prediction</td>
+<td>Can we guarantee coverage under assumptions?</td>
+<td>Produces prediction sets with a statistical promise</td>
+</tr>
+<tr>
+<td>Calibration</td>
+<td>Do predicted probabilities mean what they claim?</td>
+<td>Helps clinicians interpret risk scores as probabilities</td>
+</tr>
+<tr>
+<td>Risk-coverage</td>
+<td>What happens if the model abstains on uncertain cases?</td>
+<td>Connects uncertainty to workload, triage, and safety</td>
+</tr>
+<tr>
+<td>OOD detection</td>
+<td>Does the input look unlike the training world?</td>
+<td>Flags cases where ordinary confidence may be misleading</td>
+</tr>
+</tbody>
+</table>
+<p>This table is not a ranking. It is a map. Different methods answer different questions, and a deployment-grade system may need several of them working together.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=4fb6b40c"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr/>
+<h2 id="%F0%9F%A7%AD-3.-Five-questions-every-uncertainty-method-must-answer">🧭 3. Five questions every uncertainty method must answer<a class="anchor-link" href="#%F0%9F%A7%AD-3.-Five-questions-every-uncertainty-method-must-answer">¶</a></h2><p>When evaluating any uncertainty method, ask these five questions before asking whether it is "state of the art."</p>
+<h3 id="1.-What-kind-of-uncertainty-is-it-trying-to-capture?">1. What kind of uncertainty is it trying to capture?<a class="anchor-link" href="#1.-What-kind-of-uncertainty-is-it-trying-to-capture?">¶</a></h3><p>Some methods are better at modeling epistemic uncertainty: uncertainty due to limited data, unfamiliar inputs, or model ignorance. Others are better at representing predictive ambiguity or calibration. Conformal prediction gives coverage guarantees, but it does not automatically explain why a case is uncertain.</p>
+<h3 id="2.-What-is-the-unit-of-uncertainty?">2. What is the unit of uncertainty?<a class="anchor-link" href="#2.-What-is-the-unit-of-uncertainty?">¶</a></h3><p>Is uncertainty attached to a class probability, a prediction set, a segmentation mask, a patient trajectory, a model parameter, or an input distribution? A single scalar uncertainty score may be convenient, but clinical uncertainty is rarely scalar.</p>
+<h3 id="3.-What-assumptions-make-the-estimate-valid?">3. What assumptions make the estimate valid?<a class="anchor-link" href="#3.-What-assumptions-make-the-estimate-valid?">¶</a></h3><p>Every method rests on assumptions. Conformal prediction depends on exchangeability. Calibration depends on validation data that resembles future deployment data. OOD detection depends on what is treated as out-of-distribution. Bayesian approximations depend on the quality of the approximation.</p>
+<h3 id="4.-What-action-should-uncertainty-trigger?">4. What action should uncertainty trigger?<a class="anchor-link" href="#4.-What-action-should-uncertainty-trigger?">¶</a></h3><p>Uncertainty is only useful if it changes behavior. It might trigger radiologist review, additional imaging, delayed automation, a second model, a warning message, or a wider prediction set. If the system cannot explain what should happen when uncertainty is high, the uncertainty estimate is unfinished.</p>
+<h3 id="5.-How-does-the-method-fail?">5. How does the method fail?<a class="anchor-link" href="#5.-How-does-the-method-fail?">¶</a></h3><p>Good evaluation includes failure analysis. Does the method become overconfident under domain shift? Does it abstain too often? Does it hide subgroup errors? Does it produce uncertainty that looks mathematically elegant but does not match clinical risk?</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=792ee45a"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr/>
+<h2 id="%E2%9A%96%EF%B8%8F-4.-The-deeper-tension:-probability-is-not-the-same-as-trust">⚖️ 4. The deeper tension: probability is not the same as trust<a class="anchor-link" href="#%E2%9A%96%EF%B8%8F-4.-The-deeper-tension:-probability-is-not-the-same-as-trust">¶</a></h2><p>A calibrated probability is valuable, but it is not the same thing as trustworthiness.</p>
+<p>A model can be calibrated on average and still fail badly for rare populations. It can achieve strong OOD AUROC and still miss clinically meaningful distribution shifts. It can produce valid conformal coverage globally while giving very large prediction sets for the patients who most need clarity. It can have a beautiful risk-coverage curve and still be hard to integrate into a real clinical workflow.</p>
+<p>Trust is not a property of a number. It is a property of a system in context.</p>
+<p>For clinical AI, trust depends on at least four layers:</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Question</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Statistical</td>
+<td>Are the probabilities, intervals, or sets empirically valid?</td>
+</tr>
+<tr>
+<td>Clinical</td>
+<td>Do the uncertainty signals correspond to meaningful clinical ambiguity or risk?</td>
+</tr>
+<tr>
+<td>Operational</td>
+<td>Can the workflow absorb uncertainty without overload?</td>
+</tr>
+<tr>
+<td>Ethical</td>
+<td>Are uncertainty and error distributed fairly across patients and sites?</td>
+</tr>
+</tbody>
+</table>
+<p>A system can succeed at one layer and fail at another. This is why uncertainty quantification must be evaluated as part of a decision process, not just as a mathematical output.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=77a86133"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr/>
+<h2 id="%F0%9F%94%AC-5.-Method-comparison-as-judgment,-not-memorization">🔬 5. Method comparison as judgment, not memorization<a class="anchor-link" href="#%F0%9F%94%AC-5.-Method-comparison-as-judgment,-not-memorization">¶</a></h2><p>It is tempting to ask, "Which uncertainty method is best?" That is usually the wrong question.</p>
+<p>A better question is:</p>
+<p><strong>Best for what decision, under what constraints, with what failure mode?</strong></p>
+<table>
+<thead>
+<tr>
+<th>Method family</th>
+<th>Strength</th>
+<th>Common limitation</th>
+<th>Best used when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Variational inference</td>
+<td>Principled Bayesian framing</td>
+<td>Approximation quality can be hard to judge</td>
+<td>You want model uncertainty and can afford training changes</td>
+</tr>
+<tr>
+<td>MC dropout</td>
+<td>Simple, practical, easy to add</td>
+<td>Often underestimates uncertainty and depends on dropout behavior</td>
+<td>You need a lightweight baseline</td>
+</tr>
+<tr>
+<td>Deep ensembles</td>
+<td>Strong empirical uncertainty baseline</td>
+<td>Computationally expensive</td>
+<td>Reliability matters more than inference cost</td>
+</tr>
+<tr>
+<td>Evidential deep learning</td>
+<td>Fast single-pass uncertainty</td>
+<td>Evidence can be overinterpreted without careful validation</td>
+<td>You need efficient prediction-time uncertainty</td>
+</tr>
+<tr>
+<td>Conformal prediction</td>
+<td>Coverage guarantees under assumptions</td>
+<td>Prediction sets may be too large or poorly localized</td>
+<td>You need a clear statistical promise</td>
+</tr>
+<tr>
+<td>Calibration methods</td>
+<td>Improve probability interpretation</td>
+<td>Do not solve OOD or subgroup failure alone</td>
+<td>Probability scores will guide decisions</td>
+</tr>
+<tr>
+<td>Risk-coverage analysis</td>
+<td>Connects uncertainty to abstention</td>
+<td>Depends on a policy for rejected cases</td>
+<td>You need to decide what the model should handle automatically</td>
+</tr>
+<tr>
+<td>OOD detection</td>
+<td>Tests unfamiliarity</td>
+<td>OOD is not one thing; definitions matter</td>
+<td>Deployment environments may shift</td>
+</tr>
+</tbody>
+</table>
+<p>The mature view is not method loyalty. It is method literacy.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=9a0fa4e9"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr/>
+<h2 id="%F0%9F%8F%A5-6.-From-uncertainty-score-to-clinical-action">🏥 6. From uncertainty score to clinical action<a class="anchor-link" href="#%F0%9F%8F%A5-6.-From-uncertainty-score-to-clinical-action">¶</a></h2><p>A model output is not the end of the pipeline. It is the beginning of a decision.</p>
+<p>A practical uncertainty-aware deployment can be framed as a loop:</p>
+<ol>
+<li>The model predicts.</li>
+<li>The system estimates uncertainty.</li>
+<li>The system decides whether the prediction is actionable.</li>
+<li>The clinician sees either a recommendation, a warning, a prediction set, or an escalation.</li>
+<li>Outcomes are monitored after deployment.</li>
+<li>Drift, calibration, subgroup performance, and abstention rates are audited over time.</li>
+</ol>
+<p>The key point is that uncertainty should not merely decorate a prediction. It should participate in the workflow.</p>
+<h3 id="Example-deployment-policy">Example deployment policy<a class="anchor-link" href="#Example-deployment-policy">¶</a></h3><table>
+<thead>
+<tr>
+<th>Model state</th>
+<th>System behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>High confidence, calibrated, ID-like input</td>
+<td>Show prediction with normal decision support</td>
+</tr>
+<tr>
+<td>Moderate uncertainty</td>
+<td>Show prediction plus caution and relevant alternatives</td>
+</tr>
+<tr>
+<td>High uncertainty</td>
+<td>Recommend expert review or additional evidence</td>
+</tr>
+<tr>
+<td>OOD warning</td>
+<td>Do not automate; route to human review</td>
+</tr>
+<tr>
+<td>Calibration drift detected</td>
+<td>Reduce automation threshold and trigger model audit</td>
+</tr>
+</tbody>
+</table>
+<p>This kind of policy is where uncertainty becomes clinically meaningful. Without a policy, uncertainty is just another number on a screen.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=fe559173"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr/>
+<h2 id="%F0%9F%A7%A9-7.-The-hard-problems-that-remain">🧩 7. The hard problems that remain<a class="anchor-link" href="#%F0%9F%A7%A9-7.-The-hard-problems-that-remain">¶</a></h2><p>Uncertainty quantification is powerful, but it is not solved. Several hard problems remain open.</p>
+<h3 id="7.1-Uncertainty-is-often-too-compressed">7.1 Uncertainty is often too compressed<a class="anchor-link" href="#7.1-Uncertainty-is-often-too-compressed">¶</a></h3><p>Many systems reduce uncertainty to one number. But a clinician may need to know whether the uncertainty comes from image quality, an ambiguous anatomical pattern, conflicting evidence, scanner shift, patient demographics, or missing clinical history.</p>
+<p>Future systems should move from scalar uncertainty toward structured uncertainty explanations.</p>
+<h3 id="7.2-Distribution-shift-is-not-a-rare-event">7.2 Distribution shift is not a rare event<a class="anchor-link" href="#7.2-Distribution-shift-is-not-a-rare-event">¶</a></h3><p>Hospitals change. Imaging devices change. Protocols change. Patient populations change. Disease prevalence changes. A model that was calibrated last year may not be calibrated now.</p>
+<p>The future of uncertainty will require continuous monitoring, not one-time validation.</p>
+<h3 id="7.3-Foundation-models-change-the-question">7.3 Foundation models change the question<a class="anchor-link" href="#7.3-Foundation-models-change-the-question">¶</a></h3><p>Large pretrained models may generalize better across settings, but they also introduce new uncertainty problems. Their training data can be opaque. Their failure modes can be subtle. Their confidence may reflect pretraining artifacts rather than clinical reliability.</p>
+<p>A bigger model is not automatically a more honest model.</p>
+<h3 id="7.4-Human-AI-interaction-is-still-underdeveloped">7.4 Human-AI interaction is still underdeveloped<a class="anchor-link" href="#7.4-Human-AI-interaction-is-still-underdeveloped">¶</a></h3><p>Even a perfect uncertainty estimate can be misused if it is displayed poorly. Clinicians may over-trust, under-trust, ignore, or misunderstand uncertainty signals.</p>
+<p>The interface is part of the model's safety system.</p>
+<h3 id="7.5-Fairness-and-uncertainty-are-connected">7.5 Fairness and uncertainty are connected<a class="anchor-link" href="#7.5-Fairness-and-uncertainty-are-connected">¶</a></h3><p>Uncertainty often rises where data are sparse. That can be helpful, because it reveals model ignorance. It can also be harmful, because it may shift more burden onto already underserved groups.</p>
+<p>A fair uncertainty-aware system must ask not only who receives correct predictions, but who receives useful confidence, useful abstention, and useful follow-up.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=5275730a"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr/>
+<h2 id="%F0%9F%94%AD-8.-Future-directions-worth-thinking-about">🔭 8. Future directions worth thinking about<a class="anchor-link" href="#%F0%9F%94%AD-8.-Future-directions-worth-thinking-about">¶</a></h2><p>The next generation of uncertainty-aware medical AI will likely move beyond isolated uncertainty scores. Some important future directions are:</p>
+<h3 id="Decision-centered-uncertainty">Decision-centered uncertainty<a class="anchor-link" href="#Decision-centered-uncertainty">¶</a></h3><p>Instead of asking, "How uncertain is the model?" we should ask, "How much does this uncertainty matter for the next decision?" A tiny uncertainty difference may be irrelevant for one workflow and critical for another.</p>
+<h3 id="Multimodal-uncertainty">Multimodal uncertainty<a class="anchor-link" href="#Multimodal-uncertainty">¶</a></h3><p>Clinical decisions combine images, notes, labs, history, vitals, and clinician judgment. Future systems need to express uncertainty across multiple evidence streams, not just a single image.</p>
+<h3 id="Causal-and-counterfactual-uncertainty">Causal and counterfactual uncertainty<a class="anchor-link" href="#Causal-and-counterfactual-uncertainty">¶</a></h3><p>A model may know that an image pattern correlates with disease, but not whether it reflects the causal process clinicians care about. Future uncertainty methods may need to distinguish statistical ambiguity from causal uncertainty.</p>
+<h3 id="Regulatory-grade-uncertainty-evidence">Regulatory-grade uncertainty evidence<a class="anchor-link" href="#Regulatory-grade-uncertainty-evidence">¶</a></h3><p>As AI systems enter clinical practice, uncertainty claims will need to be documented, audited, and justified. It will not be enough to report an uncertainty metric. Developers may need to show how uncertainty affects safety, workload, equity, and patient outcomes.</p>
+<h3 id="Human-centered-uncertainty-interfaces">Human-centered uncertainty interfaces<a class="anchor-link" href="#Human-centered-uncertainty-interfaces">¶</a></h3><p>The best uncertainty estimate is useless if it is misunderstood. Future work must study how clinicians interpret uncertainty displays, prediction sets, abstention messages, and OOD warnings in real workflows.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=4d4eb1b0"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><em>The goal is not to build a model that is always confident. The goal is to build a system that is appropriately confident, visibly uncertain, and clinically useful when the world becomes messy. That is the deeper promise of uncertainty quantification.</em></p>
+</div>
+</div>
+</div>
+</article>
+  <nav class="pagenav"><a class="pagenav-card" href="part-4.html"><div class="pn-label">← Previous</div><div class="pn-title">Part 4 — Future Directions</div></a><a class="pagenav-card pagenav-next" href="credits.html"><div class="pn-label">Next →</div><div class="pn-title">Congratulations &amp; Credits</div></a></nav>
+  <div class="foot"><span>UQMI — Uncertainty Quantification of Machine Learning Models in Medical Imaging</span><span>Benyamin Gheiji · Danial Elyassirad · Mahsa Vatanparast · Shahriar Faghani</span></div>
+</div>
+
+</main>
+</div>
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+};
+</script>
+<script id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+<script>
+(function () {
+  var t = document.getElementById('navToggle');
+  var s = document.getElementById('scrim');
+  function close() { document.body.classList.remove('nav-open'); }
+  if (t) t.addEventListener('click', function () {
+    document.body.classList.toggle('nav-open');
+  });
+  if (s) s.addEventListener('click', close);
+})();
+</script>
+
+</body>
+</html>
