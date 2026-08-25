@@ -149,7 +149,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
   </nav>
   <div class="sb-foot">
     <div class="sb-foot-label">Created by</div>
-    <div class="sb-foot-names">Benyamin Gheiji<br>Danial Elyassirad<br>Mahsa Vatanparast<br>Shahriar Faghani</div>
+    <div class="sb-foot-names">Benyamin Gheiji<br>Danial Elyassirad<br>Mahsa Vatanparast<br>Chen Chen<br>Shahriar Faghani</div>
   </div>
 </aside>
 <main class="main" id="main">
@@ -165,19 +165,17 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
   </span>
   <span class="k-arrow">↗</span>
 </a>
-  <article class="nb"><div class="cell border-box-sizing text_cell rendered" id="cell-id=s3d_0001"><div class="inner_cell">
+  <article class="nb"><div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Session-3-%E2%80%94-Uncertainty-in-Clinical-Practice-%F0%9F%A9%BA">Session 3 — Uncertainty in Clinical Practice 🩺<a class="anchor-link" href="#Session-3-%E2%80%94-Uncertainty-in-Clinical-Practice-%F0%9F%A9%BA">¶</a></h1><p><strong>Part 1 — Foundations</strong></p>
-<blockquote>
-<p><em>Uncertainty quantification is not a new idea invented by machine learning researchers. It is what good clinicians have always done — and what we are now trying to teach machines to do.</em></p>
+<h1 id="Session-3-%E2%80%94-Uncertainty-in-Clinical-Practice-%F0%9F%A9%BA">Session 3 &#8212; Uncertainty in Clinical Practice &#129658;<a class="anchor-link" href="#Session-3-%E2%80%94-Uncertainty-in-Clinical-Practice-%F0%9F%A9%BA">&#182;</a></h1><p><strong>Part 1 — Foundations</strong></p>
+<blockquote><p><em>Uncertainty quantification is not a new idea invented by machine learning researchers. It is what good clinicians have always done — and what we are now trying to teach machines to do.</em></p>
 </blockquote>
 <div align="center" style="margin-top: 50px;">
-<img alt="No description has been provided for this image" src="assets/img/s3/intro.webp" width="700"/>
-</div>
-<h3 id="%F0%9F%94%97-Bridge-from-Sessions-1-&amp;-2">🔗 Bridge from Sessions 1 &amp; 2<a class="anchor-link" href="#%F0%9F%94%97-Bridge-from-Sessions-1-&amp;-2">¶</a></h3><p>Session 1 showed us that a model that always answers confidently is not as useful as one that knows when to be uncertain. Session 2 gave us two types of uncertainty — aleatoric and epistemic — and showed why the distinction is clinically actionable. This session asks a deeper question: <em>is uncertainty in clinical AI really a new problem?</em></p>
+    <img src="assets/img/s3/intro.webp" width="700" />
+</div><h3 id="%F0%9F%94%97-Bridge-from-Sessions-1-&amp;-2">&#128279; Bridge from Sessions 1 &amp; 2<a class="anchor-link" href="#%F0%9F%94%97-Bridge-from-Sessions-1-&amp;-2">&#182;</a></h3><p>Session 1 showed us that a model that always answers confidently is not as useful as one that knows when to be uncertain. Session 2 gave us two types of uncertainty — aleatoric and epistemic — and showed why the distinction is clinically actionable. This session asks a deeper question: <em>is uncertainty in clinical AI really a new problem?</em></p>
 <p>The answer is no. Clinicians have been navigating uncertainty for as long as medicine has existed. The tools they use — differential diagnosis, pre-test probability, likelihood ratios, clinical reasoning — are all forms of probabilistic reasoning. Understanding how clinicians handle uncertainty is the best starting point for understanding what we want from AI systems.</p>
-<hr/>
-<h3 id="What-you'll-learn-in-this-session">What you'll learn in this session<a class="anchor-link" href="#What-you'll-learn-in-this-session">¶</a></h3><ul>
+<hr>
+<h3 id="What-you'll-learn-in-this-session">What you'll learn in this session<a class="anchor-link" href="#What-you'll-learn-in-this-session">&#182;</a></h3><ul>
 <li>How clinicians <strong>already reason probabilistically</strong> — and have done so for centuries</li>
 <li>What a <strong>differential diagnosis</strong> is, and why it is a natural form of uncertainty quantification</li>
 <li>How <strong>Bayesian reasoning</strong> underlies clinical decision-making without most clinicians knowing it</li>
@@ -185,13 +183,14 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <li>Why AI systems that don't express uncertainty are <strong>epistemically inferior</strong> to the clinicians they're meant to support</li>
 <li>What it would look like for an AI system <strong>to reason the way a good clinician does</strong></li>
 </ul>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=ff512a8c"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<hr/>
-<h2 id="%F0%9F%A9%BA-1.-How-clinicians-already-reason-probabilistically">🩺 1. How clinicians already reason probabilistically<a class="anchor-link" href="#%F0%9F%A9%BA-1.-How-clinicians-already-reason-probabilistically">¶</a></h2><p>When a clinician examines a patient, they do not work toward a single diagnosis. They work toward a <strong>ranked list of possibilities</strong>, each with an implicit probability, updated continuously as new evidence arrives.</p>
+<hr>
+<h2 id="%F0%9F%A9%BA-1.-How-clinicians-already-reason-probabilistically">&#129658; 1. How clinicians already reason probabilistically<a class="anchor-link" href="#%F0%9F%A9%BA-1.-How-clinicians-already-reason-probabilistically">&#182;</a></h2><p>When a clinician examines a patient, they do not work toward a single diagnosis. They work toward a <strong>ranked list of possibilities</strong>, each with an implicit probability, updated continuously as new evidence arrives.</p>
 <p>Consider a patient presenting to the emergency department with fever, cough, and shortness of breath. Before looking at a single test result, the clinician's mind is already running a probabilistic assessment:</p>
 <ul>
 <li>Community-acquired pneumonia — most likely given the symptom cluster</li>
@@ -204,22 +203,21 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <p>This is Bayesian reasoning in action — prior beliefs updated by evidence to produce a posterior. And clinicians do it naturally, without calling it Bayesian.</p>
 <p>The crucial point: <strong>a clinician who collapses this distribution to a single answer prematurely is considered dangerous</strong>. Premature closure — committing to one diagnosis too early and stopping the search — is one of the most commonly cited cognitive biases in clinical error analysis. Good clinicians resist it. They hold uncertainty actively, not as a failure, but as an epistemically honest response to incomplete information.</p>
 <div align="center" style="margin-top: 50px;">
-<img alt="No description has been provided for this image" src="assets/img/s3/section1.webp" width="700"/>
+    <img src="assets/img/s3/section1.webp" width="700" />
+</div><p>The diagnostic process can be viewed as successive updates to a probability distribution over competing hypotheses. Each new finding modifies the relative plausibility of candidate diagnoses, reducing uncertainty while preserving alternative explanations until they are adequately ruled out.</p>
+
 </div>
-<p>The diagnostic process can be viewed as successive updates to a probability distribution over competing hypotheses. Each new finding modifies the relative plausibility of candidate diagnoses, reducing uncertainty while preserving alternative explanations until they are adequately ruled out.</p>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=s3d_0003"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<hr/>
-<h2 id="%F0%9F%93%8B-2.-The-differential-diagnosis-as-a-UQ-framework">📋 2. The differential diagnosis as a UQ framework<a class="anchor-link" href="#%F0%9F%93%8B-2.-The-differential-diagnosis-as-a-UQ-framework">¶</a></h2><p>The <strong>differential diagnosis</strong> is the formal clinical tool for managing diagnostic uncertainty. Every medical student learns to generate one: a ranked list of possible diagnoses, ordered from most to least likely, that could explain the patient's presentation.</p>
+<hr>
+<h2 id="%F0%9F%93%8B-2.-The-differential-diagnosis-as-a-UQ-framework">&#128203; 2. The differential diagnosis as a UQ framework<a class="anchor-link" href="#%F0%9F%93%8B-2.-The-differential-diagnosis-as-a-UQ-framework">&#182;</a></h2><p>The <strong>differential diagnosis</strong> is the formal clinical tool for managing diagnostic uncertainty. Every medical student learns to generate one: a ranked list of possible diagnoses, ordered from most to least likely, that could explain the patient's presentation.</p>
 <p>What is a differential diagnosis, translated into machine learning terms?</p>
 <p>It is a <strong>prediction set</strong> — a set of possible outputs, not a single point prediction. It acknowledges that the available evidence does not uniquely determine the diagnosis. It is honest about what is known and what isn't. And it comes with an implicit ordering that reflects the clinician's confidence in each possibility.</p>
 <p>This maps remarkably well onto what we want from UQ algorithms:</p>
 <table>
-<thead>
-<tr>
+<thead><tr>
 <th>Clinical concept</th>
 <th>UQ equivalent</th>
 </tr>
@@ -255,74 +253,71 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </tr>
 </tbody>
 </table>
-<hr/>
-<blockquote>
-<p><strong>💡 Intuition check</strong><br/>
+<hr>
+<blockquote><p><strong>💡 Intuition check</strong><br>
 A radiologist's report that says "findings consistent with pneumonia; pulmonary edema cannot be excluded" is a prediction set of size 2. It is not a failure to diagnose — it is an honest and responsible clinical statement. An AI system that outputs a 94% confidence score for pneumonia when the ground truth is ambiguous is making a stronger claim than the evidence supports. The radiologist is being more epistemically honest than the model.</p>
 </blockquote>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=5765796b"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<hr/>
-<h2 id="%F0%9F%94%A2-3.-Pre-test-probability-and-Bayes'-theorem-in-the-clinic">🔢 3. Pre-test probability and Bayes' theorem in the clinic<a class="anchor-link" href="#%F0%9F%94%A2-3.-Pre-test-probability-and-Bayes'-theorem-in-the-clinic">¶</a></h2><p>Clinical reasoning has a formal probabilistic backbone that most clinicians apply intuitively, even if they wouldn't describe it in mathematical terms. The most explicit version is the <strong>pre-test / post-test probability framework</strong>.</p>
+<hr>
+<h2 id="%F0%9F%94%A2-3.-Pre-test-probability-and-Bayes'-theorem-in-the-clinic">&#128290; 3. Pre-test probability and Bayes' theorem in the clinic<a class="anchor-link" href="#%F0%9F%94%A2-3.-Pre-test-probability-and-Bayes'-theorem-in-the-clinic">&#182;</a></h2><p>Clinical reasoning has a formal probabilistic backbone that most clinicians apply intuitively, even if they wouldn't describe it in mathematical terms. The most explicit version is the <strong>pre-test / post-test probability framework</strong>.</p>
 <p>Before ordering a test, the clinician estimates the <strong>pre-test probability</strong> of a diagnosis — the probability based on symptoms, history, and clinical context alone. After receiving the test result, they update to a <strong>post-test probability</strong> using the test's sensitivity and specificity.</p>
 <p>This is Bayes' theorem:</p>
-<p>$$P(\text{disease} \mid \text{test}^+) = \frac{P(\text{test}^+ \mid \text{disease}) \cdot P(\text{disease})}{P(\text{test}^+)}$$</p>
-<p>Or in clinical language:</p>
-<p>$$\text{Post-test odds} = \text{Likelihood ratio} \times \text{Pre-test odds}$$</p>
-<p>A positive D-dimer in a low pre-test probability patient for PE barely moves the needle — because the prior is so low that even a positive result leaves the post-test probability moderate. The same positive D-dimer in a high pre-test probability patient is much more clinically significant.</p>
+$$P(\text{disease} \mid \text{test}^+) = \frac{P(\text{test}^+ \mid \text{disease}) \cdot P(\text{disease})}{P(\text{test}^+)}$$<p>Or in clinical language:</p>
+$$\text{Post-test odds} = \text{Likelihood ratio} \times \text{Pre-test odds}$$<p>A positive D-dimer in a low pre-test probability patient for PE barely moves the needle — because the prior is so low that even a positive result leaves the post-test probability moderate. The same positive D-dimer in a high pre-test probability patient is much more clinically significant.</p>
 <p>This is not abstract mathematics — it is taught in every medical school and applied (implicitly or explicitly) by every clinician every day. The connection to Session 4 is direct: when we build Bayesian neural networks, we are doing the same thing. We start with a prior, observe data (the image), and compute a posterior (the updated diagnostic probability). The machinery is more complex, but the logic is identical.</p>
-<hr/>
-<blockquote>
-<p><strong>🏥 Clinical example</strong><br/>
+<hr>
+<blockquote><p><strong>🏥 Clinical example</strong><br>
 A 25-year-old marathon runner presents with pleuritic chest pain. Pre-test probability of PE: low (5%). D-dimer comes back elevated. Post-test probability: still only 20% — because the prior was so low. The clinician does not jump to CT pulmonary angiography. Now consider the same D-dimer result in a 65-year-old post-surgical patient with leg swelling. Pre-test probability: high (60%). Post-test probability: 93%. CT is urgent. Same test result, completely different clinical implications — because the prior is different.</p>
 </blockquote>
 <div align="center" style="margin-top: 50px;">
-<img alt="No description has been provided for this image" src="assets/img/s3/section3.webp" width="700"/>
+    <img src="assets/img/s3/section3.webp" width="700" />
+</div><p>Identical test results can lead to markedly different levels of diagnostic certainty and clinical action depending on the patient's baseline risk. This dependence on prior belief is a central feature of Bayesian inference and underlies evidence-based diagnostic decision-making.</p>
+
 </div>
-<p>Identical test results can lead to markedly different levels of diagnostic certainty and clinical action depending on the patient's baseline risk. This dependence on prior belief is a central feature of Bayesian inference and underlies evidence-based diagnostic decision-making.</p>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=s3d_0007"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<hr/>
-<h2 id="%F0%9F%A7%A9-4.-Two-levels-of-uncertainty-in-clinical-decisions">🧩 4. Two levels of uncertainty in clinical decisions<a class="anchor-link" href="#%F0%9F%A7%A9-4.-Two-levels-of-uncertainty-in-clinical-decisions">¶</a></h2><p>Clinical uncertainty operates at two distinct levels, and keeping them separate matters for how we design AI systems.</p>
-<h3 id="Uncertainty-in-the-data-%F0%9F%93%8A">Uncertainty in the data 📊<a class="anchor-link" href="#Uncertainty-in-the-data-%F0%9F%93%8A">¶</a></h3><p>This is uncertainty about the state of the world — what is actually wrong with this patient? It comes from incomplete information: the history isn't fully known, the image quality is imperfect, the test has limited sensitivity. This maps directly onto <strong>aleatoric uncertainty</strong> from Session 2.</p>
+<hr>
+<h2 id="%F0%9F%A7%A9-4.-Two-levels-of-uncertainty-in-clinical-decisions">&#129513; 4. Two levels of uncertainty in clinical decisions<a class="anchor-link" href="#%F0%9F%A7%A9-4.-Two-levels-of-uncertainty-in-clinical-decisions">&#182;</a></h2><p>Clinical uncertainty operates at two distinct levels, and keeping them separate matters for how we design AI systems.</p>
+<h3 id="Uncertainty-in-the-data-%F0%9F%93%8A">Uncertainty in the data &#128202;<a class="anchor-link" href="#Uncertainty-in-the-data-%F0%9F%93%8A">&#182;</a></h3><p>This is uncertainty about the state of the world — what is actually wrong with this patient? It comes from incomplete information: the history isn't fully known, the image quality is imperfect, the test has limited sensitivity. This maps directly onto <strong>aleatoric uncertainty</strong> from Session 2.</p>
 <p>A skilled clinician manages this by gathering more information — ordering more tests, taking a more detailed history, requesting repeat imaging. When the data uncertainty is irreducible (the image is genuinely ambiguous), the right response is to acknowledge it honestly in the report.</p>
-<h3 id="Uncertainty-in-the-decision-%F0%9F%8E%AF">Uncertainty in the decision 🎯<a class="anchor-link" href="#Uncertainty-in-the-decision-%F0%9F%8E%AF">¶</a></h3><p>This is uncertainty about what to <em>do</em>, given what you know. Even when the diagnosis is clear, the right treatment may not be. Even when the test result is unambiguous, the clinical action depends on patient preferences, comorbidities, resource availability, and clinical judgment.</p>
+<h3 id="Uncertainty-in-the-decision-%F0%9F%8E%AF">Uncertainty in the decision &#127919;<a class="anchor-link" href="#Uncertainty-in-the-decision-%F0%9F%8E%AF">&#182;</a></h3><p>This is uncertainty about what to <em>do</em>, given what you know. Even when the diagnosis is clear, the right treatment may not be. Even when the test result is unambiguous, the clinical action depends on patient preferences, comorbidities, resource availability, and clinical judgment.</p>
 <p>This is a different kind of uncertainty — it's about values, policies, and trade-offs, not just empirical facts. It maps loosely onto <strong>epistemic uncertainty</strong> in the sense that it reflects gaps in knowledge — about what treatments work in this patient's context, about how to weigh competing priorities.</p>
 <p>AI systems trained on diagnostic tasks address the first type of uncertainty well. The second type — uncertainty in the decision — is harder to model and rarely addressed by current systems.</p>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=21e61067"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<hr/>
-<h2 id="%F0%9F%A4%9D-5.-Why-current-AI-systems-are-epistemically-inferior-to-clinicians">🤝 5. Why current AI systems are epistemically inferior to clinicians<a class="anchor-link" href="#%F0%9F%A4%9D-5.-Why-current-AI-systems-are-epistemically-inferior-to-clinicians">¶</a></h2><p>A senior radiologist reading a chest X-ray does several things that current AI systems cannot:</p>
+<hr>
+<h2 id="%F0%9F%A4%9D-5.-Why-current-AI-systems-are-epistemically-inferior-to-clinicians">&#129309; 5. Why current AI systems are epistemically inferior to clinicians<a class="anchor-link" href="#%F0%9F%A4%9D-5.-Why-current-AI-systems-are-epistemically-inferior-to-clinicians">&#182;</a></h2><p>A senior radiologist reading a chest X-ray does several things that current AI systems cannot:</p>
 <p><strong>They know what they don't know.</strong> A radiologist who hasn't seen many cases of a rare condition will say so. They flag when a presentation is outside their experience. They recommend specialist consultation. Current AI systems have no such self-awareness — they will produce a confident output even on inputs completely outside their training distribution.</p>
 <p><strong>They hold uncertainty actively.</strong> A radiologist reading an ambiguous scan holds multiple hypotheses simultaneously without collapsing to a single answer. They say "most consistent with X, but Y cannot be excluded." Current AI systems produce a point estimate — one number, one answer — with no equivalent of that hedge.</p>
 <p><strong>They contextualise their uncertainty.</strong> A radiologist who is uncertain about whether a finding represents early consolidation or atelectasis will say which clinical features would help distinguish them, what the consequences of each diagnosis are, and what follow-up would be appropriate. Current AI systems, even when they produce uncertainty scores, rarely provide this kind of actionable context.</p>
 <p><strong>They update on new information.</strong> A clinician integrates information from the clinical history, the referring physician's note, the patient's appearance, and the image itself. Current AI systems typically work only from the image — they don't update on clinical context.</p>
 <p>This is not a criticism of AI — it is a description of the gap that this course is about closing. The algorithms in Part 2 are the first step toward building systems that know what they don't know. The evaluation frameworks in Part 3 are the tools for checking whether they succeed.</p>
-<hr/>
-<blockquote>
-<p><strong>🏥 Clinical framing</strong><br/>
+<hr>
+<blockquote><p><strong>🏥 Clinical framing</strong><br>
 The goal is not to replace the radiologist's probabilistic reasoning — it is to give AI systems the same capacity. A tool that assists a radiologist by saying "I'm highly confident about these 80 cases — here are the 20 I'm uncertain about" is more useful than one that processes all 100 with uniform (false) confidence. The first tool respects the clinician's expertise and augments it. The second substitutes a false certainty for genuine clinical judgment.</p>
 </blockquote>
 <div align="center" style="margin-top: 50px;">
-<img alt="No description has been provided for this image" src="assets/img/s3/section5.webp" width="700"/>
+    <img src="assets/img/s3/section5.webp" width="700" />
+</div><p>As AI systems become more capable of representing uncertainty, their role shifts from providing isolated predictions to participating in a broader diagnostic process that includes hypothesis generation, evidence assessment, and selective referral when confidence is insufficient.</p>
+
 </div>
-<p>As AI systems become more capable of representing uncertainty, their role shifts from providing isolated predictions to participating in a broader diagnostic process that includes hypothesis generation, evidence assessment, and selective referral when confidence is insufficient.</p>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=s3d_0011"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<hr/>
-<h2 id="%F0%9F%93%9A-6.-Recommended-Reading">📚 6. Recommended Reading<a class="anchor-link" href="#%F0%9F%93%9A-6.-Recommended-Reading">¶</a></h2><p><strong><a href="https://www.harperacademic.com/book/9780547348636/how-doctors-think?utm_source=chatgpt.com">How Doctors Think</a></strong></p>
+<hr>
+<h2 id="%F0%9F%93%9A-6.-Recommended-Reading">&#128218; 6. Recommended Reading<a class="anchor-link" href="#%F0%9F%93%9A-6.-Recommended-Reading">&#182;</a></h2><p><strong><a href="https://www.harperacademic.com/book/9780547348636/how-doctors-think?utm_source=chatgpt.com">How Doctors Think</a></strong></p>
 <p><em>Jerome Groopman, 2007 — Houghton Mifflin</em></p>
 <p>Not a technical book — a beautifully written exploration of clinical reasoning, cognitive biases, and diagnostic error. Premature closure, availability bias, anchoring — the failure modes of human diagnostic reasoning are surprisingly similar to the failure modes of AI. Essential reading for anyone building clinical AI.</p>
 <p><strong><a href="https://books.google.com/books/about/The_Uncertain_Art.html?id=ghprIWjR5TsC&amp;utm_source=chatgpt.com">The Uncertain Art: Thoughts on a Life in Medicine</a></strong></p>
@@ -331,14 +326,14 @@ The goal is not to replace the radiologist's probabilistic reasoning — it is t
 <p><strong><a href="https://www.nejm.org/doi/full/10.1056/NEJMp1606402?utm_source=chatgpt.com">Tolerating Uncertainty — The Next Medical Revolution?</a></strong></p>
 <p><em>Arabella L. Simpkin &amp; Richard M. Schwartzstein, 2016 — New England Journal of Medicine</em></p>
 <p>A short, highly readable perspective arguing that medical education should explicitly teach tolerance for uncertainty. The authors make the case that acknowledging uncertainty is a clinical skill, not a failure. Directly relevant to how we think about what we want from clinical AI.</p>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=0e1bdca4"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="%E2%9C%85-Session-summary">✅ Session summary<a class="anchor-link" href="#%E2%9C%85-Session-summary">¶</a></h2><table>
-<thead>
-<tr>
+<h2 id="%E2%9C%85-Session-summary">&#9989; Session summary<a class="anchor-link" href="#%E2%9C%85-Session-summary">&#182;</a></h2><table>
+<thead><tr>
 <th>Concept</th>
 <th>Key takeaway</th>
 </tr>
@@ -366,21 +361,24 @@ The goal is not to replace the radiologist's probabilistic reasoning — it is t
 </tr>
 </tbody>
 </table>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=608b2398"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<blockquote>
-<p><strong>➡️ Next: Part 2, Session 4 — The Bayesian Perspective</strong><br/>
+<blockquote><p><strong>➡️ Next: Part 2, Session 4 — The Bayesian Perspective</strong><br>
 The mathematical language that formalizes everything this session described intuitively. Priors, posteriors, likelihoods — and why computing the exact posterior is harder than it looks.</p>
 </blockquote>
+
 </div>
 </div>
 </div>
+
+
 </article>
   <nav class="pagenav"><a class="pagenav-card" href="session-2.html"><div class="pn-label">← Previous</div><div class="pn-title">Session 2: Aleatoric vs Epistemic Uncertainty</div></a><a class="pagenav-card pagenav-next" href="part-2.html"><div class="pn-label">Next →</div><div class="pn-title">Part 2 — Core UQ Methods</div></a></nav>
-  <div class="foot"><span>UQMI — Uncertainty Quantification of Machine Learning Models in Medical Imaging</span><span>Benyamin Gheiji · Danial Elyassirad · Mahsa Vatanparast · Shahriar Faghani</span></div>
+  <div class="foot"><span>UQMI — Uncertainty Quantification of Machine Learning Models in Medical Imaging</span><span>Benyamin Gheiji · Danial Elyassirad · Mahsa Vatanparast · Chen Chen · Shahriar Faghani</span></div>
 </div>
 
 </main>

@@ -149,7 +149,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
   </nav>
   <div class="sb-foot">
     <div class="sb-foot-label">Created by</div>
-    <div class="sb-foot-names">Benyamin Gheiji<br>Danial Elyassirad<br>Mahsa Vatanparast<br>Shahriar Faghani</div>
+    <div class="sb-foot-names">Benyamin Gheiji<br>Danial Elyassirad<br>Mahsa Vatanparast<br>Chen Chen<br>Shahriar Faghani</div>
   </div>
 </aside>
 <main class="main" id="main">
@@ -165,15 +165,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
   </span>
   <span class="k-arrow">↗</span>
 </a>
-  <article class="nb"><div class="cell border-box-sizing text_cell rendered" id="cell-id=a1000001"><div class="inner_cell">
+  <article class="nb"><div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Session-5-%E2%80%94-Variational-Inference">Session 5 — Variational Inference<a class="anchor-link" href="#Session-5-%E2%80%94-Variational-Inference">¶</a></h1><p><strong>Part 2 — Core UQ Algorithms</strong></p>
-<blockquote>
-<p><em>Turning an impossible integral into a trainable optimization problem.</em></p>
+<h1 id="Session-5-%E2%80%94-Variational-Inference">Session 5 &#8212; Variational Inference<a class="anchor-link" href="#Session-5-%E2%80%94-Variational-Inference">&#182;</a></h1><p><strong>Part 2 — Core UQ Algorithms</strong></p>
+<blockquote><p><em>Turning an impossible integral into a trainable optimization problem.</em></p>
 </blockquote>
-<div align="center" style="margin-top: 50px;"> <img alt="No description has been provided for this image" src="assets/img/s5/intro.webp" width="700"/> </div>
-<hr/>
-<h3 id="What-you'll-learn-in-this-session">What you'll learn in this session<a class="anchor-link" href="#What-you'll-learn-in-this-session">¶</a></h3><ul>
+<div align="center" style="margin-top: 50px;"> <img src="assets/img/s5/intro.webp" width="700" /> </div><hr>
+<h3 id="What-you'll-learn-in-this-session">What you'll learn in this session<a class="anchor-link" href="#What-you'll-learn-in-this-session">&#182;</a></h3><ul>
 <li>How Variational Inference turns an intractable posterior into an optimization problem</li>
 <li>What <strong>KL divergence</strong> is and why it's the right tool for measuring how close two distributions are</li>
 <li>What the <strong>ELBO</strong> is, what its two terms mean, and why the tension between them is healthy</li>
@@ -181,12 +179,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <li>How the <strong>reparameterization trick</strong> makes VI trainable with standard gradient descent</li>
 <li>What VI gives you at <strong>inference time</strong> and what its honest <strong>limitations</strong> are</li>
 </ul>
-<hr/>
-<h3 id="%F0%9F%94%97-Bridge-from-Session-4">🔗 Bridge from Session 4<a class="anchor-link" href="#%F0%9F%94%97-Bridge-from-Session-4">¶</a></h3><p>In Session 4, we saw that the Bayesian ideal — averaging predictions over all plausible weight sets — requires computing a posterior $p(w|\mathcal{D})$ that is fundamentally intractable for real neural networks. Variational Inference is the first serious response to that wall. The idea: if we can't compute the true posterior, let's find the closest tractable distribution to it and use that instead.</p>
+<hr>
+<h3 id="%F0%9F%94%97-Bridge-from-Session-4">&#128279; Bridge from Session 4<a class="anchor-link" href="#%F0%9F%94%97-Bridge-from-Session-4">&#182;</a></h3><p>In Session 4, we saw that the Bayesian ideal — averaging predictions over all plausible weight sets — requires computing a posterior $p(w|\mathcal{D})$ that is fundamentally intractable for real neural networks. Variational Inference is the first serious response to that wall. The idea: if we can't compute the true posterior, let's find the closest tractable distribution to it and use that instead.</p>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=756d2043"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <style>
 .uq-wrap { overflow-x: auto; }
@@ -196,9 +195,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .uq-table .m .katex-html,
 .uq-table .m mjx-container,
 .uq-table .m mjx-container * { white-space: nowrap !important; }
-</style>
-<hr/>
-<h2 id="%F0%9F%94%84-1.-The-core-idea-%E2%80%94-turning-inference-into-optimization">🔄 1. The core idea — turning inference into optimization<a class="anchor-link" href="#%F0%9F%94%84-1.-The-core-idea-%E2%80%94-turning-inference-into-optimization">¶</a></h2><p>Here's the key move that makes Variational Inference work. Instead of trying to compute the true posterior $p(w|\mathcal{D})$ directly — which we know we can't do — we pick a family of simpler, more manageable distributions and ask: <em>which member of this family is closest to the true posterior?</em></p>
+</style><hr>
+<h2 id="%F0%9F%94%84-1.-The-core-idea-%E2%80%94-turning-inference-into-optimization">&#128260; 1. The core idea &#8212; turning inference into optimization<a class="anchor-link" href="#%F0%9F%94%84-1.-The-core-idea-%E2%80%94-turning-inference-into-optimization">&#182;</a></h2><p>Here's the key move that makes Variational Inference work. Instead of trying to compute the true posterior $p(w|\mathcal{D})$ directly — which we know we can't do — we pick a family of simpler, more manageable distributions and ask: <em>which member of this family is closest to the true posterior?</em></p>
 <p>We call this simpler distribution $q_\phi(w)$, where $\phi$ are the parameters that define its shape. In practice, $q$ is usually a Gaussian — something we can fully describe with just a mean and a variance per weight. The true posterior $p(w|\mathcal{D})$ might be complicated, multi-modal, and impossible to write down. But $q_\phi(w)$ is always a nice, clean Gaussian. The question is just: which Gaussian fits best?</p>
 <p>This transforms the problem. Instead of an impossible integral, we now have an <strong>optimization problem</strong> — we're searching for the values of $\phi$ that make $q_\phi$ as close as possible to $p(w|\mathcal{D})$. And optimization is something we know how to do very well. We can use gradient descent, the same tool that trains standard neural networks. That's the whole trick.</p>
 <div class="uq-wrap">
@@ -212,25 +210,23 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <tr><td style="width:10%"><strong>Feasibility</strong></td><td style="width:33%">Intractable at scale</td><td style="width:57%">Solvable with gradient descent</td></tr>
 </tbody>
 </table>
-</div>
-<div align="center" style="margin-top: 50px;"> <img alt="No description has been provided for this image" src="assets/img/s5/section1.webp" width="700"/> </div>
-<p><em>Variational inference replaces an intractable search over all possible weight configurations with a tractable search within a restricted family of distributions. By navigating this lower-dimensional landscape, uncertainty estimation becomes a problem that can be solved using the same optimization machinery that powers modern deep learning.</em></p>
-<hr/>
-</div>
+</div><div align="center" style="margin-top: 50px;"> <img src="assets/img/s5/section1.webp" width="700" /> </div><p><em>Variational inference replaces an intractable search over all possible weight configurations with a tractable search within a restricted family of distributions. By navigating this lower-dimensional landscape, uncertainty estimation becomes a problem that can be solved using the same optimization machinery that powers modern deep learning.</em></p>
+<hr>
+
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=afe3c64d"><div class="inner_cell">
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="%F0%9F%93%8F-2.-How-do-we-measure-%22closeness%22?-%E2%80%94-KL-divergence">📏 2. How do we measure "closeness"? — KL divergence<a class="anchor-link" href="#%F0%9F%93%8F-2.-How-do-we-measure-%22closeness%22?-%E2%80%94-KL-divergence">¶</a></h2><p>To find the best $q_\phi$, we need a way to measure how different it is from the true posterior. The tool we use is called <strong>KL divergence</strong>, written as $\text{KL}(q_\phi \| p)$. You can think of it as a kind of distance between two distributions — though it's not a true distance in the mathematical sense, because it's not symmetric. $\text{KL}(q\|p)$ is not the same as $\text{KL}(p\|q)$.</p>
+<h2 id="%F0%9F%93%8F-2.-How-do-we-measure-%22closeness%22?-%E2%80%94-KL-divergence">&#128207; 2. How do we measure "closeness"? &#8212; KL divergence<a class="anchor-link" href="#%F0%9F%93%8F-2.-How-do-we-measure-%22closeness%22?-%E2%80%94-KL-divergence">&#182;</a></h2><p>To find the best $q_\phi$, we need a way to measure how different it is from the true posterior. The tool we use is called <strong>KL divergence</strong>, written as $\text{KL}(q_\phi \| p)$. You can think of it as a kind of distance between two distributions — though it's not a true distance in the mathematical sense, because it's not symmetric. $\text{KL}(q\|p)$ is not the same as $\text{KL}(p\|q)$.</p>
 <p>The formula looks like this:</p>
-<p>$$\text{KL}\big(q_\phi(w) \| p(w|\mathcal{D})\big) = \int q_\phi(w) \cdot \log \frac{q_\phi(w)}{p(w|\mathcal{D})} \, dw$$</p>
-<p>What does it actually measure? When $q$ and $p$ are exactly the same distribution, the ratio inside the log is 1 everywhere — so $\log(1) = 0$ and $\text{KL} = 0$. As $q$ moves away from $p$, the KL grows. So minimizing KL means making $q$ as similar to $p$ as possible. That's exactly what we want.</p>
-<div align="center" style="margin-top: 50px;"> <img alt="No description has been provided for this image" src="assets/img/s5/section2.webp" width="700"/> </div>
-<p><em>The objective is not to recover the exact posterior, but to identify an approximation that preserves the most important probabilistic structure. KL divergence provides the criterion that guides this search, translating the quality of an approximation into a quantity that can be optimized.</em></p>
+$$\text{KL}\big(q_\phi(w) \| p(w|\mathcal{D})\big) = \int q_\phi(w) \cdot \log \frac{q_\phi(w)}{p(w|\mathcal{D})} \, dw$$<p>What does it actually measure? When $q$ and $p$ are exactly the same distribution, the ratio inside the log is 1 everywhere — so $\log(1) = 0$ and $\text{KL} = 0$. As $q$ moves away from $p$, the KL grows. So minimizing KL means making $q$ as similar to $p$ as possible. That's exactly what we want.</p>
+<div align="center" style="margin-top: 50px;"> <img src="assets/img/s5/section2.webp" width="700" /> </div><p><em>The objective is not to recover the exact posterior, but to identify an approximation that preserves the most important probabilistic structure. KL divergence provides the criterion that guides this search, translating the quality of an approximation into a quantity that can be optimized.</em></p>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=9772f302"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <style>
 .uq-wrap { overflow-x: auto; }
@@ -240,12 +236,10 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .uq-table .m .katex-html,
 .uq-table .m mjx-container,
 .uq-table .m mjx-container * { white-space: nowrap !important; }
-</style>
-<hr/>
-<h2 id="%F0%9F%93%90-3.-The-ELBO-%E2%80%94-what-we-actually-optimize">📐 3. The ELBO — what we actually optimize<a class="anchor-link" href="#%F0%9F%93%90-3.-The-ELBO-%E2%80%94-what-we-actually-optimize">¶</a></h2><p>Here's the catch. To minimize $\text{KL}(q_\phi \| p(w|\mathcal{D}))$, we'd need to evaluate $p(w|\mathcal{D})$ — which requires the intractable $p(\mathcal{D})$ in the denominator. We're going in circles.</p>
+</style><hr>
+<h2 id="%F0%9F%93%90-3.-The-ELBO-%E2%80%94-what-we-actually-optimize">&#128208; 3. The ELBO &#8212; what we actually optimize<a class="anchor-link" href="#%F0%9F%93%90-3.-The-ELBO-%E2%80%94-what-we-actually-optimize">&#182;</a></h2><p>Here's the catch. To minimize $\text{KL}(q_\phi \| p(w|\mathcal{D}))$, we'd need to evaluate $p(w|\mathcal{D})$ — which requires the intractable $p(\mathcal{D})$ in the denominator. We're going in circles.</p>
 <p>The solution is elegant. Instead of minimizing KL directly, we can show that minimizing KL is equivalent to maximizing a different quantity called the <strong>ELBO</strong> — the Evidence Lower BOund:</p>
-<p>$$\mathcal{L}(\phi) = \underbrace{\mathbb{E}_{q_\phi}[\log p(\mathcal{D}|w)]}_{\text{reconstruction term}} - \underbrace{\text{KL}\big(q_\phi(w) \| p(w)\big)}_{\text{regularization term}}$$</p>
-<div class="uq-wrap">
+$$\mathcal{L}(\phi) = \underbrace{\mathbb{E}_{q_\phi}[\log p(\mathcal{D}|w)]}_{\text{reconstruction term}} - \underbrace{\text{KL}\big(q_\phi(w) \| p(w)\big)}_{\text{regularization term}}$$<div class="uq-wrap">
 <table class="uq-table">
 <thead>
 <tr><th style="width:40%">Term</th><th style="width:13%">Name</th><th style="width:47%">What it does</th></tr>
@@ -255,17 +249,16 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <tr><td class="m" style="width:40%; min-width:300px; white-space:nowrap">$\text{KL}(q_{\phi}(w) \,\|\, p(w))$</td><td style="width:13%">Regularization</td><td style="width:47%">Penalizes <span class="m" style="white-space:nowrap">$q$</span> for drifting too far from the prior</td></tr>
 </tbody>
 </table>
-</div>
-<p>Look at the two terms carefully. The <strong>reconstruction term</strong> pulls $q$ toward weight sets that explain the training data well. It's essentially asking: if I sample weights from $q$ and run a forward pass, how well do the predictions match the labels? The better the fit, the higher this term.</p>
+</div><p>Look at the two terms carefully. The <strong>reconstruction term</strong> pulls $q$ toward weight sets that explain the training data well. It's essentially asking: if I sample weights from $q$ and run a forward pass, how well do the predictions match the labels? The better the fit, the higher this term.</p>
 <p>The <strong>regularization term</strong> pushes back. It penalizes $q$ for drifting too far from the prior $p(w)$. It's asking: has $q$ become so narrow and specific that it's forgotten the uncertainty we started with?</p>
 <p>These two forces pull in opposite directions, and the ELBO finds the balance. A $q$ that fits the data perfectly but ignores the prior is overfit. A $q$ that stays close to the prior but ignores the data is useless. The ELBO finds the healthy middle — which is exactly where a good posterior approximation should be.</p>
 <p>The name "lower bound" comes from the fact that the ELBO is always less than or equal to the true log evidence $\log p(\mathcal{D})$. Maximizing the ELBO is equivalent to tightening that bound — and as the bound tightens, $q$ gets closer to the true posterior.</p>
-<div align="center" style="margin-top: 50px;"> <img alt="No description has been provided for this image" src="assets/img/s5/section3.webp" width="700"/> </div>
-<p><em>Bayesian learning can be viewed as a trade-off between explaining observed data and maintaining prior structure. The ELBO formalizes this tension into a single objective that can be efficiently optimized.</em></p>
+<div align="center" style="margin-top: 50px;"> <img src="assets/img/s5/section3.webp" width="700" /> </div><p><em>Bayesian learning can be viewed as a trade-off between explaining observed data and maintaining prior structure. The ELBO formalizes this tension into a single objective that can be efficiently optimized.</em></p>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=a1000009"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <style>
 .uq-wrap { overflow-x: auto; }
@@ -275,12 +268,10 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .uq-table .m .katex-html,
 .uq-table .m mjx-container,
 .uq-table .m mjx-container * { white-space: nowrap !important; }
-</style>
-<hr/>
-<h2 id="%E2%9A%99%EF%B8%8F-4.-Bayes-by-Backprop-%E2%80%94-making-it-trainable">⚙️ 4. Bayes by Backprop — making it trainable<a class="anchor-link" href="#%E2%9A%99%EF%B8%8F-4.-Bayes-by-Backprop-%E2%80%94-making-it-trainable">¶</a></h2><p>We now have a variational distribution $q_\phi$ and an objective (the ELBO). To train this with gradient descent, we need to compute gradients of the ELBO with respect to $\phi$. But here's a subtle problem: the ELBO involves an expectation over $q_\phi$, which means we have to <em>sample</em> from $q$ — and sampling is not a differentiable operation. You can't backpropagate through a random draw.</p>
+</style><hr>
+<h2 id="%E2%9A%99%EF%B8%8F-4.-Bayes-by-Backprop-%E2%80%94-making-it-trainable">&#9881;&#65039; 4. Bayes by Backprop &#8212; making it trainable<a class="anchor-link" href="#%E2%9A%99%EF%B8%8F-4.-Bayes-by-Backprop-%E2%80%94-making-it-trainable">&#182;</a></h2><p>We now have a variational distribution $q_\phi$ and an objective (the ELBO). To train this with gradient descent, we need to compute gradients of the ELBO with respect to $\phi$. But here's a subtle problem: the ELBO involves an expectation over $q_\phi$, which means we have to <em>sample</em> from $q$ — and sampling is not a differentiable operation. You can't backpropagate through a random draw.</p>
 <p>The fix is called the <strong>reparameterization trick</strong>, introduced by Blundell et al. in the Bayes by Backprop paper. Instead of sampling $w$ directly from $q_\phi(w) = \mathcal{N}(\mu, \sigma^2)$, we rewrite the sample as:</p>
-<p>$$w = \mu + \sigma \cdot \varepsilon, \qquad \varepsilon \sim \mathcal{N}(0, 1)$$</p>
-<div class="uq-wrap">
+$$w = \mu + \sigma \cdot \varepsilon, \qquad \varepsilon \sim \mathcal{N}(0, 1)$$<div class="uq-wrap">
 <table class="uq-table">
 <thead>
 <tr><th style="width:22%">Term</th><th style="width:78%">Role</th></tr>
@@ -290,14 +281,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <tr><td class="m" style="width:22%; min-width:160px; white-space:nowrap">$\mu$, $\sigma$</td><td style="width:78%">Learnable parameters — gradients flow through these cleanly</td></tr>
 </tbody>
 </table>
-</div>
-<p>This separates the randomness ($\varepsilon$) from the learnable parameters ($\mu$ and $\sigma$). The gradient can now flow through $\mu$ and $\sigma$ cleanly, because they appear as simple arithmetic operations. The randomness sits in $\varepsilon$, which has no parameters and doesn't need to be differentiated. This one trick is what makes the whole thing trainable with standard backpropagation.</p>
-<div align="center" style="margin-top: 50px;"> <img alt="No description has been provided for this image" src="assets/img/s5/section4.webp" width="700"/> </div>
-<p><em>A random weight realization is generated through a differentiable computation involving learnable distribution parameters and an auxiliary noise variable, enabling efficient optimization of the variational objective with standard backpropagation.</em></p>
-</div>
+</div><p>This separates the randomness ($\varepsilon$) from the learnable parameters ($\mu$ and $\sigma$). The gradient can now flow through $\mu$ and $\sigma$ cleanly, because they appear as simple arithmetic operations. The randomness sits in $\varepsilon$, which has no parameters and doesn't need to be differentiated. This one trick is what makes the whole thing trainable with standard backpropagation.</p>
+<div align="center" style="margin-top: 50px;"> <img src="assets/img/s5/section4.webp" width="700" /> </div><p><em>A random weight realization is generated through a differentiable computation involving learnable distribution parameters and an auxiliary noise variable, enabling efficient optimization of the variational objective with standard backpropagation.</em></p>
+
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=e2a2a441"><div class="inner_cell">
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <style>
 .uq-wrap { overflow-x: auto; }
@@ -307,10 +297,9 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .uq-table .m .katex-html,
 .uq-table .m mjx-container,
 .uq-table .m mjx-container * { white-space: nowrap !important; }
-</style>
-<hr/>
-<h2 id="%F0%9F%94%AE-5.-What-VI-gives-us-at-inference-time">🔮 5. What VI gives us at inference time<a class="anchor-link" href="#%F0%9F%94%AE-5.-What-VI-gives-us-at-inference-time">¶</a></h2><p>Once training is done, we have a fully trained $q_{\phi}(w)$ — a Gaussian distribution over every weight in the network. At inference time, instead of a single forward pass with fixed weights, we <strong>sample</strong> weights from $q_{\phi}(w)$, run a forward pass, and repeat this $T$ times. The collection of $T$ predictions approximates the posterior predictive distribution from Session 4:</p>
-<p>$$
+</style><hr>
+<h2 id="%F0%9F%94%AE-5.-What-VI-gives-us-at-inference-time">&#128302; 5. What VI gives us at inference time<a class="anchor-link" href="#%F0%9F%94%AE-5.-What-VI-gives-us-at-inference-time">&#182;</a></h2><p>Once training is done, we have a fully trained $q_{\phi}(w)$ — a Gaussian distribution over every weight in the network. At inference time, instead of a single forward pass with fixed weights, we <strong>sample</strong> weights from $q_{\phi}(w)$, run a forward pass, and repeat this $T$ times. The collection of $T$ predictions approximates the posterior predictive distribution from Session 4:</p>
+$$
 p(y^* \mid x^*, \mathcal{D})
 \approx
 \frac{1}{T}
@@ -318,8 +307,7 @@ p(y^* \mid x^*, \mathcal{D})
 p(y^* \mid x^*, w_t),
 \qquad
 w_t \sim q_{\phi}(w)
-$$</p>
-<p>From these $T$ predictions, we can extract several useful uncertainty measures:</p>
+$$<p>From these $T$ predictions, we can extract several useful uncertainty measures:</p>
 <div class="uq-wrap">
 <table class="uq-table">
 <thead>
@@ -332,42 +320,34 @@ $$</p>
 <tr><td style="width:21%"><strong>Mutual information</strong></td><td class="m" style="width:53%; min-width:320px; white-space:nowrap">$H(\bar{p})-\frac{1}{T}\sum_t H(p_t)$</td><td style="width:26%">Epistemic uncertainty</td></tr>
 </tbody>
 </table>
-</div>
-<p>The predictive entropy captures overall uncertainty in the final prediction, but does not explain its source. Decomposing it into expected entropy and mutual information separates uncertainty due to <strong>inherent ambiguity in the data</strong> from uncertainty due to <strong>lack of knowledge in the model</strong>.
+</div><p>The predictive entropy captures overall uncertainty in the final prediction, but does not explain its source. Decomposing it into expected entropy and mutual information separates uncertainty due to <strong>inherent ambiguity in the data</strong> from uncertainty due to <strong>lack of knowledge in the model</strong>.
 If all sampled models agree, mutual information is low and epistemic uncertainty is small. If different sampled models disagree substantially, mutual information increases, indicating uncertainty about which explanation of the data is correct.</p>
-<blockquote>
-<p><strong>🏥 Clinical reading</strong><br/>
+<blockquote><p><strong>🏥 Clinical reading</strong><br>
 At inference time on a chest X-ray, each of the $T$ forward passes is asking: <em>given this particular plausible version of the model, what is the diagnosis?</em> If 18 out of 20 versions say pneumonia and 2 say normal, the model is fairly confident. If 10 say pneumonia and 10 say normal, the model is genuinely uncertain — and that's exactly the case a clinician should review directly.</p>
 </blockquote>
-<div align="center" style="margin-top: 50px;"> <img alt="No description has been provided for this image" src="assets/img/s5/section5.webp" width="700"/> </div>
-<p><em>Variational inference transforms a neural network from a system that produces answers into a system that produces distributions of possible answers. The structure of this distribution provides a window into what the model knows, what it does not know, and what may require further investigation.</em></p>
+<div align="center" style="margin-top: 50px;"> <img src="assets/img/s5/section5.webp" width="700" /> </div><p><em>Variational inference transforms a neural network from a system that produces answers into a system that produces distributions of possible answers. The structure of this distribution provides a window into what the model knows, what it does not know, and what may require further investigation.</em></p>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=a1000013"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<hr/>
-<h2 id="%E2%9A%A0%EF%B8%8F-6.-Limitations">⚠️ 6. Limitations<a class="anchor-link" href="#%E2%9A%A0%EF%B8%8F-6.-Limitations">¶</a></h2><p>VI is principled and elegant, but it's worth being clear about where it falls short — because understanding the gaps is what lets you make good choices in practice.</p>
-<blockquote>
-<p><strong>⚠️ Mean-field underestimates uncertainty</strong><br/>
+<hr>
+<h2 id="%E2%9A%A0%EF%B8%8F-6.-Limitations">&#9888;&#65039; 6. Limitations<a class="anchor-link" href="#%E2%9A%A0%EF%B8%8F-6.-Limitations">&#182;</a></h2><p>VI is principled and elegant, but it's worth being clear about where it falls short — because understanding the gaps is what lets you make good choices in practice.</p>
+<blockquote><p><strong>⚠️ Mean-field underestimates uncertainty</strong><br>
 By assuming weight independence, the approximation misses correlations in the true posterior. The result is a $q$ that is often too narrow — more confident than it should be. This is one of the reasons VI-based BNNs can still be overconfident on ambiguous inputs.</p>
-</blockquote>
-<blockquote>
-<p><strong>⚠️ Optimzation is harder than standard training</strong><br/>
+<p><strong>⚠️ Optimzation is harder than standard training</strong><br>
 Training a BNN with VI is noticeably more unstable than standard training. The ELBO has two competing terms, the balance between them is sensitive to hyperparameters, and the loss landscape is harder to navigate. Expect to tune more carefully than you would a standard network.</p>
-</blockquote>
-<blockquote>
-<p><strong>⚠️ Double the parameters</strong><br/>
+<p><strong>⚠️ Double the parameters</strong><br>
 Storing and training $\mu$ and $\sigma$ for every weight doubles memory and compute cost compared to a standard network. For large models this becomes significant. In practice, VI is often applied selectively to the last few layers rather than the whole network.</p>
-</blockquote>
-<blockquote>
-<p><strong>⚠️ Mode-seeking behaviour</strong><br/>
+<p><strong>⚠️ Mode-seeking behaviour</strong><br>
 Because we use $\text{KL}(q\|p)$ and not $\text{KL}(p\|q)$, VI tends to find one good mode of the posterior and concentrate around it. If the true posterior is multi-modal — which it often is for neural networks — VI may miss entire regions of plausible weight sets entirely.</p>
 </blockquote>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=a1000014"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <style>
 .uq-wrap { overflow-x: auto; }
@@ -377,23 +357,22 @@ Because we use $\text{KL}(q\|p)$ and not $\text{KL}(p\|q)$, VI tends to find one
 .uq-table .m .katex-html,
 .uq-table .m mjx-container,
 .uq-table .m mjx-container * { white-space: nowrap !important; }
-</style>
-<hr/>
-<h2 id="%F0%9F%93%9A-7.-Recommended-reading">📚 7. Recommended reading<a class="anchor-link" href="#%F0%9F%93%9A-7.-Recommended-reading">¶</a></h2><p>These are widely cited landmarks in variational inference. They show how VI evolved from a general approximation strategy for graphical models into a scalable optimization-based toolkit for modern Bayesian machine learning. 🗺️</p>
-<p><strong><a href="https://doi.org/10.1023/A:1007665907178">An Introduction to Variational Methods for Graphical Models</a></strong><br/>
-<em>Jordan, Ghahramani, Jaakkola &amp; Saul, 1999 — Machine Learning</em><br/>
+</style><hr>
+<h2 id="%F0%9F%93%9A-7.-Recommended-reading">&#128218; 7. Recommended reading<a class="anchor-link" href="#%F0%9F%93%9A-7.-Recommended-reading">&#182;</a></h2><p>These are widely cited landmarks in variational inference. They show how VI evolved from a general approximation strategy for graphical models into a scalable optimization-based toolkit for modern Bayesian machine learning. 🗺️</p>
+<p><strong><a href="https://doi.org/10.1023/A:1007665907178">An Introduction to Variational Methods for Graphical Models</a></strong><br>
+<em>Jordan, Ghahramani, Jaakkola &amp; Saul, 1999 — Machine Learning</em><br>
 One of the foundational introductions to variational methods in probabilistic graphical models. This is where many of the core ideas in this session appear in their classical form: approximating an intractable posterior with a simpler distribution and turning inference into optimization.</p>
-<p><strong><a href="https://www.jmlr.org/papers/v14/hoffman13a.html">Stochastic Variational Inference</a></strong><br/>
-<em>Hoffman, Blei, Wang &amp; Paisley, 2013 — JMLR</em><br/>
+<p><strong><a href="https://www.jmlr.org/papers/v14/hoffman13a.html">Stochastic Variational Inference</a></strong><br>
+<em>Hoffman, Blei, Wang &amp; Paisley, 2013 — JMLR</em><br>
 The paper that made VI scalable to very large datasets using stochastic optimization. It is a key bridge between classical variational Bayes and the mini-batch training style used in modern machine learning.</p>
-<p><strong><a href="https://proceedings.mlr.press/v33/ranganath14.html">Black Box Variational Inference</a></strong><br/>
-<em>Ranganath, Gerrish &amp; Blei, 2014 — AISTATS</em><br/>
+<p><strong><a href="https://proceedings.mlr.press/v33/ranganath14.html">Black Box Variational Inference</a></strong><br>
+<em>Ranganath, Gerrish &amp; Blei, 2014 — AISTATS</em><br>
 A highly influential paper that made VI more automatic. Instead of deriving custom updates for every model, black-box VI estimates gradients of the ELBO directly, making variational inference easier to apply to complex probabilistic models.</p>
-<p><strong><a href="https://doi.org/10.1080/01621459.2017.1285773">Variational Inference: A Review for Statisticians</a></strong><br/>
-<em>Blei, Kucukelbir &amp; McAuliffe, 2017 — JASA</em><br/>
+<p><strong><a href="https://doi.org/10.1080/01621459.2017.1285773">Variational Inference: A Review for Statisticians</a></strong><br>
+<em>Blei, Kucukelbir &amp; McAuliffe, 2017 — JASA</em><br>
 The standard modern review of VI. It clearly explains mean-field VI, KL divergence, the ELBO, stochastic optimisation, and the open problems that still make VI difficult. This is the best broad companion paper for Session 5.</p>
-<hr/>
-<h2 id="%E2%9C%85-Session-summary">✅ Session summary<a class="anchor-link" href="#%E2%9C%85-Session-summary">¶</a></h2><div class="uq-wrap">
+<hr>
+<h2 id="%E2%9C%85-Session-summary">&#9989; Session summary<a class="anchor-link" href="#%E2%9C%85-Session-summary">&#182;</a></h2><div class="uq-wrap">
 <table class="uq-table">
 <thead>
 <tr><th style="width:26%">Concept</th><th style="width:74%">Key takeaway</th></tr>
@@ -407,18 +386,19 @@ The standard modern review of VI. It clearly explains mean-field VI, KL divergen
 <tr><td style="width:26%">⚠️ <strong>Key limitations</strong></td><td style="width:74%">Overconfident due to mean-field, harder to train, mode-seeking, higher compute cost.</td></tr>
 </tbody>
 </table>
-</div>
-<hr/>
-<blockquote>
-<p><strong>➡️ Next: Session 6: Variational Inference — Implementation</strong><br/>
+</div><hr>
+<blockquote><p><strong>➡️ Next: Session 6: Variational Inference — Implementation</strong><br>
 Session 6 turns this theory into practice: we will build a Bayesian DenseNet for chest X-ray classification, train it with the ELBO objective, sample multiple weight configurations at inference time, and visualise what VI-based uncertainty looks like on real medical images. This is where the posterior approximation becomes a working clinical AI pipeline.</p>
 </blockquote>
+
 </div>
 </div>
 </div>
+
+
 </article>
   <nav class="pagenav"><a class="pagenav-card" href="session-4.html"><div class="pn-label">← Previous</div><div class="pn-title">Session 4: The Bayesian Perspective</div></a><a class="pagenav-card pagenav-next" href="session-6.html"><div class="pn-label">Next →</div><div class="pn-title">Session 6: Variational Inference — Implementation</div></a></nav>
-  <div class="foot"><span>UQMI — Uncertainty Quantification of Machine Learning Models in Medical Imaging</span><span>Benyamin Gheiji · Danial Elyassirad · Mahsa Vatanparast · Shahriar Faghani</span></div>
+  <div class="foot"><span>UQMI — Uncertainty Quantification of Machine Learning Models in Medical Imaging</span><span>Benyamin Gheiji · Danial Elyassirad · Mahsa Vatanparast · Chen Chen · Shahriar Faghani</span></div>
 </div>
 
 </main>

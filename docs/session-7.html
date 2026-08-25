@@ -149,7 +149,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
   </nav>
   <div class="sb-foot">
     <div class="sb-foot-label">Created by</div>
-    <div class="sb-foot-names">Benyamin Gheiji<br>Danial Elyassirad<br>Mahsa Vatanparast<br>Shahriar Faghani</div>
+    <div class="sb-foot-names">Benyamin Gheiji<br>Danial Elyassirad<br>Mahsa Vatanparast<br>Chen Chen<br>Shahriar Faghani</div>
   </div>
 </aside>
 <main class="main" id="main">
@@ -165,44 +165,42 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
   </span>
   <span class="k-arrow">↗</span>
 </a>
-  <article class="nb"><div class="cell border-box-sizing text_cell rendered" id="cell-id=mc0001"><div class="inner_cell">
+  <article class="nb"><div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Session-7-%E2%80%94-Monte-Carlo-Dropout">Session 7 — Monte Carlo Dropout<a class="anchor-link" href="#Session-7-%E2%80%94-Monte-Carlo-Dropout">¶</a></h1><blockquote>
-<p><em>What if you already had a Bayesian model — and just didn't know it?</em></p>
+<h1 id="Session-7-%E2%80%94-Monte-Carlo-Dropout">Session 7 &#8212; Monte Carlo Dropout<a class="anchor-link" href="#Session-7-%E2%80%94-Monte-Carlo-Dropout">&#182;</a></h1><blockquote><p><em>What if you already had a Bayesian model — and just didn't know it?</em></p>
 </blockquote>
-<div align="center" style="margin-top: 50px;"> <img alt="No description has been provided for this image" src="assets/img/s7/intro.webp" width="700"/> </div>
-<hr/>
-<h3 id="%F0%9F%94%97-Bridge-from-Session-5,-6">🔗 Bridge from Session 5, 6<a class="anchor-link" href="#%F0%9F%94%97-Bridge-from-Session-5,-6">¶</a></h3><p>Variational Inference gave us principled Bayesian uncertainty — but it came with real costs. We doubled the number of parameters, rewrote the loss function, and had to carefully balance two competing terms during training. It worked, but it wasn't cheap.</p>
+<div align="center" style="margin-top: 50px;"> <img src="assets/img/s7/intro.webp" width="700" /> </div><hr>
+<h3 id="%F0%9F%94%97-Bridge-from-Session-5,-6">&#128279; Bridge from Session 5, 6<a class="anchor-link" href="#%F0%9F%94%97-Bridge-from-Session-5,-6">&#182;</a></h3><p>Variational Inference gave us principled Bayesian uncertainty — but it came with real costs. We doubled the number of parameters, rewrote the loss function, and had to carefully balance two competing terms during training. It worked, but it wasn't cheap.</p>
 <p>MC Dropout asks a different question entirely: <em>what if we didn't need to change the model at all?</em> What if the tool we needed was already sitting inside every neural network we've ever trained — we just had to use it differently at inference time?</p>
 <p>That's the insight this session is built around. And it turns out to be one of the most consequential ideas in practical UQ.</p>
-<hr/>
-<h3 id="What-you'll-learn-in-this-session">What you'll learn in this session<a class="anchor-link" href="#What-you'll-learn-in-this-session">¶</a></h3><ul>
+<hr>
+<h3 id="What-you'll-learn-in-this-session">What you'll learn in this session<a class="anchor-link" href="#What-you'll-learn-in-this-session">&#182;</a></h3><ul>
 <li>How keeping dropout <strong>active at test time</strong> turns any neural network into an uncertainty estimator</li>
 <li>The mathematical insight from Gal &amp; Ghahramani (2016) that connects dropout to Bayesian inference</li>
 <li>Where MC Dropout works well, and where it quietly falls short</li>
 </ul>
-<hr/>
+<hr>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=6eea0395"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="%F0%9F%8E%B2-1.-Dropout-%E2%80%94-what-you-already-know">🎲 1. Dropout — what you already know<a class="anchor-link" href="#%F0%9F%8E%B2-1.-Dropout-%E2%80%94-what-you-already-know">¶</a></h2><p>You've almost certainly used dropout before. During training, it randomly sets a fraction $p$ of activations to zero at each forward pass. No two forward passes see exactly the same network — each one uses a slightly different, randomly masked version of the model. The intuition is that this forces the network to learn redundant, robust representations rather than relying on specific neurons.</p>
+<h2 id="%F0%9F%8E%B2-1.-Dropout-%E2%80%94-what-you-already-know">&#127922; 1. Dropout &#8212; what you already know<a class="anchor-link" href="#%F0%9F%8E%B2-1.-Dropout-%E2%80%94-what-you-already-know">&#182;</a></h2><p>You've almost certainly used dropout before. During training, it randomly sets a fraction $p$ of activations to zero at each forward pass. No two forward passes see exactly the same network — each one uses a slightly different, randomly masked version of the model. The intuition is that this forces the network to learn redundant, robust representations rather than relying on specific neurons.</p>
 <p>At test time, the standard procedure is to <strong>turn dropout off</strong>. All neurons are active, and the result is a single, deterministic prediction. That's how every standard PyTorch model with <code>model.eval()</code> behaves.</p>
 <p>This is the only thing that changes in MC Dropout: <strong>we keep dropout on at test time.</strong> That's it. The model is unchanged. The training procedure is unchanged. The only difference is that at inference time, we run T forward passes with dropout still active, and we treat the spread of those predictions as the model's uncertainty.</p>
-<blockquote>
-<p><strong>💡 Intuition check</strong><br/>
+<blockquote><p><strong>💡 Intuition check</strong><br>
 Think of it like asking the same question to T slightly different versions of the model — each one with a different random subset of neurons switched off. If all T versions agree, the model is confident. If they disagree, the model is uncertain. The disagreement is the uncertainty.</p>
 </blockquote>
-<div align="center" style="margin-top: 50px;"> <img alt="No description has been provided for this image" src="assets/img/s7/section1.webp" width="700"/> </div>
-<p><em>Monte Carlo dropout approximates a distribution over model outputs by evaluating multiple stochastic subnetworks at inference, enabling uncertainty estimation from predictive variability.</em></p>
+<div align="center" style="margin-top: 50px;"> <img src="assets/img/s7/section1.webp" width="700" /> </div><p><em>Monte Carlo dropout approximates a distribution over model outputs by evaluating multiple stochastic subnetworks at inference, enabling uncertainty estimation from predictive variability.</em></p>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=mc0003"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<hr/>
-<h2 id="%F0%9F%94%AC-2.-The-key-insight-%E2%80%94-Gal-&amp;-Ghahramani-(2016)">🔬 2. The key insight — Gal &amp; Ghahramani (2016)<a class="anchor-link" href="#%F0%9F%94%AC-2.-The-key-insight-%E2%80%94-Gal-&amp;-Ghahramani-(2016)">¶</a></h2><p>In 2016, Yarin Gal and Zoubin Ghahramani published a paper that reframed dropout entirely. They showed that a neural network trained with dropout and evaluated with dropout active at test time is <strong>mathematically equivalent to approximate Bayesian inference</strong> in a deep Gaussian process.</p>
+<hr>
+<h2 id="%F0%9F%94%AC-2.-The-key-insight-%E2%80%94-Gal-&amp;-Ghahramani-(2016)">&#128300; 2. The key insight &#8212; Gal &amp; Ghahramani (2016)<a class="anchor-link" href="#%F0%9F%94%AC-2.-The-key-insight-%E2%80%94-Gal-&amp;-Ghahramani-(2016)">&#182;</a></h2><p>In 2016, Yarin Gal and Zoubin Ghahramani published a paper that reframed dropout entirely. They showed that a neural network trained with dropout and evaluated with dropout active at test time is <strong>mathematically equivalent to approximate Bayesian inference</strong> in a deep Gaussian process.</p>
 <p>More precisely: running T stochastic forward passes with dropout is equivalent to drawing T samples from a <strong>variational distribution</strong> over the model's weights. The dropout mask is implicitly defining a distribution over which neurons are active — and that distribution over active neurons corresponds to a distribution over model weights.</p>
 <p>This is a remarkable result. Without changing anything about how the model is built or trained, you get:</p>
 <ul>
@@ -211,10 +209,11 @@ Think of it like asking the same question to T slightly different versions of th
 <li><strong>Epistemic uncertainty</strong> — from the spread across T predictions</li>
 </ul>
 <p>The key difference from VI is <em>what kind</em> of approximate posterior this is. VI uses a Gaussian variational distribution — one mean and one variance per weight. MC Dropout implicitly uses a <strong>Bernoulli mixture</strong> — each weight is either present or zeroed, according to a Bernoulli draw. It's a cruder approximation family, but it's free: it requires no extra parameters, no ELBO, no KL term. You already have it.</p>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=65ff7f41"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <style>
 .uq-wrap { overflow-x: auto; }
@@ -224,9 +223,8 @@ Think of it like asking the same question to T slightly different versions of th
 .uq-table .m .katex-html,
 .uq-table .m mjx-container,
 .uq-table .m mjx-container * { white-space: nowrap !important; }
-</style>
-<hr/>
-<h2 id="%F0%9F%94%84-3.-Comparing-MC-Dropout-to-Variational-Inference">🔄 3. Comparing MC Dropout to Variational Inference<a class="anchor-link" href="#%F0%9F%94%84-3.-Comparing-MC-Dropout-to-Variational-Inference">¶</a></h2><p>Both methods are trying to approximate the same thing — the posterior predictive distribution from Session 4. But they go about it very differently.</p>
+</style><hr>
+<h2 id="%F0%9F%94%84-3.-Comparing-MC-Dropout-to-Variational-Inference">&#128260; 3. Comparing MC Dropout to Variational Inference<a class="anchor-link" href="#%F0%9F%94%84-3.-Comparing-MC-Dropout-to-Variational-Inference">&#182;</a></h2><p>Both methods are trying to approximate the same thing — the posterior predictive distribution from Session 4. But they go about it very differently.</p>
 <div class="uq-wrap">
 <table class="uq-table" style="min-width:810px">
 <thead>
@@ -242,88 +240,80 @@ Think of it like asking the same question to T slightly different versions of th
 <tr><td style="width:18%"><strong>Ease of use</strong></td><td style="width:41%">Moderate — requires library setup</td><td style="width:41%">Very easy — two lines of code</td></tr>
 </tbody>
 </table>
-</div>
-<p>The honest takeaway: MC Dropout is not a better Bayesian approximation than VI. It is a <em>cheaper and more convenient</em> one. Whether the convenience is worth the approximation quality is an empirical question — and on many benchmarks, the answer is yes.</p>
-<div align="center" style="margin-top: 50px;"> <img alt="No description has been provided for this image" src="assets/img/s7/section3.webp" width="700"/> </div>
-<p><em>Variational Inference explicitly models uncertainty in the parameter space, whereas MC Dropout induces uncertainty through stochastic network architectures. Despite their different assumptions, both estimate predictive uncertainty by aggregating predictions across multiple model realizations.</em></p>
-</div>
+</div><p>The honest takeaway: MC Dropout is not a better Bayesian approximation than VI. It is a <em>cheaper and more convenient</em> one. Whether the convenience is worth the approximation quality is an empirical question — and on many benchmarks, the answer is yes.</p>
+<div align="center" style="margin-top: 50px;"> <img src="assets/img/s7/section3.webp" width="700" /> </div><p><em>Variational Inference explicitly models uncertainty in the parameter space, whereas MC Dropout induces uncertainty through stochastic network architectures. Despite their different assumptions, both estimate predictive uncertainty by aggregating predictions across multiple model realizations.</em></p>
+
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=mc0009"><div class="inner_cell">
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<hr/>
-<h2 id="%F0%9F%94%A7-4.-Practical-considerations">🔧 4. Practical considerations<a class="anchor-link" href="#%F0%9F%94%A7-4.-Practical-considerations">¶</a></h2><p>MC Dropout is simple in principle but has a few practical details worth knowing before you implement it.</p>
-<h3 id="%F0%9F%93%8D-Dropout-placement-matters">📍 Dropout placement matters<a class="anchor-link" href="#%F0%9F%93%8D-Dropout-placement-matters">¶</a></h3><p>Where you place dropout layers in the network affects what uncertainty you capture. Dropout after convolutional layers applies stochasticity to spatial feature maps — this produces spatially varying uncertainty, useful for segmentation. Dropout before the final classification layer (the most common placement) produces uncertainty at the decision level — useful for classification.</p>
+<hr>
+<h2 id="%F0%9F%94%A7-4.-Practical-considerations">&#128295; 4. Practical considerations<a class="anchor-link" href="#%F0%9F%94%A7-4.-Practical-considerations">&#182;</a></h2><p>MC Dropout is simple in principle but has a few practical details worth knowing before you implement it.</p>
+<h3 id="%F0%9F%93%8D-Dropout-placement-matters">&#128205; Dropout placement matters<a class="anchor-link" href="#%F0%9F%93%8D-Dropout-placement-matters">&#182;</a></h3><p>Where you place dropout layers in the network affects what uncertainty you capture. Dropout after convolutional layers applies stochasticity to spatial feature maps — this produces spatially varying uncertainty, useful for segmentation. Dropout before the final classification layer (the most common placement) produces uncertainty at the decision level — useful for classification.</p>
 <p>For a pretrained backbone like DenseNet121, adding dropout only before the final layer (which is what most medical imaging UQ papers do) is the safest and most interpretable choice.</p>
-<h3 id="%F0%9F%8E%9A%EF%B8%8F-The-dropout-rate-tradeoff">🎚️ The dropout rate tradeoff<a class="anchor-link" href="#%F0%9F%8E%9A%EF%B8%8F-The-dropout-rate-tradeoff">¶</a></h3><p>The dropout rate $p$ controls how aggressively weights are masked. A higher $p$ means more variation between forward passes — more uncertainty. But it also means each individual prediction is noisier and less accurate. In practice:</p>
+<h3 id="%F0%9F%8E%9A%EF%B8%8F-The-dropout-rate-tradeoff">&#127898;&#65039; The dropout rate tradeoff<a class="anchor-link" href="#%F0%9F%8E%9A%EF%B8%8F-The-dropout-rate-tradeoff">&#182;</a></h3><p>The dropout rate $p$ controls how aggressively weights are masked. A higher $p$ means more variation between forward passes — more uncertainty. But it also means each individual prediction is noisier and less accurate. In practice:</p>
 <ul>
 <li>$p = 0.1$–$0.3$: mild — good for well-trained models, produces meaningful but not excessive uncertainty</li>
 <li>$p = 0.5$: standard — the classic choice, but may produce too much noise on small datasets</li>
 <li>$p &gt; 0.5$: rarely useful — predictions become too noisy to trust</li>
 </ul>
 <p>The dropout rate should match what was used during training. Using a different rate at test time breaks the theoretical connection to VI entirely.</p>
-<h3 id="%E2%9A%A1-T-%E2%80%94-how-many-forward-passes?">⚡ T — how many forward passes?<a class="anchor-link" href="#%E2%9A%A1-T-%E2%80%94-how-many-forward-passes?">¶</a></h3><p>More T means a better estimate of the predictive distribution, but at a linear cost in compute. In practice:</p>
+<h3 id="%E2%9A%A1-T-%E2%80%94-how-many-forward-passes?">&#9889; T &#8212; how many forward passes?<a class="anchor-link" href="#%E2%9A%A1-T-%E2%80%94-how-many-forward-passes?">&#182;</a></h3><p>More T means a better estimate of the predictive distribution, but at a linear cost in compute. In practice:</p>
 <ul>
 <li>$T = 10$: fast, reasonable for real-time screening</li>
 <li>$T = 20$–$30$: the sweet spot for most medical imaging tasks</li>
 <li>$T &gt; 50$: diminishing returns — uncertainty estimates stabilise quickly</li>
 </ul>
-<h3 id="%F0%9F%94%87-BatchNorm-%E2%80%94-the-quiet-pain-point">🔇 BatchNorm — the quiet pain point<a class="anchor-link" href="#%F0%9F%94%87-BatchNorm-%E2%80%94-the-quiet-pain-point">¶</a></h3><p>This is the most common practical issue. BatchNorm layers behave differently in <code>train()</code> mode (using batch statistics) vs <code>eval()</code> mode (using running statistics). For MC Dropout, we want dropout active but BatchNorm in <code>eval()</code> mode — otherwise the stochastic batch statistics add noise that has nothing to do with the model's uncertainty. The solution is a custom inference function that puts the model in <code>eval()</code> mode but re-enables dropout manually.</p>
+<h3 id="%F0%9F%94%87-BatchNorm-%E2%80%94-the-quiet-pain-point">&#128263; BatchNorm &#8212; the quiet pain point<a class="anchor-link" href="#%F0%9F%94%87-BatchNorm-%E2%80%94-the-quiet-pain-point">&#182;</a></h3><p>This is the most common practical issue. BatchNorm layers behave differently in <code>train()</code> mode (using batch statistics) vs <code>eval()</code> mode (using running statistics). For MC Dropout, we want dropout active but BatchNorm in <code>eval()</code> mode — otherwise the stochastic batch statistics add noise that has nothing to do with the model's uncertainty. The solution is a custom inference function that puts the model in <code>eval()</code> mode but re-enables dropout manually.</p>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=mc0011"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<hr/>
-<h2 id="%E2%9A%A0%EF%B8%8F-5.-Limitations">⚠️ 5. Limitations<a class="anchor-link" href="#%E2%9A%A0%EF%B8%8F-5.-Limitations">¶</a></h2><p>MC Dropout is widely used and genuinely useful. But it's worth being clear about where it falls short — especially compared to what the 2016 paper promised.</p>
-<blockquote>
-<p><strong>⚠️ The implied prior is not always what you want</strong><br/>
+<hr>
+<h2 id="%E2%9A%A0%EF%B8%8F-5.-Limitations">&#9888;&#65039; 5. Limitations<a class="anchor-link" href="#%E2%9A%A0%EF%B8%8F-5.-Limitations">&#182;</a></h2><p>MC Dropout is widely used and genuinely useful. But it's worth being clear about where it falls short — especially compared to what the 2016 paper promised.</p>
+<blockquote><p><strong>⚠️ The implied prior is not always what you want</strong><br>
 MC Dropout assumes a built-in prior where some weights are randomly turned off. This may not match the kind of uncertainty or prior belief you actually want for your problem. VI lets you choose your prior explicitly. MC Dropout doesn't.</p>
-</blockquote>
-<blockquote>
-<p><strong>⚠️ Cannot learn uncertainty per weight</strong><br/>
+<p><strong>⚠️ Cannot learn uncertainty per weight</strong><br>
 MC Dropout treats all weights in a very rough way: each weight is either kept or dropped randomly. It does not learn how uncertain each individual weight is. So it cannot represent fine-grained uncertainty across the network parameters.</p>
-</blockquote>
-<blockquote>
-<p><strong>⚠️ Dropout rate is hand-designed</strong><br/>
+<p><strong>⚠️ Dropout rate is hand-designed</strong><br>
 The dropout probability is not learned from data. You have to choose it manually. This makes the method sensitive to tuning, and different choices can significantly change both accuracy and uncertainty quality.</p>
-</blockquote>
-<blockquote>
-<p><strong>⚠️ BatchNorm interactions can be problematic</strong><br/>
+<p><strong>⚠️ BatchNorm interactions can be problematic</strong><br>
 MC Dropout does not always work well with Batch Normalization. During training and testing, BatchNorm uses different statistics, and combining this with stochastic dropout can make uncertainty estimates unstable or inconsistent.</p>
-</blockquote>
-<blockquote>
-<p><strong>⚠️ Not all architectures accommodate dropout well</strong><br/>
+<p><strong>⚠️ Not all architectures accommodate dropout well</strong><br>
 Architectures with skip connections (ResNets), dense connections (DenseNets), or heavy BatchNorm usage don't always play nicely with MC Dropout. Adding dropout to the wrong place can hurt accuracy without meaningfully improving uncertainty estimates.</p>
 </blockquote>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=mc0012"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<hr/>
-<h2 id="%F0%9F%93%9A-6.-Recommended-reading">📚 6. Recommended reading<a class="anchor-link" href="#%F0%9F%93%9A-6.-Recommended-reading">¶</a></h2><p>These are the most important and widely cited papers behind Monte Carlo Dropout: first dropout as regularization, then dropout as approximate Bayesian inference, then extensions and empirical evaluations of uncertainty under shift. 🗺️</p>
-<p><strong><a href="https://www.jmlr.org/papers/v15/srivastava14a.html">Dropout: A Simple Way to Prevent Neural Networks from Overfitting</a></strong><br/>
-<em>Srivastava et al., 2014 — JMLR</em><br/>
+<hr>
+<h2 id="%F0%9F%93%9A-6.-Recommended-reading">&#128218; 6. Recommended reading<a class="anchor-link" href="#%F0%9F%93%9A-6.-Recommended-reading">&#182;</a></h2><p>These are the most important and widely cited papers behind Monte Carlo Dropout: first dropout as regularization, then dropout as approximate Bayesian inference, then extensions and empirical evaluations of uncertainty under shift. 🗺️</p>
+<p><strong><a href="https://www.jmlr.org/papers/v15/srivastava14a.html">Dropout: A Simple Way to Prevent Neural Networks from Overfitting</a></strong><br>
+<em>Srivastava et al., 2014 — JMLR</em><br>
 The definitive dropout paper and one of the most cited deep-learning regularization references. It explains dropout as an efficient approximation to averaging many thinned networks, which is the intuition MC Dropout turns into a test-time uncertainty method.</p>
-<p><strong><a href="https://proceedings.mlr.press/v48/gal16.html">Dropout as a Bayesian Approximation: Representing Model Uncertainty in Deep Learning</a></strong><br/>
-<em>Gal &amp; Ghahramani, 2016 — ICML</em><br/>
+<p><strong><a href="https://proceedings.mlr.press/v48/gal16.html">Dropout as a Bayesian Approximation: Representing Model Uncertainty in Deep Learning</a></strong><br>
+<em>Gal &amp; Ghahramani, 2016 — ICML</em><br>
 The central MC Dropout paper. It shows that keeping dropout active at test time can be interpreted as approximate Bayesian inference in deep Gaussian processes, giving a practical way to estimate predictive uncertainty from ordinary dropout networks.</p>
-<p><strong><a href="https://arxiv.org/abs/1705.07832">Concrete Dropout</a></strong><br/>
-<em>Gal, Hron &amp; Kendall, 2017 — NeurIPS</em><br/>
+<p><strong><a href="https://arxiv.org/abs/1705.07832">Concrete Dropout</a></strong><br>
+<em>Gal, Hron &amp; Kendall, 2017 — NeurIPS</em><br>
 A major follow-up that learns dropout probabilities automatically instead of treating them as fixed hyperparameters. Useful when the choice of dropout rate strongly affects uncertainty quality.</p>
-<p><strong><a href="https://proceedings.neurips.cc/paper/2017/hash/2650d6089a6d640c5e85b2b88265dc2b-Abstract.html">What Uncertainties Do We Need in Bayesian Deep Learning for Computer Vision?</a></strong><br/>
-<em>Kendall &amp; Gal, 2017 — NeurIPS</em><br/>
+<p><strong><a href="https://proceedings.neurips.cc/paper/2017/hash/2650d6089a6d640c5e85b2b88265dc2b-Abstract.html">What Uncertainties Do We Need in Bayesian Deep Learning for Computer Vision?</a></strong><br>
+<em>Kendall &amp; Gal, 2017 — NeurIPS</em><br>
 A highly cited computer-vision paper that connects MC Dropout to the aleatoric/epistemic decomposition. It is especially useful for understanding how test-time sampling can separate model uncertainty from data noise.</p>
-<hr/>
+<hr>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=413a75b2"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="%E2%9C%85-Session-summary">✅ Session summary<a class="anchor-link" href="#%E2%9C%85-Session-summary">¶</a></h2><table>
-<thead>
-<tr>
+<h2 id="%E2%9C%85-Session-summary">&#9989; Session summary<a class="anchor-link" href="#%E2%9C%85-Session-summary">&#182;</a></h2><table>
+<thead><tr>
 <th>Concept</th>
 <th>Key takeaway</th>
 </tr>
@@ -355,17 +345,19 @@ A highly cited computer-vision paper that connects MC Dropout to the aleatoric/e
 </tr>
 </tbody>
 </table>
-<hr/>
-<blockquote>
-<p><strong>➡️ Next: Session 8: MC Dropout Implementation</strong><br/>
+<hr>
+<blockquote><p><strong>➡️ Next: Session 8: MC Dropout Implementation</strong><br>
 Session 8 turns MC Dropout into a working chest X-ray pipeline: we will add dropout to DenseNet121, train the model normally, keep dropout active at inference time, run repeated stochastic forward passes, and use the resulting prediction spread to estimate uncertainty in real medical images.</p>
 </blockquote>
+
 </div>
 </div>
 </div>
+
+
 </article>
   <nav class="pagenav"><a class="pagenav-card" href="session-6.html"><div class="pn-label">← Previous</div><div class="pn-title">Session 6: Variational Inference — Implementation</div></a><a class="pagenav-card pagenav-next" href="session-8.html"><div class="pn-label">Next →</div><div class="pn-title">Session 8: MC Dropout — Implementation</div></a></nav>
-  <div class="foot"><span>UQMI — Uncertainty Quantification of Machine Learning Models in Medical Imaging</span><span>Benyamin Gheiji · Danial Elyassirad · Mahsa Vatanparast · Shahriar Faghani</span></div>
+  <div class="foot"><span>UQMI — Uncertainty Quantification of Machine Learning Models in Medical Imaging</span><span>Benyamin Gheiji · Danial Elyassirad · Mahsa Vatanparast · Chen Chen · Shahriar Faghani</span></div>
 </div>
 
 </main>

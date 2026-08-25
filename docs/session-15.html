@@ -149,7 +149,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
   </nav>
   <div class="sb-foot">
     <div class="sb-foot-label">Created by</div>
-    <div class="sb-foot-names">Benyamin Gheiji<br>Danial Elyassirad<br>Mahsa Vatanparast<br>Shahriar Faghani</div>
+    <div class="sb-foot-names">Benyamin Gheiji<br>Danial Elyassirad<br>Mahsa Vatanparast<br>Chen Chen<br>Shahriar Faghani</div>
   </div>
 </aside>
 <main class="main" id="main">
@@ -165,14 +165,12 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
   </span>
   <span class="k-arrow">↗</span>
 </a>
-  <article class="nb"><div class="cell border-box-sizing text_cell rendered" id="cell-id=sum0001"><div class="inner_cell">
+  <article class="nb"><div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Session-15-%E2%80%94-Part-2-Summary-%E2%80%94-Core-Uncertainty-Quantification-Methods-in-Medical-Imaging-%F0%9F%97%BA%EF%B8%8F">Session 15 — Part 2 Summary — Core Uncertainty Quantification Methods in Medical Imaging 🗺️<a class="anchor-link" href="#Session-15-%E2%80%94-Part-2-Summary-%E2%80%94-Core-Uncertainty-Quantification-Methods-in-Medical-Imaging-%F0%9F%97%BA%EF%B8%8F">¶</a></h1><p><strong>Part 2 — Core UQ Algorithms</strong></p>
-<blockquote>
-<p><em>Five methods. Five different answers to the same question: how does a model know what it doesn't know?</em></p>
+<h1 id="Session-15-%E2%80%94-Part-2-Summary-%E2%80%94-Core-Uncertainty-Quantification-Methods-in-Medical-Imaging-%F0%9F%97%BA%EF%B8%8F">Session 15 &#8212; Part 2 Summary &#8212; Core Uncertainty Quantification Methods in Medical Imaging &#128506;&#65039;<a class="anchor-link" href="#Session-15-%E2%80%94-Part-2-Summary-%E2%80%94-Core-Uncertainty-Quantification-Methods-in-Medical-Imaging-%F0%9F%97%BA%EF%B8%8F">&#182;</a></h1><p><strong>Part 2 — Core UQ Algorithms</strong></p>
+<blockquote><p><em>Five methods. Five different answers to the same question: how does a model know what it doesn't know?</em></p>
 </blockquote>
-<div align="center" style="margin-top: 50px;"> <img alt="No description has been provided for this image" src="assets/img/s15/intro.webp" width="700"/> </div>
-<h3 id="What-this-notebook-is">What this notebook is<a class="anchor-link" href="#What-this-notebook-is">¶</a></h3><p>Sessions 5 through 9 introduced five distinct approaches to uncertainty quantification in deep learning, all applied to the same chest X-ray classification task. Each method came with its own theoretical motivation, implementation strategy, and clinical interpretation.</p>
+<div align="center" style="margin-top: 50px;"> <img src="assets/img/s15/intro.webp" width="700" /> </div><h3 id="What-this-notebook-is">What this notebook is<a class="anchor-link" href="#What-this-notebook-is">&#182;</a></h3><p>Sessions 5 through 9 introduced five distinct approaches to uncertainty quantification in deep learning, all applied to the same chest X-ray classification task. Each method came with its own theoretical motivation, implementation strategy, and clinical interpretation.</p>
 <p>This summary notebook consolidates everything. It is not a ranking. It is not a competition. Each method solves a <strong>different version</strong> of the reliability problem in medical imaging AI — and understanding which version of the problem you face is more important than knowing which method scores highest on a benchmark.</p>
 <p>What you will find here:</p>
 <ul>
@@ -181,10 +179,9 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <li>A <strong>concepts glossary</strong> for the key ideas that cut across all methods</li>
 <li>A <strong>"when to use which"</strong> section grounded in practical clinical considerations</li>
 </ul>
-<hr/>
-<h3 id="The-five-methods-at-a-glance">The five methods at a glance<a class="anchor-link" href="#The-five-methods-at-a-glance">¶</a></h3><table>
-<thead>
-<tr>
+<hr>
+<h3 id="The-five-methods-at-a-glance">The five methods at a glance<a class="anchor-link" href="#The-five-methods-at-a-glance">&#182;</a></h3><table>
+<thead><tr>
 <th>Session</th>
 <th>Method</th>
 <th>One-line summary</th>
@@ -218,10 +215,11 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </tr>
 </tbody>
 </table>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=sum0002"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <style>
 .uq-wrap { overflow-x: auto; }
@@ -231,9 +229,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .uq-table .m .katex-html,
 .uq-table .m mjx-container,
 .uq-table .m mjx-container * { white-space: nowrap !important; }
-</style>
-<hr/>
-<h2 id="%F0%9F%93%8A-1.-Structured-comparison-table">📊 1. Structured comparison table<a class="anchor-link" href="#%F0%9F%93%8A-1.-Structured-comparison-table">¶</a></h2><p>The table below compares all five methods across the dimensions that matter most for implementation and clinical deployment. Read it column by column to understand what each dimension reveals, or row by row to understand each method's full profile.</p>
+</style><hr>
+<h2 id="%F0%9F%93%8A-1.-Structured-comparison-table">&#128202; 1. Structured comparison table<a class="anchor-link" href="#%F0%9F%93%8A-1.-Structured-comparison-table">&#182;</a></h2><p>The table below compares all five methods across the dimensions that matter most for implementation and clinical deployment. Read it column by column to understand what each dimension reveals, or row by row to understand each method's full profile.</p>
 <div class="uq-wrap">
 <table class="uq-table" style="min-width:1400px">
 <thead>
@@ -256,56 +253,56 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <tr><td style="width:10%"><strong>Architecture in this project</strong></td><td style="width:21%">DenseNet121 + <code>BayesLinear(1024, 2)</code> head</td><td style="width:21%">DenseNet121 + <code>nn.Dropout(0.3)</code> + standard head</td><td style="width:21%">3× DenseNet121 with different seeds</td><td style="width:15%">DenseNet121 + <code>nn.Linear(1024, 2)</code> + ReLU</td><td style="width:12%">Standard DenseNet121 (any base model)</td></tr>
 </tbody>
 </table>
+</div><hr>
+
 </div>
-<hr/>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=LepqYBoL8HKX"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="%F0%9F%A7%AD-2.-The-Inference-Pipeline-For-Each-Method">🧭 2. The Inference Pipeline For Each Method<a class="anchor-link" href="#%F0%9F%A7%AD-2.-The-Inference-Pipeline-For-Each-Method">¶</a></h2>
+<h2 id="%F0%9F%A7%AD-2.-The-Inference-Pipeline-For-Each-Method">&#129517; 2. The Inference Pipeline For Each Method<a class="anchor-link" href="#%F0%9F%A7%AD-2.-The-Inference-Pipeline-For-Each-Method">&#182;</a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=1d-P1SnJ79kJ"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The following figure provides a visual snapshot of the inference pipeline used for each UQ method implemented in Part 2. For all approaches, chest X-ray images are first processed by a DenseNet-based feature extractor, after which each method applies a different uncertainty estimation strategy at the prediction stage.</p>
 <p>VI, MC Dropout, and Deep Ensembles rely on stochastic prediction sampling, where multiple forward passes or model predictions are aggregated to estimate predictive uncertainty through total entropy and mutual information. In contrast, EDL performs a single forward pass and directly derives uncertainty from learned Dirichlet evidence parameters. CP differs from probabilistic uncertainty estimation methods by generating prediction sets using nonconformity scores and a calibrated threshold, providing coverage guarantees instead of explicit epistemic uncertainty modeling.</p>
 <p>In the following image, we show a pipeline for each method to provide an intuitive snapshot of how predictions and uncertainty estimates are generated.</p>
-<div align="center" style="margin-top: 50px;"> <img alt="No description has been provided for this image" src="assets/img/s15/section3.webp" width="700"/> </div>
+<div align="center" style="margin-top: 50px;"> <img src="assets/img/s15/section3.webp" width="700" /> </div>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=sum0008"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<hr/>
-<h2 id="%F0%9F%8F%A5-3.-When-to-use-which-method?">🏥 3. When to use which method?<a class="anchor-link" href="#%F0%9F%8F%A5-3.-When-to-use-which-method?">¶</a></h2><p>There is no universally best UQ method. The right choice depends on the clinical context, the computational budget, the regulatory environment, and the specific reliability problem you are trying to solve. This section frames the decision as a series of questions — not a ranking.</p>
-<hr/>
-<h3 id="%F0%9F%94%B5-Consider-Variational-Inference-when...">🔵 Consider Variational Inference when...<a class="anchor-link" href="#%F0%9F%94%B5-Consider-Variational-Inference-when...">¶</a></h3><ul>
+<hr>
+<h2 id="%F0%9F%8F%A5-3.-When-to-use-which-method?">&#127973; 3. When to use which method?<a class="anchor-link" href="#%F0%9F%8F%A5-3.-When-to-use-which-method?">&#182;</a></h2><p>There is no universally best UQ method. The right choice depends on the clinical context, the computational budget, the regulatory environment, and the specific reliability problem you are trying to solve. This section frames the decision as a series of questions — not a ranking.</p>
+<hr>
+<h3 id="%F0%9F%94%B5-Consider-Variational-Inference-when...">&#128309; Consider Variational Inference when...<a class="anchor-link" href="#%F0%9F%94%B5-Consider-Variational-Inference-when...">&#182;</a></h3><ul>
 <li>You want a <strong>principled Bayesian posterior</strong> and are willing to invest in the ELBO training setup</li>
 <li>Your model is <strong>small enough</strong> that doubling the head parameters is acceptable</li>
 <li>You are in a <strong>research context</strong> where the theoretical connection to Bayesian inference matters for publication or interpretation</li>
 <li>You want to use <strong>Bayesian active learning</strong> — epistemic uncertainty from VI is a natural acquisition function</li>
 </ul>
 <p><strong>Watch out for:</strong> mean-field overconfidence on ambiguous inputs, ELBO instability during training, kl_weight sensitivity.</p>
-<hr/>
-<h3 id="%F0%9F%9F%A2-Consider-MC-Dropout-when...">🟢 Consider MC Dropout when...<a class="anchor-link" href="#%F0%9F%9F%A2-Consider-MC-Dropout-when...">¶</a></h3><ul>
+<hr>
+<h3 id="%F0%9F%9F%A2-Consider-MC-Dropout-when...">&#128994; Consider MC Dropout when...<a class="anchor-link" href="#%F0%9F%9F%A2-Consider-MC-Dropout-when...">&#182;</a></h3><ul>
 <li>You have an <strong>existing trained model</strong> with dropout and want uncertainty with zero retraining</li>
 <li><strong>Computational budget is limited</strong> and you need the cheapest possible UQ solution</li>
 <li>You need a <strong>fast prototype</strong> to demonstrate that uncertainty is useful before investing in a more expensive method</li>
 <li>Your architecture <strong>naturally accommodates dropout</strong> (MLP heads, transformer attention dropout)</li>
 </ul>
 <p><strong>Watch out for:</strong> dropout rate sensitivity, OOD overconfidence, BatchNorm interaction, not all architectures are dropout-friendly.</p>
-<hr/>
-<h3 id="%F0%9F%9F%A1-Consider-Deep-Ensembles-when...">🟡 Consider Deep Ensembles when...<a class="anchor-link" href="#%F0%9F%9F%A1-Consider-Deep-Ensembles-when...">¶</a></h3><ul>
+<hr>
+<h3 id="%F0%9F%9F%A1-Consider-Deep-Ensembles-when...">&#128993; Consider Deep Ensembles when...<a class="anchor-link" href="#%F0%9F%9F%A1-Consider-Deep-Ensembles-when...">&#182;</a></h3><ul>
 <li><strong>Calibration quality</strong> is the primary concern — ensembles are consistently well-calibrated empirically</li>
 <li>You have the <strong>compute budget</strong> for M full training runs</li>
 <li>The <strong>diversity collapse risk is low</strong> — you have enough training data for M models to find genuinely different solutions</li>
 <li>You can store and serve <strong>M full models</strong> in your deployment infrastructure</li>
 </ul>
 <p><strong>Watch out for:</strong> linear cost in M, diversity collapse on small datasets, no formal Bayesian interpretation.</p>
-<hr/>
-<h3 id="%F0%9F%94%B4-Consider-Evidential-Deep-Learning-when...">🔴 Consider Evidential Deep Learning when...<a class="anchor-link" href="#%F0%9F%94%B4-Consider-Evidential-Deep-Learning-when...">¶</a></h3><ul>
+<hr>
+<h3 id="%F0%9F%94%B4-Consider-Evidential-Deep-Learning-when...">&#128308; Consider Evidential Deep Learning when...<a class="anchor-link" href="#%F0%9F%94%B4-Consider-Evidential-Deep-Learning-when...">&#182;</a></h3><ul>
 <li><strong>Inference latency is critical</strong> — a single forward pass is all you can afford (real-time screening, edge deployment)</li>
 <li>You want a <strong>clinically interpretable uncertainty</strong> — evidence strength $S$ is easier to communicate than entropy</li>
 <li>You need <strong>aleatoric/epistemic decomposition</strong> without T forward passes</li>
@@ -313,8 +310,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <li>You are in a <strong>research context</strong> exploring second-order uncertainty and want to build intuition for evidential methods</li>
 </ul>
 <p><strong>Watch out for:</strong> OOD overconfidence, KL weight sensitivity, theoretical properties don't always hold empirically — always validate on your specific dataset.</p>
-<hr/>
-<h3 id="%F0%9F%9F%A3-Consider-Conformal-Prediction-when...">🟣 Consider Conformal Prediction when...<a class="anchor-link" href="#%F0%9F%9F%A3-Consider-Conformal-Prediction-when...">¶</a></h3><ul>
+<hr>
+<h3 id="%F0%9F%9F%A3-Consider-Conformal-Prediction-when...">&#128995; Consider Conformal Prediction when...<a class="anchor-link" href="#%F0%9F%9F%A3-Consider-Conformal-Prediction-when...">&#182;</a></h3><ul>
 <li>You need a <strong>formal, regulatorily defensible coverage guarantee</strong> — for FDA clearance, clinical trial protocols, or institutional validation</li>
 <li>You want <strong>prediction sets</strong> rather than probability scores — more natural for clinicians than entropy values</li>
 <li>Your <strong>base model is already trained</strong> and you want to add uncertainty without retraining</li>
@@ -322,32 +319,34 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <li>You are in a <strong>binary or multi-class decision task</strong> where the differential diagnosis framing is appropriate</li>
 </ul>
 <p><strong>Watch out for:</strong> marginal guarantee only (check conditional coverage), exchangeability assumption breaks under distribution shift, calibration set reduces effective training data.</p>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=sum0009"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<hr/>
-<h2 id="%E2%9C%85-Part-2-complete">✅ Part 2 complete<a class="anchor-link" href="#%E2%9C%85-Part-2-complete">¶</a></h2><p>You have now seen five different answers to the question: <em>how does a model know what it doesn't know?</em></p>
+<hr>
+<h2 id="%E2%9C%85-Part-2-complete">&#9989; Part 2 complete<a class="anchor-link" href="#%E2%9C%85-Part-2-complete">&#182;</a></h2><p>You have now seen five different answers to the question: <em>how does a model know what it doesn't know?</em></p>
 <p>Each answer is correct — in its own context. Each carries trade-offs that are real and measurable. The goal of this course has never been to tell you which method is best. It has been to give you the understanding to make that judgement yourself, for your specific clinical problem, your computational constraints, and your deployment environment.</p>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=b8450f5e"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<hr/>
-<blockquote>
-<p><strong>➡️ Next: Part 3, Session 16: Calibration</strong></p>
-</blockquote>
-<blockquote>
+<hr>
+<blockquote><p><strong>➡️ Next: Part 3, Session 16: Calibration</strong></p>
 <p>How trustworthy are a model’s confidence scores? Next session covers calibration, overconfidence, ECE, reliability diagrams, and Brier score, then introduces practical methods such as temperature scaling, Platt scaling, and isotonic regression to improve confidence estimates for clinical AI.</p>
 </blockquote>
+
 </div>
 </div>
 </div>
+
+
 </article>
   <nav class="pagenav"><a class="pagenav-card" href="session-14.html"><div class="pn-label">← Previous</div><div class="pn-title">Session 14: Conformal Prediction — Implementation</div></a><a class="pagenav-card pagenav-next" href="part-3.html"><div class="pn-label">Next →</div><div class="pn-title">Part 3 — Evaluation &amp; Reliability</div></a></nav>
-  <div class="foot"><span>UQMI — Uncertainty Quantification of Machine Learning Models in Medical Imaging</span><span>Benyamin Gheiji · Danial Elyassirad · Mahsa Vatanparast · Shahriar Faghani</span></div>
+  <div class="foot"><span>UQMI — Uncertainty Quantification of Machine Learning Models in Medical Imaging</span><span>Benyamin Gheiji · Danial Elyassirad · Mahsa Vatanparast · Chen Chen · Shahriar Faghani</span></div>
 </div>
 
 </main>

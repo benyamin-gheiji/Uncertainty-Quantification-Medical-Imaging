@@ -41,6 +41,7 @@ AUTHORS = [
     ("BG", "Benyamin Gheiji", "Course Author"),
     ("DE", "Danial Elyassirad", "Course Author"),
     ("MV", "Mahsa Vatanparast", "Course Author"),
+    ("CC", "Chen Chen", "Content Supervisor"),
     ("SF", "Shahriar Faghani", "Content Supervisor"),
 ]
 

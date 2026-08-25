@@ -625,7 +625,7 @@ button:focus-visible {
 .toolkit-card h3 { font-size: 1.08rem; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 var(--s2); }
 .toolkit-card p { margin: 0; font-size: 0.9rem; color: var(--fg-muted); line-height: 1.65; }
 
-.team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s3); }
+.team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--s3); }
 .team-card {
   background: var(--card);
   border: 1px solid var(--border);
