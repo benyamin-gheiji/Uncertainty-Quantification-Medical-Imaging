@@ -3,8 +3,14 @@
 #   session 01/ … session 19/   notebooks + their figures (the course itself)
 #   docs/                       the generated site — GitHub Pages serves it from
 #                               this folder, so it must stay tracked
-#   build.py, site/             the site generator and its stylesheet
+#   build.py, website/          the site generator and its stylesheet
 # ─────────────────────────────────────────────────────────────────────────────
+
+# Manuscript — drafts, figures and exports stay local, out of the public site
+paper/
+
+# Build notes for the site generator — not part of the published course
+BUILDING.md
 
 # Python
 __pycache__/

@@ -350,9 +350,8 @@ button:focus-visible {
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--fg);
-  margin: 0 0 var(--s2);
+  margin: 0;                 /* title-only cards: no trailing gap */
 }
-.prereq-card p { margin: 0; font-size: 0.9rem; line-height: 1.6; color: var(--fg-muted); }
 
 /* ── Learn grid ───────────────────────────────────────────────────────── */
 .learn-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s3); }
@@ -625,13 +624,62 @@ button:focus-visible {
 .toolkit-card h3 { font-size: 1.08rem; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 var(--s2); }
 .toolkit-card p { margin: 0; font-size: 0.9rem; color: var(--fg-muted); line-height: 1.65; }
 
-.team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--s3); }
+/* course authors sit on one row; supervisors are centred on the next */
+.team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s3); }
+.team-grid + .team-grid { margin-top: var(--s3); }
+.team-grid-centered {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: calc((100% - 2 * var(--s3)) / 3);
+  margin-left: auto;
+  margin-right: auto;
+}
 .team-card {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: var(--s5) var(--s4);
   text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+.team-photo {
+  width: 96px; height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto var(--s3);
+  border: 2px solid var(--border-strong);
+  background: var(--muted);
+}
+.team-blurb {
+  margin: var(--s2) 0 0;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--fg-muted);
+  flex: 1;
+}
+.team-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-top: var(--s3);
+}
+.team-link {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+  padding: 4px 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: 99px;
+  color: var(--primary);
+  background: var(--card);
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.team-link:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--on-primary);
+  text-decoration: none;
 }
 .team-avatar {
   width: 52px; height: 52px;
@@ -805,6 +853,7 @@ button:focus-visible {
 @media (max-width: 1024px) {
   .learn-grid, .toolkit-grid { grid-template-columns: 1fr; }
   .team-grid { grid-template-columns: repeat(2, 1fr); }
+  .team-grid-centered { max-width: calc((100% - var(--s3)) / 2); }
   .main { padding: var(--s6) var(--s5) var(--s7); }
 }
 
@@ -832,6 +881,7 @@ button:focus-visible {
 
 @media (max-width: 375px) {
   .prereq-grid, .team-grid { grid-template-columns: 1fr; }
+  .team-grid-centered { max-width: 100%; }
   .hero-stats { grid-template-columns: 1fr; }
   .hero-stat + .hero-stat { border-left: none; border-top: 1px solid var(--border); padding-top: var(--s3); margin-top: var(--s3); }
   .nb h1 { font-size: 1.6rem; }

@@ -1,4 +1,4 @@
-# Uncertainty Quantification of Machine Learning Models in Medical Imaging
+# 🩺 Uncertainty Quantification in Medical Imaging Analysis
 
 **A free, hands-on course — 19 sessions on teaching medical imaging models to know what they don't know.**
 
@@ -6,7 +6,7 @@
 
 ---
 
-## What this course is about
+## 🎯 What this course is about
 
 This course is about a single, practical problem: how do you build a medical imaging model
 that knows when it might be wrong?
@@ -25,33 +25,30 @@ By the end you should be able to take an existing model, attach a well-founded u
 estimate to its predictions, check honestly whether that estimate can be trusted, and decide
 which method fits the problem in front of you.
 
-## Who it's for
+## 👥 Who it's for
 
-Researchers and practitioners building models for medical imaging, and anyone who needs
-their predictions to carry an honest measure of confidence. You will get the most out of it
-with:
+This course is written for researchers and practitioners who already build models for
+medical imaging and want their predictions to carry an honest measure of confidence. You
+will get the most out of it if you are comfortable with **Python**, understand the
+**fundamentals of machine learning**, have some working familiarity with **deep learning
+and PyTorch**, and have previously worked with **medical imaging data**. No prior exposure
+to UQ methods is assumed — everything in that direction
+is built up from the beginning.
 
-| | Prerequisite | What's assumed |
-|---|---|---|
-| 01 | **Python** | Functions, classes, NumPy arrays, working in Jupyter notebooks |
-| 02 | **Machine learning fundamentals** | Training and evaluation, over/underfitting, data splits, metrics beyond accuracy |
-| 03 | **Deep learning & PyTorch** | How networks are trained; enough PyTorch to define a model, write a training loop, run inference |
-| 04 | **Medical imaging data** | Some experience with image datasets, and an appreciation of the clinical stakes when a model is wrong |
-
-## Three ways to follow along
+## 🚀 Three ways to follow along
 
 1. **Read it on the web** — the [course website](https://benyamin-gheiji.github.io/Uncertainty-Quantification-Medical-Imaging/)
-   renders every session with navigation between parts and sessions. Nothing to install.
+   renders every session with navigation between parts and sessions.
 2. **Run it on Kaggle** — every session is published as a Kaggle notebook (linked in the
    table below and from the top of each session page). Free GPUs, no local setup, the chest
    X-ray dataset already attached.
-3. **Run it locally** — clone this repository and open any notebook in `session NN/`. You'll
-   need `jupyter`, `torch`, `numpy`, `matplotlib` and `scikit-learn`; the implementation
-   sessions also expect the chest X-ray dataset.
+3. **Run it locally** — clone this repository and open any notebook in `session NN/`. The
+   implementation sessions expect the
+   [chest X-ray pneumonia dataset](https://www.kaggle.com/datasets/paultimothymooney/chest-xray-pneumonia).
 
-## Course outline
+## 🗺️ Course outline
 
-### Part 1 — Foundations · Sessions 1–3
+### 🌱 Part 1 — Foundations · Sessions 1–3
 
 Clinical motivation, the two failure modes of AI (overconfidence and underconfidence), the
 two kinds of uncertainty, and how clinicians already reason probabilistically.
@@ -62,7 +59,7 @@ two kinds of uncertainty, and how clinicians already reason probabilistically.
 | 2 | Aleatoric vs Epistemic Uncertainty | Concept | [open](https://www.kaggle.com/code/benyamingheiji/session-2-aleatoric-vs-epistemic-uncertainty) |
 | 3 | Uncertainty in Clinical Practice | Concept | [open](https://www.kaggle.com/code/benyamingheiji/session-3-uncertainty-in-clinical-practice) |
 
-### Part 2 — Core UQ Methods · Sessions 4–15
+### ⚙️ Part 2 — Core UQ Methods · Sessions 4–15
 
 The methods themselves. Each concept session is followed by a PyTorch implementation on real
 chest X-ray data, and the part closes with a side-by-side comparison of all five approaches.
@@ -82,7 +79,7 @@ chest X-ray data, and the part closes with a side-by-side comparison of all five
 | 14 | Conformal Prediction — Implementation | Implementation | [open](https://www.kaggle.com/code/benyamingheiji/session-14-conformal-prediction-implementation/) |
 | 15 | Part 2 Summary | Summary | [open](https://www.kaggle.com/code/benyamingheiji/session-15-part-2-summary/) |
 
-### Part 3 — Evaluation & Reliability · Sessions 16–18
+### 📐 Part 3 — Evaluation & Reliability · Sessions 16–18
 
 Having produced uncertainty estimates, we ask whether they can be trusted. All three
 sessions combine the concept and its implementation in a single notebook.
@@ -93,7 +90,7 @@ sessions combine the concept and its implementation in a single notebook.
 | 17 | Risk–Coverage Analysis | Concept + Implementation | [open](https://www.kaggle.com/code/benyamingheiji/session-17-risk-coverage-analysis/) |
 | 18 | Out-of-Distribution Detection | Concept + Implementation | [open](https://www.kaggle.com/code/benyamingheiji/session-18-out-of-distribution-detection/) |
 
-### Part 4 — Future Directions · Session 19
+### 🧭 Part 4 — Future Directions · Session 19
 
 How to choose a method for a real clinical problem, what is still unsolved, and where the
 field is going.
@@ -102,7 +99,7 @@ field is going.
 |---|---|---|---|
 | 19 | Final Summary & Future Directions | Summary | [open](https://www.kaggle.com/code/benyamingheiji/session-19-final-summary-future-directions) |
 
-## What you'll take away
+## 💡 What you'll take away
 
 - Why accuracy alone is not enough in clinical AI, and how clinicians reason probabilistically
 - The difference between **aleatoric** (data) and **epistemic** (model) uncertainty, and why
@@ -112,19 +109,35 @@ field is going.
 - Calibration, risk–coverage trade-offs, and out-of-distribution detection
 - Working PyTorch implementations of every method, on real data
 
-## Authors
+## ✍️ Authors
 
-| | |
-|---|---|
-| **Benyamin Gheiji** | Course Author |
-| **Danial Elyassirad** | Course Author |
-| **Mahsa Vatanparast** | Course Author |
-| **Shahriar Faghani** | Content Supervisor |
+**Benyamin Gheiji** — *Course Author · Project Lead*<br>
+Medical Student, Medical Imaging AI Researcher<br>
+[Website](https://benyamin-gheiji.github.io/) · [Google Scholar](https://scholar.google.com/citations?user=0Fdy24gAAAAJ&hl=en) · [LinkedIn](https://ir.linkedin.com/in/benyamin-gheiji-4a0668260)
 
-## Repository layout
+**Danial Elyassirad** — *Course Author*<br>
+Medical Doctor, Medical Imaging AI Researcher<br>
+[Website](https://danialelyassirad.github.io/) · [Google Scholar](https://scholar.google.com/citations?user=RzDOvMwAAAAJ&hl=en) · [LinkedIn](https://ir.linkedin.com/in/danial-elyassirad)
 
-```
-session 01/ … session 19/   the course notebooks and their figures
-docs/                       the generated course website (served by GitHub Pages)
-build.py, site/             the site generator — see BUILDING.md
-```
+**Mahsa Vatanparast** — *Course Author*<br>
+Medical Doctor, Medical Imaging AI Researcher<br>
+[Google Scholar](https://scholar.google.com/citations?user=rEmIJDIAAAAJ&hl=en) · [LinkedIn](https://ir.linkedin.com/in/mahsa-vatanparast-24314b2a7)
+
+**Shahriar Faghani** — *Content Supervisor*<br>
+Radiology Resident at the University of Pennsylvania · Adjunct Assistant Professor of Radiology at Mayo Clinic<br>
+[Google Scholar](https://scholar.google.com/citations?user=6HV5eJAAAAAJ&hl=en) · [LinkedIn](https://www.linkedin.com/in/shahriar-faghani-7b468082)
+
+## 🤝 Feedback and contributing
+
+We would be glad to hear from you if you spot a problem anywhere in the tutorial — an error,
+an unclear explanation, or something that simply does not run. You can reach us by opening a
+[GitHub issue](https://github.com/benyamin-gheiji/Uncertainty-Quantification-Medical-Imaging/issues),
+leaving a comment in the discussion section of the relevant Kaggle notebook, or emailing
+**benyamingheiji@gmail.com** directly.
+
+We would also be very happy to collaborate with anyone who would like to help expand this
+work — whether that means extending it to segmentation, regression, or registration, adding
+new methods, or improving what is already here.
+
+⭐ And if you find the course useful, starring the repository, upvoting the Kaggle notebooks,
+and passing it on to others goes a long way in helping it reach the people who need it.

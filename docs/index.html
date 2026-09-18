@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Uncertainty Quantification of Machine Learning Models in Medical Imaging</title>
-<meta name="description" content="Uncertainty Quantification of Machine Learning Models in Medical Imaging — a free, hands-on course.">
+<title>Uncertainty Quantification in Medical Imaging Analysis</title>
+<meta name="description" content="Uncertainty Quantification in Medical Imaging Analysis — a free, hands-on course.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -106,8 +106,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <div class="shell">
 <aside class="sidebar" id="sidebar">
   <div class="sb-brand">
-    <a class="sb-mark" href="index.html">🏥 UQMI</a>
-    <div class="sb-tagline">Uncertainty Quantification<br>in Medical Imaging</div>
+    <a class="sb-mark" href="index.html">🏥 UQMIA</a>
+    <div class="sb-tagline">Uncertainty Quantification<br>in Medical Imaging Analysis</div>
   </div>
   <nav class="sb-nav">
     <a class="sb-home active" href="index.html">🏠 &nbsp;Home</a>
@@ -149,7 +149,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
   </nav>
   <div class="sb-foot">
     <div class="sb-foot-label">Created by</div>
-    <div class="sb-foot-names">Benyamin Gheiji<br>Danial Elyassirad<br>Mahsa Vatanparast<br>Chen Chen<br>Shahriar Faghani</div>
+    <div class="sb-foot-names">Benyamin Gheiji<br>Danial Elyassirad<br>Mahsa Vatanparast<br>Shahriar Faghani</div>
   </div>
 </aside>
 <main class="main" id="main">
@@ -157,7 +157,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <div class="wrap">
   <section class="hero">
     <div class="hero-eyebrow">🏥 A free, hands-on course in clinical machine learning</div>
-    <h1>Uncertainty Quantification of Machine Learning Models in Medical Imaging</h1>
+    <h1>Uncertainty Quantification in Medical Imaging Analysis</h1>
     <div class="hero-rule"></div>
     <p class="hero-sub">Teaching models to know what they don't know — from clinical
       motivation to working PyTorch code.</p>
@@ -172,7 +172,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
   <p class="aim">This course is about a single, practical problem: how do you build a medical imaging model that knows when it might be wrong? Most machine learning teaching stops at accuracy, but a model deployed in a hospital needs to do more than be right most of the time — it needs to signal the cases where a clinician should look more carefully. We start from the clinical reasoning behind that idea, then work through the main techniques for quantifying uncertainty, implementing each one in PyTorch on real chest X-ray data, and finish by evaluating the uncertainty those methods produce — because an uncertainty estimate is only useful once you can show it is trustworthy. By the end you should be able to take an existing model, attach a well-founded uncertainty estimate to its predictions, check honestly whether that estimate can be trusted, and decide which method fits the problem in front of you.</p>
 
   <div class="section-head"><h2>Prerequisites</h2></div>
-  <div class="prereq-grid"><div class="prereq-card"><span class="pq-num">01</span><h3>Python</h3><p>Comfortable writing and reading Python — functions, classes, NumPy arrays, and working in Jupyter notebooks.</p></div><div class="prereq-card"><span class="pq-num">02</span><h3>Machine learning fundamentals</h3><p>Training and evaluation, over- and underfitting, train/validation/test splits, and metrics beyond raw accuracy.</p></div><div class="prereq-card"><span class="pq-num">03</span><h3>Deep learning &amp; PyTorch</h3><p>How neural networks are trained, plus enough PyTorch to define a model, write a training loop, and run inference.</p></div><div class="prereq-card"><span class="pq-num">04</span><h3>Medical imaging data</h3><p>Some experience handling image datasets and an appreciation of the clinical stakes involved when a model is wrong.</p></div></div>
+  <div class="prereq-grid"><div class="prereq-card"><span class="pq-num">01</span><h3>Python</h3></div><div class="prereq-card"><span class="pq-num">02</span><h3>Machine learning fundamentals</h3></div><div class="prereq-card"><span class="pq-num">03</span><h3>Deep learning &amp; PyTorch</h3></div><div class="prereq-card"><span class="pq-num">04</span><h3>Medical imaging data</h3></div></div>
 
   <div class="section-head"><h2>What you'll learn</h2></div>
   <div class="learn-grid"><div class="learn-item"><span class="ico">🩺</span><span>Why accuracy alone is not enough in clinical AI, what uncertainty means for patient safety, and how clinicians already reason probabilistically</span></div><div class="learn-item"><span class="ico">🔬</span><span>The difference between aleatoric (data) and epistemic (model) uncertainty — and why it changes the clinical response</span></div><div class="learn-item"><span class="ico">📐</span><span>Bayesian deep learning — variational inference and MC Dropout — alongside Deep Ensembles, Evidential Deep Learning, and Conformal Prediction with guaranteed coverage</span></div><div class="learn-item"><span class="ico">🛠️</span><span>Hands-on PyTorch implementations on real chest X-ray data throughout</span></div><div class="learn-item"><span class="ico">📊</span><span>Calibration, risk–coverage trade-offs, and out-of-distribution detection</span></div><div class="learn-item"><span class="ico">🧭</span><span>Where the field is heading — open challenges, distribution shift across hospitals, and how to choose a method for a real deployment</span></div></div>
@@ -225,7 +225,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
      from the sidebar — each one stands on its own.</p>
   <a class="btn" href="part-1.html">Start with Part 1 &nbsp;→</a>
 
-  <div class="foot"><span>UQMI — Uncertainty Quantification of Machine Learning Models in Medical Imaging</span><span>Benyamin Gheiji · Danial Elyassirad · Mahsa Vatanparast · Chen Chen · Shahriar Faghani</span></div>
+  <div class="foot"><span>UQMIA — Uncertainty Quantification in Medical Imaging Analysis</span><span>Benyamin Gheiji · Danial Elyassirad · Mahsa Vatanparast · Shahriar Faghani</span></div>
 </div>
 
 </main>

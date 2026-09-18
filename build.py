@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Static-site generator for the UQMI course (GitHub Pages).
+Static-site generator for the UQMIA course (GitHub Pages).
 
 Reads the course notebooks, converts each to HTML, and writes a complete
 static site into ./docs — no Streamlit, no server, nothing to run at view time.
@@ -34,15 +34,63 @@ DEFAULT_NOTEBOOK_DIR = HERE
 
 OUT = HERE / "docs"
 
-SITE_TITLE = "Uncertainty Quantification of Machine Learning Models in Medical Imaging"
-SITE_SHORT = "UQMI"
+SITE_TITLE = "Uncertainty Quantification in Medical Imaging Analysis"
+SITE_SHORT = "UQMIA"
 
+# Contributors. `group` splits the credits page: course authors on one row,
+# supervisors centred on the next. `photo` is a file in "author images/".
 AUTHORS = [
-    ("BG", "Benyamin Gheiji", "Course Author"),
-    ("DE", "Danial Elyassirad", "Course Author"),
-    ("MV", "Mahsa Vatanparast", "Course Author"),
-    ("CC", "Chen Chen", "Content Supervisor"),
-    ("SF", "Shahriar Faghani", "Content Supervisor"),
+    {
+        "initials": "BG",
+        "name": "Benyamin Gheiji",
+        "role": "Course Author · Project Lead",
+        "group": "author",
+        "blurb": "Medical Student, Medical Imaging AI Researcher",
+        "photo": "Benyamin Gheiji.jpg",
+        "links": [
+            ("Website", "https://benyamin-gheiji.github.io/"),
+            ("Scholar", "https://scholar.google.com/citations?user=0Fdy24gAAAAJ&hl=en"),
+            ("LinkedIn", "https://ir.linkedin.com/in/benyamin-gheiji-4a0668260"),
+        ],
+    },
+    {
+        "initials": "DE",
+        "name": "Danial Elyassirad",
+        "role": "Course Author",
+        "group": "author",
+        "blurb": "Medical Doctor, Medical Imaging AI Researcher",
+        "photo": "Danial Elyassirad.jfif",
+        "links": [
+            ("Website", "https://danialelyassirad.github.io/"),
+            ("Scholar", "https://scholar.google.com/citations?user=RzDOvMwAAAAJ&hl=en"),
+            ("LinkedIn", "https://ir.linkedin.com/in/danial-elyassirad"),
+        ],
+    },
+    {
+        "initials": "MV",
+        "name": "Mahsa Vatanparast",
+        "role": "Course Author",
+        "group": "author",
+        "blurb": "Medical Doctor, Medical Imaging AI Researcher",
+        "photo": "Mahsa Vatanparast.jfif",
+        "links": [
+            ("Scholar", "https://scholar.google.com/citations?user=rEmIJDIAAAAJ&hl=en"),
+            ("LinkedIn", "https://ir.linkedin.com/in/mahsa-vatanparast-24314b2a7"),
+        ],
+    },
+    {
+        "initials": "SF",
+        "name": "Shahriar Faghani",
+        "role": "Content Supervisor",
+        "group": "supervisor",
+        "blurb": "Radiology Resident at the University of Pennsylvania · Adjunct "
+                 "Assistant Professor of Radiology at Mayo Clinic",
+        "photo": "Shahriar Faghani.jfif",
+        "links": [
+            ("Scholar", "https://scholar.google.com/citations?user=6HV5eJAAAAAJ&hl=en"),
+            ("LinkedIn", "https://www.linkedin.com/in/shahriar-faghani-7b468082"),
+        ],
+    },
 ]
 
 # ── Course structure ────────────────────────────────────────────────────────
@@ -260,18 +308,10 @@ HOME_AIM = (
 )
 
 PREREQS = [
-    ("Python",
-     "Comfortable writing and reading Python — functions, classes, NumPy arrays, and "
-     "working in Jupyter notebooks."),
-    ("Machine learning fundamentals",
-     "Training and evaluation, over- and underfitting, train/validation/test splits, and "
-     "metrics beyond raw accuracy."),
-    ("Deep learning & PyTorch",
-     "How neural networks are trained, plus enough PyTorch to define a model, write a "
-     "training loop, and run inference."),
-    ("Medical imaging data",
-     "Some experience handling image datasets and an appreciation of the clinical stakes "
-     "involved when a model is wrong."),
+    "Python",
+    "Machine learning fundamentals",
+    "Deep learning & PyTorch",
+    "Medical imaging data",
 ]
 
 LEARN_ITEMS = [
@@ -360,7 +400,7 @@ def sidebar(active: str = "") -> str:
         '<aside class="sidebar" id="sidebar">',
         '  <div class="sb-brand">',
         f'    <a class="sb-mark" href="index.html">🏥 {SITE_SHORT}</a>',
-        '    <div class="sb-tagline">Uncertainty Quantification<br>in Medical Imaging</div>',
+        '    <div class="sb-tagline">Uncertainty Quantification<br>in Medical Imaging Analysis</div>',
         '  </div>',
         '  <nav class="sb-nav">',
         f'    <a class="sb-home{" active" if active == "index.html" else ""}" '
@@ -388,7 +428,7 @@ def sidebar(active: str = "") -> str:
         '  </nav>',
         '  <div class="sb-foot">',
         '    <div class="sb-foot-label">Created by</div>',
-        '    <div class="sb-foot-names">' + "<br>".join(n for _, n, _ in AUTHORS) + '</div>',
+        '    <div class="sb-foot-names">' + "<br>".join(a["name"] for a in AUTHORS) + '</div>',
         '  </div>',
         '</aside>',
     ]
@@ -498,7 +538,7 @@ def page(title: str, body: str, active: str = "", extra_head: str = "") -> str:
 
 
 def footer() -> str:
-    names = " · ".join(n for _, n, _ in AUTHORS)
+    names = " · ".join(a["name"] for a in AUTHORS)
     return (f'<div class="foot"><span>{html.escape(SITE_SHORT)} — '
             f'{html.escape(SITE_TITLE)}</span><span>{html.escape(names)}</span></div>')
 
@@ -542,6 +582,40 @@ def emit_image(src: Path, dest_dir: Path, stem: str) -> str:
     name = stem + src.suffix
     shutil.copy2(src, dest_dir / name)
     return name
+
+
+PHOTO_DIR = HERE / "author images"
+AUTHOR_PHOTOS: dict[str, str] = {}
+
+
+def copy_author_photos() -> None:
+    """Square-crop each contributor photo and emit it as WebP.
+
+    The source folder mixes .jpg and .jfif; .jfif has no reliable MIME mapping
+    on static hosts, so everything is re-encoded rather than copied verbatim.
+    """
+    dest = OUT / "assets" / "authors"
+    for a in AUTHORS:
+        src = PHOTO_DIR / a["photo"]
+        if not src.exists():
+            print(f"   !! author photo not found: {src.name}")
+            continue
+        stem = re.sub(r"[^A-Za-z0-9]+", "-", a["name"]).strip("-").lower()
+        if Image is None:
+            dest.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(src, dest / (stem + src.suffix))
+            AUTHOR_PHOTOS[a["name"]] = f"assets/authors/{stem}{src.suffix}"
+            continue
+        im = Image.open(src).convert("RGB")
+        side = min(im.size)                       # centre square crop
+        left, top = (im.width - side) // 2, (im.height - side) // 2
+        im = im.crop((left, top, left + side, top + side))
+        if side > 480:
+            im = im.resize((480, 480), Image.LANCZOS)
+        dest.mkdir(parents=True, exist_ok=True)
+        im.save(dest / f"{stem}.webp", "WEBP", quality=88, method=6)
+        AUTHOR_PHOTOS[a["name"]] = f"assets/authors/{stem}.webp"
+        print(f"   photo: {a['name']} -> {stem}.webp")
 
 
 def find_notebook(nb_root: Path, sid: int) -> Path | None:
@@ -601,8 +675,8 @@ def build_home() -> str:
 
     prereqs = "".join(
         f'<div class="prereq-card"><span class="pq-num">{i:02d}</span>'
-        f'<h3>{html.escape(name)}</h3><p>{html.escape(desc)}</p></div>'
-        for i, (name, desc) in enumerate(PREREQS, start=1)
+        f'<h3>{html.escape(name)}</h3></div>'
+        for i, name in enumerate(PREREQS, start=1)
     )
 
     rows = []
@@ -624,7 +698,7 @@ def build_home() -> str:
 <div class="wrap">
   <section class="hero">
     <div class="hero-eyebrow">🏥 A free, hands-on course in clinical machine learning</div>
-    <h1>Uncertainty Quantification of Machine Learning Models in Medical Imaging</h1>
+    <h1>Uncertainty Quantification in Medical Imaging Analysis</h1>
     <div class="hero-rule"></div>
     <p class="hero-sub">Teaching models to know what they don't know — from clinical
       motivation to working PyTorch code.</p>
@@ -751,12 +825,28 @@ def build_credits() -> str:
         f'<h3>{html.escape(name)}</h3><p>{html.escape(desc)}</p></div>'
         for ico, name, desc in TOOLKIT
     )
-    team = "".join(
-        f'<div class="team-card"><div class="team-avatar">{ini}</div>'
-        f'<div class="team-name">{html.escape(name)}</div>'
-        f'<div class="team-role">{html.escape(role)}</div></div>'
-        for ini, name, role in AUTHORS
-    )
+    def team_card(a: dict) -> str:
+        photo = AUTHOR_PHOTOS.get(a["name"])
+        avatar = (f'<img class="team-photo" src="{photo}" alt="" loading="lazy">'
+                  if photo else
+                  f'<div class="team-avatar">{a["initials"]}</div>')
+        links = "".join(
+            f'<a class="team-link" href="{url}" target="_blank" rel="noopener">'
+            f'{html.escape(label)}</a>'
+            for label, url in a["links"]
+        )
+        return (
+            '<div class="team-card">'
+            f'{avatar}'
+            f'<div class="team-name">{html.escape(a["name"])}</div>'
+            f'<div class="team-role">{html.escape(a["role"])}</div>'
+            f'<p class="team-blurb">{html.escape(a["blurb"])}</p>'
+            f'<div class="team-links">{links}</div>'
+            '</div>'
+        )
+
+    authors_row = "".join(team_card(a) for a in AUTHORS if a["group"] == "author")
+    supervisors_row = "".join(team_card(a) for a in AUTHORS if a["group"] == "supervisor")
 
     body = f"""
 <div class="wrap">
@@ -784,7 +874,8 @@ def build_credits() -> str:
   <div class="toolkit-grid">{toolkit}</div>
 
   <div class="section-head"><h2>About the authors</h2></div>
-  <div class="team-grid">{team}</div>
+  <div class="team-grid">{authors_row}</div>
+  <div class="team-grid team-grid-centered">{supervisors_row}</div>
 
   {pagenav("credits.html")}
   {footer()}
@@ -817,7 +908,8 @@ def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "assets").mkdir(parents=True, exist_ok=True)
     (OUT / ".nojekyll").write_text("", encoding="utf-8")
-    shutil.copy2(HERE / "site" / "style.css", OUT / "assets" / "style.css")
+    shutil.copy2(HERE / "website" / "style.css", OUT / "assets" / "style.css")
+    copy_author_photos()
 
     print("building pages…")
     (OUT / "index.html").write_text(build_home(), encoding="utf-8")
