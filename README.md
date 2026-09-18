@@ -111,21 +111,50 @@ field is going.
 
 ## ✍️ Authors
 
-**Benyamin Gheiji** — *Course Author · Project Lead*<br>
-Medical Student, Medical Imaging AI Researcher<br>
-[Website](https://benyamin-gheiji.github.io/) · [Google Scholar](https://scholar.google.com/citations?user=0Fdy24gAAAAJ&hl=en) · [LinkedIn](https://ir.linkedin.com/in/benyamin-gheiji-4a0668260)
+<table>
+  <tr>
+    <td align="center" width="33%">
+      <img src="docs/assets/authors/benyamin-gheiji.webp" width="120" alt="Benyamin Gheiji"><br>
+      <b>Benyamin Gheiji</b><br>
+      <sub><i>Course Author · Project Lead</i></sub><br>
+      <sub>Medical Student, Medical Imaging AI Researcher</sub><br><br>
+      <a href="https://benyamin-gheiji.github.io/">Website</a> ·
+      <a href="https://scholar.google.com/citations?user=0Fdy24gAAAAJ&hl=en">Scholar</a> ·
+      <a href="https://ir.linkedin.com/in/benyamin-gheiji-4a0668260">LinkedIn</a>
+    </td>
+    <td align="center" width="33%">
+      <img src="docs/assets/authors/danial-elyassirad.webp" width="120" alt="Danial Elyassirad"><br>
+      <b>Danial Elyassirad</b><br>
+      <sub><i>Course Author</i></sub><br>
+      <sub>Medical Doctor, Medical Imaging AI Researcher</sub><br><br>
+      <a href="https://danialelyassirad.github.io/">Website</a> ·
+      <a href="https://scholar.google.com/citations?user=RzDOvMwAAAAJ&hl=en">Scholar</a> ·
+      <a href="https://ir.linkedin.com/in/danial-elyassirad">LinkedIn</a>
+    </td>
+    <td align="center" width="33%">
+      <img src="docs/assets/authors/mahsa-vatanparast.webp" width="120" alt="Mahsa Vatanparast"><br>
+      <b>Mahsa Vatanparast</b><br>
+      <sub><i>Course Author</i></sub><br>
+      <sub>Medical Doctor, Medical Imaging AI Researcher</sub><br><br>
+      <a href="https://scholar.google.com/citations?user=rEmIJDIAAAAJ&hl=en">Scholar</a> ·
+      <a href="https://ir.linkedin.com/in/mahsa-vatanparast-24314b2a7">LinkedIn</a>
+    </td>
+  </tr>
+</table>
 
-**Danial Elyassirad** — *Course Author*<br>
-Medical Doctor, Medical Imaging AI Researcher<br>
-[Website](https://danialelyassirad.github.io/) · [Google Scholar](https://scholar.google.com/citations?user=RzDOvMwAAAAJ&hl=en) · [LinkedIn](https://ir.linkedin.com/in/danial-elyassirad)
-
-**Mahsa Vatanparast** — *Course Author*<br>
-Medical Doctor, Medical Imaging AI Researcher<br>
-[Google Scholar](https://scholar.google.com/citations?user=rEmIJDIAAAAJ&hl=en) · [LinkedIn](https://ir.linkedin.com/in/mahsa-vatanparast-24314b2a7)
-
-**Shahriar Faghani** — *Content Supervisor*<br>
-Radiology Resident at the University of Pennsylvania · Adjunct Assistant Professor of Radiology at Mayo Clinic<br>
-[Google Scholar](https://scholar.google.com/citations?user=6HV5eJAAAAAJ&hl=en) · [LinkedIn](https://www.linkedin.com/in/shahriar-faghani-7b468082)
+<table>
+  <tr>
+    <td align="center" width="33%">
+      <img src="docs/assets/authors/shahriar-faghani.webp" width="120" alt="Shahriar Faghani"><br>
+      <b>Shahriar Faghani</b><br>
+      <sub><i>Content Supervisor</i></sub><br>
+      <sub>Radiology Resident at the University of Pennsylvania<br>
+      Adjunct Assistant Professor of Radiology at Mayo Clinic</sub><br><br>
+      <a href="https://scholar.google.com/citations?user=6HV5eJAAAAAJ&hl=en">Scholar</a> ·
+      <a href="https://www.linkedin.com/in/shahriar-faghani-7b468082">LinkedIn</a>
+    </td>
+  </tr>
+</table>
 
 ## 🤝 Feedback and contributing
 

@@ -12,6 +12,11 @@ paper/
 # Build notes for the site generator — not part of the published course
 BUILDING.md
 
+# Source contributor photos. The build re-encodes these into
+# docs/assets/authors/*.webp, which IS committed and is what the site and the
+# README display — so a clone needs this folder only to regenerate them.
+author images/
+
 # Python
 __pycache__/
 *.py[cod]
