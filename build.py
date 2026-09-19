@@ -51,16 +51,13 @@ GITHUB_MARK = (
     '8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>'
 )
 
-# Contributors. `group` splits the credits page: course authors on one row,
-# `group` drives the credits layout: the project lead is centred on the first
-# row, the remaining course authors share the second, and the supervisor is
-# centred on the third. `photo` is a file in "author images/".
+# Contributors, rendered as a single row on the credits page in this order.
+# `photo` is a file in "author images/".
 AUTHORS = [
     {
         "initials": "BG",
         "name": "Benyamin Gheiji",
         "role": "Course Author · Project Lead",
-        "group": "lead",
         "blurb": "Medical Student, Medical Imaging AI Researcher",
         "photo": "Benyamin Gheiji.jpg",
         "links": [
@@ -73,7 +70,6 @@ AUTHORS = [
         "initials": "DE",
         "name": "Danial Elyassirad",
         "role": "Course Author",
-        "group": "author",
         "blurb": "Medical Doctor, Medical Imaging AI Researcher",
         "photo": "Danial Elyassirad.jfif",
         "links": [
@@ -86,7 +82,6 @@ AUTHORS = [
         "initials": "MV",
         "name": "Mahsa Vatanparast",
         "role": "Course Author",
-        "group": "author",
         "blurb": "Medical Doctor, Medical Imaging AI Researcher",
         "photo": "Mahsa Vatanparast.jfif",
         "links": [
@@ -98,7 +93,6 @@ AUTHORS = [
         "initials": "MT",
         "name": "Meysam Tavakoli",
         "role": "Course Author",
-        "group": "author",
         "blurb": "PhD, Medical Physicist, Medical Imaging AI Researcher",
         "photo": "MeysamTavakoli.png",
         "links": [
@@ -110,7 +104,6 @@ AUTHORS = [
         "initials": "SF",
         "name": "Shahriar Faghani",
         "role": "Content Supervisor",
-        "group": "supervisor",
         "blurb": "Radiology Resident at the University of Pennsylvania · Adjunct "
                  "Assistant Professor of Radiology at Mayo Clinic",
         "photo": "Shahriar Faghani.jfif",
@@ -888,9 +881,7 @@ def build_credits() -> str:
             '</div>'
         )
 
-    lead_row = "".join(team_card(a) for a in AUTHORS if a["group"] == "lead")
-    authors_row = "".join(team_card(a) for a in AUTHORS if a["group"] == "author")
-    supervisors_row = "".join(team_card(a) for a in AUTHORS if a["group"] == "supervisor")
+    team = "".join(team_card(a) for a in AUTHORS)
 
     body = f"""
 <div class="wrap">
@@ -918,9 +909,7 @@ def build_credits() -> str:
   <div class="toolkit-grid">{toolkit}</div>
 
   <div class="section-head"><h2>About the authors</h2></div>
-  <div class="team-grid team-grid-centered">{lead_row}</div>
-  <div class="team-grid">{authors_row}</div>
-  <div class="team-grid team-grid-centered">{supervisors_row}</div>
+  <div class="team-grid">{team}</div>
 
   <div class="section-head"><h2>Take it further</h2></div>
   <p class="prose" style="margin-top:-4px">Every notebook, figure and the source of this

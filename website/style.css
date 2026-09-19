@@ -624,16 +624,8 @@ button:focus-visible {
 .toolkit-card h3 { font-size: 1.08rem; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 var(--s2); }
 .toolkit-card p { margin: 0; font-size: 0.9rem; color: var(--fg-muted); line-height: 1.65; }
 
-/* project lead centred, the other course authors across the middle row,
-   supervisor centred beneath — the centred rows match one column's width */
-.team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s3); }
-.team-grid + .team-grid { margin-top: var(--s3); }
-.team-grid-centered {
-  grid-template-columns: minmax(0, 1fr);
-  max-width: calc((100% - 2 * var(--s3)) / 3);
-  margin-left: auto;
-  margin-right: auto;
-}
+/* all contributors across a single row */
+.team-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--s3); }
 .team-card {
   background: var(--card);
   border: 1px solid var(--border);
@@ -860,13 +852,16 @@ button:focus-visible {
 /* ── Responsive: 1440 / 1024 / 768 / 375 ──────────────────────────────── */
 @media (max-width: 1180px) {
   .prereq-grid { grid-template-columns: repeat(2, 1fr); }
+  .team-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 @media (max-width: 1024px) {
   .learn-grid, .toolkit-grid { grid-template-columns: 1fr; }
-  .team-grid { grid-template-columns: repeat(2, 1fr); }
-  .team-grid-centered { max-width: calc((100% - var(--s3)) / 2); }
   .main { padding: var(--s6) var(--s5) var(--s7); }
+}
+
+@media (max-width: 768px) {
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
@@ -893,7 +888,6 @@ button:focus-visible {
 
 @media (max-width: 375px) {
   .prereq-grid, .team-grid { grid-template-columns: 1fr; }
-  .team-grid-centered { max-width: 100%; }
   .hero-stats { grid-template-columns: 1fr; }
   .hero-stat + .hero-stat { border-left: none; border-top: 1px solid var(--border); padding-top: var(--s3); margin-top: var(--s3); }
   .nb h1 { font-size: 1.6rem; }

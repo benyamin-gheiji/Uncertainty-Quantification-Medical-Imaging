@@ -113,8 +113,8 @@ field is going.
 
 <table>
   <tr>
-    <td align="center" width="100%">
-      <img src="docs/assets/authors/benyamin-gheiji.webp" width="120" alt="Benyamin Gheiji"><br>
+    <td align="center" width="20%">
+      <img src="docs/assets/authors/benyamin-gheiji.webp" width="110" alt="Benyamin Gheiji"><br>
       <b>Benyamin Gheiji</b><br>
       <sub><i>Course Author · Project Lead</i></sub><br>
       <sub>Medical Student, Medical Imaging AI Researcher</sub><br><br>
@@ -122,13 +122,8 @@ field is going.
       <a href="https://scholar.google.com/citations?user=0Fdy24gAAAAJ&hl=en">Scholar</a> ·
       <a href="https://ir.linkedin.com/in/benyamin-gheiji-4a0668260">LinkedIn</a>
     </td>
-  </tr>
-</table>
-
-<table>
-  <tr>
-    <td align="center" width="33%">
-      <img src="docs/assets/authors/danial-elyassirad.webp" width="120" alt="Danial Elyassirad"><br>
+    <td align="center" width="20%">
+      <img src="docs/assets/authors/danial-elyassirad.webp" width="110" alt="Danial Elyassirad"><br>
       <b>Danial Elyassirad</b><br>
       <sub><i>Course Author</i></sub><br>
       <sub>Medical Doctor, Medical Imaging AI Researcher</sub><br><br>
@@ -136,33 +131,27 @@ field is going.
       <a href="https://scholar.google.com/citations?user=RzDOvMwAAAAJ&hl=en">Scholar</a> ·
       <a href="https://ir.linkedin.com/in/danial-elyassirad">LinkedIn</a>
     </td>
-    <td align="center" width="33%">
-      <img src="docs/assets/authors/mahsa-vatanparast.webp" width="120" alt="Mahsa Vatanparast"><br>
+    <td align="center" width="20%">
+      <img src="docs/assets/authors/mahsa-vatanparast.webp" width="110" alt="Mahsa Vatanparast"><br>
       <b>Mahsa Vatanparast</b><br>
       <sub><i>Course Author</i></sub><br>
       <sub>Medical Doctor, Medical Imaging AI Researcher</sub><br><br>
       <a href="https://scholar.google.com/citations?user=rEmIJDIAAAAJ&hl=en">Scholar</a> ·
       <a href="https://ir.linkedin.com/in/mahsa-vatanparast-24314b2a7">LinkedIn</a>
     </td>
-    <td align="center" width="33%">
-      <img src="docs/assets/authors/meysam-tavakoli.webp" width="120" alt="Meysam Tavakoli"><br>
+    <td align="center" width="20%">
+      <img src="docs/assets/authors/meysam-tavakoli.webp" width="110" alt="Meysam Tavakoli"><br>
       <b>Meysam Tavakoli</b><br>
       <sub><i>Course Author</i></sub><br>
       <sub>PhD, Medical Physicist, Medical Imaging AI Researcher</sub><br><br>
       <a href="https://scholar.google.com/citations?user=2KruThAAAAAJ&hl=en">Scholar</a> ·
       <a href="https://www.linkedin.com/in/meysam-tavakoli-aa853228">LinkedIn</a>
     </td>
-  </tr>
-</table>
-
-<table>
-  <tr>
-    <td align="center" width="100%">
-      <img src="docs/assets/authors/shahriar-faghani.webp" width="120" alt="Shahriar Faghani"><br>
+    <td align="center" width="20%">
+      <img src="docs/assets/authors/shahriar-faghani.webp" width="110" alt="Shahriar Faghani"><br>
       <b>Shahriar Faghani</b><br>
       <sub><i>Content Supervisor</i></sub><br>
-      <sub>Radiology Resident at the University of Pennsylvania<br>
-      Adjunct Assistant Professor of Radiology at Mayo Clinic</sub><br><br>
+      <sub>Radiology Resident at the University of Pennsylvania · Adjunct Assistant Professor of Radiology at Mayo Clinic</sub><br><br>
       <a href="https://scholar.google.com/citations?user=6HV5eJAAAAAJ&hl=en">Scholar</a> ·
       <a href="https://www.linkedin.com/in/shahriar-faghani-7b468082">LinkedIn</a>
     </td>
