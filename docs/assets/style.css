@@ -624,7 +624,8 @@ button:focus-visible {
 .toolkit-card h3 { font-size: 1.08rem; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 var(--s2); }
 .toolkit-card p { margin: 0; font-size: 0.9rem; color: var(--fg-muted); line-height: 1.65; }
 
-/* course authors sit on one row; supervisors are centred on the next */
+/* project lead centred, the other course authors across the middle row,
+   supervisor centred beneath — the centred rows match one column's width */
 .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s3); }
 .team-grid + .team-grid { margin-top: var(--s3); }
 .team-grid-centered {
@@ -841,9 +842,20 @@ button:focus-visible {
   color: var(--fg-faint);
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: var(--s3);
   flex-wrap: wrap;
 }
+.foot-mid { flex-shrink: 0; }
+.foot-repo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--fg-muted);
+}
+.foot-repo:hover { color: var(--primary); text-decoration: none; }
+.gh-mark { vertical-align: middle; }
+.btn .gh-mark { width: 15px; height: 15px; }
 
 /* ── Responsive: 1440 / 1024 / 768 / 375 ──────────────────────────────── */
 @media (max-width: 1180px) {
