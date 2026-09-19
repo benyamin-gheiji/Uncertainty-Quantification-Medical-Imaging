@@ -113,7 +113,8 @@ field is going.
 
 <table>
   <tr>
-    <td align="center" width="100%">
+    <td width="33%"></td>
+    <td align="center" width="33%">
       <img src="docs/assets/authors/benyamin-gheiji.webp" width="120" alt="Benyamin Gheiji"><br>
       <b>Benyamin Gheiji</b><br>
       <sub><i>Course Author · Project Lead</i></sub><br>
@@ -122,6 +123,7 @@ field is going.
       <a href="https://scholar.google.com/citations?user=0Fdy24gAAAAJ&hl=en">Scholar</a> ·
       <a href="https://ir.linkedin.com/in/benyamin-gheiji-4a0668260">LinkedIn</a>
     </td>
+    <td width="33%"></td>
   </tr>
 </table>
 
@@ -157,7 +159,8 @@ field is going.
 
 <table>
   <tr>
-    <td align="center" width="100%">
+    <td width="33%"></td>
+    <td align="center" width="33%">
       <img src="docs/assets/authors/shahriar-faghani.webp" width="120" alt="Shahriar Faghani"><br>
       <b>Shahriar Faghani</b><br>
       <sub><i>Content Supervisor</i></sub><br>
@@ -166,6 +169,7 @@ field is going.
       <a href="https://scholar.google.com/citations?user=6HV5eJAAAAAJ&hl=en">Scholar</a> ·
       <a href="https://www.linkedin.com/in/shahriar-faghani-7b468082">LinkedIn</a>
     </td>
+    <td width="33%"></td>
   </tr>
 </table>
 
