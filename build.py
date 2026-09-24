@@ -36,7 +36,7 @@ OUT = HERE / "docs"
 
 SITE_TITLE = "Uncertainty Quantification in Medical Imaging Analysis"
 SITE_SHORT = "UQMIA"
-REPO_URL = "https://github.com/benyamin-gheiji/Uncertainty-Quantification-Medical-Imaging"
+REPO_URL = "https://github.com/benyamin-gheiji/Uncertainty-Quantification-Medical-Imaging-Analysis"
 PAPER_URL = "https://arxiv.org/abs/2609.23241"
 
 # Document glyph for the paper link, drawn to sit beside GITHUB_MARK.

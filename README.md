@@ -39,7 +39,7 @@ is built up from the beginning.
 
 ## 🚀 Three ways to follow along
 
-1. **Read it on the web** — the [course website](https://benyamin-gheiji.github.io/Uncertainty-Quantification-Medical-Imaging/)
+1. **Read it on the web** — the [course website](https://benyamin-gheiji.github.io/Uncertainty-Quantification-Medical-Imaging-Analysis/)
    renders every session with navigation between parts and sessions.
 2. **Run it on Kaggle** — every session is published as a Kaggle notebook (linked in the
    table below and from the top of each session page). Free GPUs, no local setup, the chest
@@ -164,7 +164,7 @@ field is going.
 
 We would be glad to hear from you if you spot a problem anywhere in the tutorial — an error,
 an unclear explanation, or something that simply does not run. You can reach us by opening a
-[GitHub issue](https://github.com/benyamin-gheiji/Uncertainty-Quantification-Medical-Imaging/issues),
+[GitHub issue](https://github.com/benyamin-gheiji/Uncertainty-Quantification-Medical-Imaging-Analysis/issues),
 leaving a comment in the discussion section of the relevant Kaggle notebook, or emailing
 **benyamingheiji@gmail.com** directly.
 
