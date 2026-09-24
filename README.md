@@ -4,6 +4,8 @@
 
 📖 **Read online:** https://benyamin-gheiji.github.io/Uncertainty-Quantification-Medical-Imaging-Analysis/
 
+📄 **Paper:** https://arxiv.org/abs/2609.23241
+
 ---
 
 ## 🎯 What this course is about
