@@ -37,6 +37,15 @@ OUT = HERE / "docs"
 SITE_TITLE = "Uncertainty Quantification in Medical Imaging Analysis"
 SITE_SHORT = "UQMIA"
 REPO_URL = "https://github.com/benyamin-gheiji/Uncertainty-Quantification-Medical-Imaging"
+PAPER_URL = "https://arxiv.org/abs/2609.23241"
+
+# Document glyph for the paper link, drawn to sit beside GITHUB_MARK.
+PAPER_MARK = (
+    '<svg class="gh-mark" viewBox="0 0 16 16" width="14" height="14" '
+    'aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" '
+    'stroke-width="1.4" stroke-linejoin="round" '
+    'd="M3.5 1.5h6l3 3v10h-9z M9.5 1.5v3h3 M5.5 8h5 M5.5 10.5h5 M5.5 13h3"/></svg>'
+)
 
 # Inline SVG so the mark needs no network request and inherits the text colour.
 GITHUB_MARK = (
@@ -564,7 +573,9 @@ def footer() -> str:
             f'<span>{html.escape(SITE_SHORT)} — {html.escape(SITE_TITLE)}</span>'
             f'<span class="foot-mid">'
             f'<a class="foot-repo" href="{REPO_URL}" target="_blank" rel="noopener">'
-            f'{GITHUB_MARK} GitHub repository</a></span>'
+            f'{GITHUB_MARK} GitHub repository</a>'
+            f'<a class="foot-repo" href="{PAPER_URL}" target="_blank" rel="noopener">'
+            f'{PAPER_MARK} Paper (arXiv)</a></span>'
             f'<span>{html.escape(names)}</span></div>')
 
 
@@ -914,9 +925,14 @@ def build_credits() -> str:
   <div class="section-head"><h2>Take it further</h2></div>
   <p class="prose" style="margin-top:-4px">Every notebook, figure and the source of this
      site live in the public repository. Issues and pull requests are welcome, and a star
-     helps the course reach the people who need it.</p>
-  <a class="btn" href="{REPO_URL}" target="_blank" rel="noopener">
-    {GITHUB_MARK} &nbsp;View the repository on GitHub</a>
+     helps the course reach the people who need it. The accompanying paper describes
+     the course and evaluates it as a knowledge source for large language models.</p>
+  <div class="btn-row">
+    <a class="btn" href="{REPO_URL}" target="_blank" rel="noopener">
+      {GITHUB_MARK} &nbsp;View the repository on GitHub</a>
+    <a class="btn btn-ghost" href="{PAPER_URL}" target="_blank" rel="noopener">
+      {PAPER_MARK} &nbsp;Read the paper on arXiv</a>
+  </div>
 
   {pagenav("credits.html")}
   {footer()}

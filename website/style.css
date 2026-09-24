@@ -436,6 +436,10 @@ button:focus-visible {
   transition: background 0.2s ease, transform 0.2s ease;
 }
 .btn:hover { background: #16307A; color: var(--on-primary); text-decoration: none; transform: translateY(-1px); }
+.btn-row { display: flex; flex-wrap: wrap; gap: var(--s3); }
+/* secondary action beside a primary .btn */
+.btn-ghost { background: transparent; color: var(--primary); }
+.btn-ghost:hover { background: var(--primary); color: var(--on-primary); }
 
 /* ── Kaggle box ───────────────────────────────────────────────────────── */
 .kaggle {
@@ -838,7 +842,7 @@ button:focus-visible {
   gap: var(--s3);
   flex-wrap: wrap;
 }
-.foot-mid { flex-shrink: 0; }
+.foot-mid { flex-shrink: 0; display: inline-flex; gap: var(--s4); flex-wrap: wrap; }
 .foot-repo {
   display: inline-flex;
   align-items: center;

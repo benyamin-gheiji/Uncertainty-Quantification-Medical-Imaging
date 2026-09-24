@@ -2,7 +2,9 @@
 
 **A free, hands-on course — 19 sessions on teaching medical imaging models to know what they don't know.**
 
-📖 **Read online:** https://benyamin-gheiji.github.io/Uncertainty-Quantification-Medical-Imaging/
+📖 **Read online:** https://benyamin-gheiji.github.io/Uncertainty-Quantification-Medical-Imaging-Analysis/
+
+📄 **Paper:** https://arxiv.org/abs/2609.23241
 
 ---
 
