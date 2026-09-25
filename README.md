@@ -90,7 +90,7 @@ sessions combine the concept and its implementation in a single notebook.
 |---|---|---|---|
 | 16 | Calibration | Concept + Implementation | [open](https://www.kaggle.com/code/benyamingheiji/session-16-calibration) |
 | 17 | Risk–Coverage Analysis | Concept + Implementation | [open](https://www.kaggle.com/code/benyamingheiji/session-17-risk-coverage-analysis/) |
-| 18 | Out-of-Distribution Detection | Concept + Implementation | [open](https://www.kaggle.com/code/benyamingheiji/session-18-out-of-distribution-detection/) |
+| 18 | Out-of-Distribution Detection | Concept + Implementation | [open](https://www.kaggle.com/kernels/welcome?src=https://github.com/benyamin-gheiji/Uncertainty-Quantification-Medical-Imaging-Analysis/blob/main/session%252018/Session%252018%2520Out-of-Distribution%2520Detection.ipynb) |
 
 ### 🧭 Part 4 — Future Directions · Session 19
 
@@ -99,7 +99,7 @@ field is going.
 
 | # | Session | Type | Kaggle |
 |---|---|---|---|
-| 19 | Final Summary & Future Directions | Summary | [open](https://www.kaggle.com/code/benyamingheiji/session-19-final-summary-future-directions) |
+| 19 | Final Summary & Future Directions | Summary | [open](https://www.kaggle.com/kernels/welcome?src=https://github.com/benyamin-gheiji/Uncertainty-Quantification-Medical-Imaging-Analysis/blob/main/session%252019/Session%252019%2520Final%2520Summary%2520%2526%2520Future%2520Directions.ipynb) |
 
 ## 💡 What you'll take away
 
