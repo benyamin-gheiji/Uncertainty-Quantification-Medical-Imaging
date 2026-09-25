@@ -20,7 +20,6 @@ import re
 import shutil
 import sys
 from pathlib import Path
-from urllib.parse import quote
 
 import nbformat
 from nbconvert import HTMLExporter
@@ -220,25 +219,6 @@ KAGGLE = {
     17: "https://www.kaggle.com/code/benyamingheiji/session-17-risk-coverage-analysis/",
     18: "https://www.kaggle.com/code/benyamingheiji/session-18-out-of-distribution-detection/",
     19: "https://www.kaggle.com/code/benyamingheiji/session-19-final-summary-future-directions",
-}
-
-# TEMPORARY: sessions 18 and 19 are still private on Kaggle -- the account was
-# rate-limited while making notebooks public. Until they can be published, link
-# Kaggle's GitHub import instead, which opens a copy of the repo notebook in the
-# visitor's own account. Once they are public, delete this block.
-def kaggle_import(path: str) -> str:
-    # quote twice: the inner pass encodes the spaces and "&" in the file path,
-    # the outer one keeps that encoding intact inside the src= query value
-    blob = f"{REPO_URL}/blob/main/{quote(path)}"
-    return "https://www.kaggle.com/kernels/welcome?src=" + quote(blob, safe=":/")
-
-
-KAGGLE[18] = kaggle_import("session 18/Session 18 Out-of-Distribution Detection.ipynb")
-KAGGLE[19] = kaggle_import("session 19/Session 19 Final Summary & Future Directions.ipynb")
-KAGGLE_SUB = {
-    18: "Opens a copy in your own Kaggle account — attach the chest X-ray pneumonia "
-        "dataset with “Add Input” before running",
-    19: "Opens a copy of the notebook in your own Kaggle account",
 }
 
 # ── Part-page copy: what the part is about, plus a recap of the one before ──
@@ -867,7 +847,7 @@ def build_session(sid: int, nb_html: str) -> str:
   <span class="k-ico">📓</span>
   <span class="k-txt">
     <span class="k-title">Open this session on Kaggle</span>
-    <span class="k-sub">{KAGGLE_SUB.get(sid, "Run the notebook interactively — no local setup required")}</span>
+    <span class="k-sub">Run the notebook interactively — no local setup required</span>
   </span>
   <span class="k-arrow">↗</span>
 </a>"""
